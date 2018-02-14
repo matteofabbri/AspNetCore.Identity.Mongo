@@ -1,4 +1,4 @@
-﻿using Maddalena.Mongo;
+﻿using Mongolino;
 using Microsoft.AspNetCore.Identity;
 
 namespace Maddalena.Identity

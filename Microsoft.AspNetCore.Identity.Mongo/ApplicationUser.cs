@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Maddalena.Mongo;
+using Mongolino;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Maddalena.Identity

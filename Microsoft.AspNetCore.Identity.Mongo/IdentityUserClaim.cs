@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using Maddalena.Mongo;
+using Mongolino;
 
 namespace Maddalena.Identity
 {

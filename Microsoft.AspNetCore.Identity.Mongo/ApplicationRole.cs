@@ -1,4 +1,4 @@
-﻿using Maddalena.Mongo;
+﻿using Mongolino;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Maddalena.Identity
