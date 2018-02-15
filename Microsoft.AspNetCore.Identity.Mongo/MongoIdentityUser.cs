@@ -4,17 +4,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Bson.Serialization.Attributes;
 using Mongolino;
+using Mongolino.Attributes;
 
 namespace Microsoft.AspNetCore.Identity.Mongo
 {
     public class MongoIdentityUser : DBObject<MongoIdentityUser>, IMongoIdentityUser
     {
+        [AscendingIndex]
         public virtual string UserName { get; set; }
 
+        [AscendingIndex]
         public virtual string NormalizedUserName { get; set; }
 
         public virtual string SecurityStamp { get; set; }
 
+        [AscendingIndex]
         public virtual string Email { get; set; }
 
         public virtual string NormalizedEmail { get; set; }

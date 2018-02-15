@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Microsoft.AspNetCore.Identity.Mongo
 {
@@ -21,6 +19,5 @@ namespace Microsoft.AspNetCore.Identity.Mongo
         string AuthenticatorKey { get; set; }
         string PasswordHash { get; set; }
         string Id { get; set; }
-        string FullText { get; set; }
     }
 }

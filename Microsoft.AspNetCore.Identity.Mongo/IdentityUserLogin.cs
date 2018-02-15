@@ -1,4 +1,5 @@
 ﻿using Mongolino;
+using Mongolino.Attributes;
 
 namespace Microsoft.AspNetCore.Identity.Mongo
 {
@@ -13,9 +14,15 @@ namespace Microsoft.AspNetCore.Identity.Mongo
             ProviderKey = providerKey;
         }
 
+        [AscendingIndex]
         public string UserId { get; set; }
+
+        [AscendingIndex]
         public string LoginProvider { get; set; }
+
         public string ProviderDisplayName { get; set; }
+
+        [AscendingIndex]
         public string ProviderKey { get; set; }
 
         public UserLoginInfo ToUserLoginInfo()

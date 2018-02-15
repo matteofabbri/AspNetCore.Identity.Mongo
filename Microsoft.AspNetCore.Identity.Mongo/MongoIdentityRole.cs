@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using Mongolino;
+using Mongolino.Attributes;
 
 namespace Microsoft.AspNetCore.Identity.Mongo
 {
@@ -7,8 +8,6 @@ namespace Microsoft.AspNetCore.Identity.Mongo
     {
         public MongoIdentityRole()
         {
-            AscendingIndex(x=>x.Name);
-            AscendingIndex(x=>x.NormalizedName);
         }
 
         public MongoIdentityRole(string name)
@@ -17,8 +16,11 @@ namespace Microsoft.AspNetCore.Identity.Mongo
             NormalizedName = name.ToUpperInvariant();
         }
 
+
+        [AscendingIndex]
         public string Name { get; set; }
 
+        [AscendingIndex]
         public string NormalizedName { get; set; }
 
         public override string ToString() => Name;
