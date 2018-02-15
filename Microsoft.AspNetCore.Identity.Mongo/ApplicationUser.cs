@@ -2,31 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Mongolino;
 using MongoDB.Bson.Serialization.Attributes;
+using Mongolino;
 
-namespace Maddalena.Identity
+namespace Microsoft.AspNetCore.Identity.Mongo
 {
     public class ApplicationUser : DBObject<ApplicationUser>
     {
-        // PEOPLE DATA
-        public string Name { get; set; }
-
-        public string MiddleName { get; set; }
-
-        public string FamilyName { get; set; }
-
-        [BsonIgnore]
-        public string DisplayName
-        {
-            get
-            {
-                var join = $"{Name} {MiddleName} {FamilyName}";
-
-                return string.IsNullOrWhiteSpace(join) ? UserName : join;
-            }
-        }
-
         //IDENTITY DATA
         public virtual string UserName { get; set; }
 
@@ -60,8 +42,6 @@ namespace Maddalena.Identity
 
         [BsonIgnoreIfNull]
         public virtual string PasswordHash { get; set; }
-
-        public override string ToString() => DisplayName;
 
         public async Task<IEnumerable<string>> GetRoles()
         {

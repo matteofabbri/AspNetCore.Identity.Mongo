@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Maddalena.Identity.Policy
+namespace Microsoft.AspNetCore.Identity.Mongo.Policy
 {
     public interface IDynamicAccessStore
     {

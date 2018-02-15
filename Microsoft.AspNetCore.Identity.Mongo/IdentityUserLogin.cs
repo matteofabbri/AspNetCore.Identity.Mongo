@@ -1,7 +1,6 @@
 ﻿using Mongolino;
-using Microsoft.AspNetCore.Identity;
 
-namespace Maddalena.Identity
+namespace Microsoft.AspNetCore.Identity.Mongo
 {
     public class IdentityUserLogin :DBObject<IdentityUserLogin>
     {

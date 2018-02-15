@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using Mongolino;
 
-namespace Maddalena.Identity
+namespace Microsoft.AspNetCore.Identity.Mongo
 {
     public class IdentityUserClaim : DBObject<IdentityUserClaim>
     {

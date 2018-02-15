@@ -1,7 +1,7 @@
-﻿using Mongolino;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using Mongolino;
 
-namespace Maddalena.Identity
+namespace Microsoft.AspNetCore.Identity.Mongo
 {
     public class ApplicationRole : DBObject<ApplicationRole>
     {
