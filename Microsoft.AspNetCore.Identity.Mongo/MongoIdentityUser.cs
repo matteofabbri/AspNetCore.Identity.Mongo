@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using MongoDB.Bson.Serialization.Attributes;
 using Mongolino;
@@ -14,10 +13,6 @@ namespace Microsoft.AspNetCore.Identity.Mongo
 
         public virtual string NormalizedUserName { get; set; }
 
-        /// <summary>
-        ///     A random value that must change whenever a users credentials change
-        ///     (password changed, login removed)
-        /// </summary>
         public virtual string SecurityStamp { get; set; }
 
         public virtual string Email { get; set; }

@@ -8,13 +8,7 @@ namespace Microsoft.AspNetCore.Identity.Mongo
     {
         string UserName { get; set; }
         string NormalizedUserName { get; set; }
-
-        /// <summary>
-        ///     A random value that must change whenever a users credentials change
-        ///     (password changed, login removed)
-        /// </summary>
         string SecurityStamp { get; set; }
-
         string Email { get; set; }
         string NormalizedEmail { get; set; }
         bool EmailConfirmed { get; set; }
@@ -28,6 +22,5 @@ namespace Microsoft.AspNetCore.Identity.Mongo
         string PasswordHash { get; set; }
         string Id { get; set; }
         string FullText { get; set; }
-        Task<IEnumerable<string>> GetRoles();
     }
 }
