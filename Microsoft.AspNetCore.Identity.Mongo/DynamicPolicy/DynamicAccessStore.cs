@@ -4,7 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Mongolino;
 
-namespace Microsoft.AspNetCore.Identity.Mongo.Policy
+namespace Microsoft.AspNetCore.Identity.Mongo.DynamicPolicy
 {
     public class DynamicAccessStore : IDynamicAccessStore
     {

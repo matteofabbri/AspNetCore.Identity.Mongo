@@ -13,14 +13,6 @@ namespace Microsoft.AspNetCore.Identity.Mongo
             ProviderKey = providerKey;
         }
 
-        public IdentityUserLogin(ApplicationUser user, UserLoginInfo login)
-        {
-            UserId = user.Id;
-            LoginProvider = login.LoginProvider;
-            ProviderDisplayName = login.ProviderDisplayName;
-            ProviderKey = login.ProviderKey;
-        }
-
         public string UserId { get; set; }
         public string LoginProvider { get; set; }
         public string ProviderDisplayName { get; set; }

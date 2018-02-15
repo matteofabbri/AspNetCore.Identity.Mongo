@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Microsoft.AspNetCore.Identity.Mongo.Policy
+namespace Microsoft.AspNetCore.Identity.Mongo.DynamicPolicy
 {
     public class DynamicPolicyHandler<T> : AuthorizationHandler<DynamicPolicy> where T: IDynamicAccessStore, new()
     {

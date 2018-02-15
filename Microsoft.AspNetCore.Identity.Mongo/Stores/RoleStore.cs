@@ -2,69 +2,70 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Mongolino;
 
 namespace Microsoft.AspNetCore.Identity.Mongo.Stores
 {
-    public class RoleStore : UserStore, IQueryableRoleStore<ApplicationRole>
+    public class RoleStore<T> : UserStore<T>, IQueryableRoleStore<MongoIdentityRole> where T : DBObject<T>, IMongoIdentityUser
     {
-        IQueryable<ApplicationRole> IQueryableRoleStore<ApplicationRole>.Roles => ApplicationRole.Queryable();
+        IQueryable<MongoIdentityRole> IQueryableRoleStore<MongoIdentityRole>.Roles => MongoIdentityRole.Queryable();
 
-        async Task<IdentityResult> IRoleStore<ApplicationRole>.CreateAsync(ApplicationRole role, CancellationToken cancellationToken)
+        async Task<IdentityResult> IRoleStore<MongoIdentityRole>.CreateAsync(MongoIdentityRole role, CancellationToken cancellationToken)
         {
-            if (!ApplicationRole.Any(x => x.NormalizedName == role.NormalizedName)) await ApplicationRole.CreateAsync(role);
+            if (!MongoIdentityRole.Any(x => x.NormalizedName == role.NormalizedName)) await MongoIdentityRole.CreateAsync(role);
 
             return IdentityResult.Success;
         }
 
-        async Task<IdentityResult> IRoleStore<ApplicationRole>.UpdateAsync(ApplicationRole role, CancellationToken cancellationToken)
+        async Task<IdentityResult> IRoleStore<MongoIdentityRole>.UpdateAsync(MongoIdentityRole role, CancellationToken cancellationToken)
         {
-            await ApplicationRole.UpdateAsync(role);
+            await MongoIdentityRole.UpdateAsync(role);
             return IdentityResult.Success;
         }
 
-        async Task<IdentityResult> IRoleStore<ApplicationRole>.DeleteAsync(ApplicationRole role, CancellationToken cancellationToken)
+        async Task<IdentityResult> IRoleStore<MongoIdentityRole>.DeleteAsync(MongoIdentityRole role, CancellationToken cancellationToken)
         {
-            await ApplicationRole.DeleteAsync(role);
+            await MongoIdentityRole.DeleteAsync(role);
             await RoleMembership.DeleteAsync(x => x.RoleId == role.Id);
 
             return IdentityResult.Success;
         }
 
-        Task<string> IRoleStore<ApplicationRole>.GetRoleIdAsync(ApplicationRole role, CancellationToken cancellationToken)
+        Task<string> IRoleStore<MongoIdentityRole>.GetRoleIdAsync(MongoIdentityRole role, CancellationToken cancellationToken)
         {
             return Task.FromResult(role.Id);
         }
 
-        Task<string> IRoleStore<ApplicationRole>.GetRoleNameAsync(ApplicationRole role, CancellationToken cancellationToken)
+        Task<string> IRoleStore<MongoIdentityRole>.GetRoleNameAsync(MongoIdentityRole role, CancellationToken cancellationToken)
         {
             return Task.FromResult(role.Name);
         }
 
-        async Task IRoleStore<ApplicationRole>.SetRoleNameAsync(ApplicationRole role, string roleName, CancellationToken cancellationToken)
+        async Task IRoleStore<MongoIdentityRole>.SetRoleNameAsync(MongoIdentityRole role, string roleName, CancellationToken cancellationToken)
         {
             role.Name = roleName;
-            await ApplicationRole.UpdateAsync(role, x => x.Name, roleName);
+            await MongoIdentityRole.UpdateAsync(role, x => x.Name, roleName);
         }
 
-        Task<string> IRoleStore<ApplicationRole>.GetNormalizedRoleNameAsync(ApplicationRole role, CancellationToken cancellationToken)
+        Task<string> IRoleStore<MongoIdentityRole>.GetNormalizedRoleNameAsync(MongoIdentityRole role, CancellationToken cancellationToken)
         {
             return Task.FromResult(role.NormalizedName);
         }
 
-        async Task IRoleStore<ApplicationRole>.SetNormalizedRoleNameAsync(ApplicationRole role, string normalizedName, CancellationToken cancellationToken)
+        async Task IRoleStore<MongoIdentityRole>.SetNormalizedRoleNameAsync(MongoIdentityRole role, string normalizedName, CancellationToken cancellationToken)
         {
             role.NormalizedName = normalizedName;
-            await ApplicationRole.UpdateAsync(role, x => x.NormalizedName, normalizedName);
+            await MongoIdentityRole.UpdateAsync(role, x => x.NormalizedName, normalizedName);
         }
 
-        Task<ApplicationRole> IRoleStore<ApplicationRole>.FindByIdAsync(string roleId, CancellationToken cancellationToken)
+        Task<MongoIdentityRole> IRoleStore<MongoIdentityRole>.FindByIdAsync(string roleId, CancellationToken cancellationToken)
         {
-            return ApplicationRole.FirstOrDefaultAsync(x => x.Id == roleId);
+            return MongoIdentityRole.FirstOrDefaultAsync(x => x.Id == roleId);
         }
 
-        Task<ApplicationRole> IRoleStore<ApplicationRole>.FindByNameAsync(string normalizedRoleName, CancellationToken cancellationToken)
+        Task<MongoIdentityRole> IRoleStore<MongoIdentityRole>.FindByNameAsync(string normalizedRoleName, CancellationToken cancellationToken)
         {
-            return ApplicationRole.FirstOrDefaultAsync(x => x.NormalizedName == normalizedRoleName);
+            return MongoIdentityRole.FirstOrDefaultAsync(x => x.NormalizedName == normalizedRoleName);
         }
 
         void IDisposable.Dispose()

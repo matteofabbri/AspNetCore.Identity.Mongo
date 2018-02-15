@@ -3,15 +3,15 @@ using Mongolino;
 
 namespace Microsoft.AspNetCore.Identity.Mongo
 {
-    public class ApplicationRole : DBObject<ApplicationRole>
+    public class MongoIdentityRole : DBObject<MongoIdentityRole>
     {
-        public ApplicationRole()
+        public MongoIdentityRole()
         {
             AscendingIndex(x=>x.Name);
             AscendingIndex(x=>x.NormalizedName);
         }
 
-        public ApplicationRole(string name)
+        public MongoIdentityRole(string name)
         {
             Name = name;
             NormalizedName = name.ToUpperInvariant();

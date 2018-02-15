@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using MongoDB.Bson.Serialization.Attributes;
 using Mongolino;
 
 namespace Microsoft.AspNetCore.Identity.Mongo
 {
-    public class ApplicationUser : DBObject<ApplicationUser>
+    public class MongoIdentityUser : DBObject<MongoIdentityUser>, IMongoIdentityUser
     {
-        //IDENTITY DATA
         public virtual string UserName { get; set; }
 
         public virtual string NormalizedUserName { get; set; }
@@ -46,7 +46,7 @@ namespace Microsoft.AspNetCore.Identity.Mongo
         public async Task<IEnumerable<string>> GetRoles()
         {
             var memerships = (await RoleMembership.WhereAsync(x => x.UserId == Id)).ToArray();
-            var roles = memerships.Select(memership => ApplicationRole.First(x => x.Id == memership.RoleId))
+            var roles = memerships.Select(memership => MongoIdentityRole.First(x => x.Id == memership.RoleId))
                 .Select(x => x.Name)
                 .ToArray();
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace Microsoft.AspNetCore.Identity.Mongo.Policy
+namespace Microsoft.AspNetCore.Identity.Mongo.DynamicPolicy
 {
     public class DynamicPolicy : IAuthorizationRequirement
     {

@@ -1,6 +1,6 @@
 ﻿namespace Microsoft.AspNetCore.Identity.Mongo
 {
-    public class UserValidator : UserValidator<ApplicationUser>
+    public class UserValidator : UserValidator<MongoIdentityUser>
     {
     }
 }
