@@ -1,4 +1,4 @@
-﻿namespace Maddalena.Identity
+﻿namespace Microsoft.AspNetCore.Identity.Mongo
 {
     public class IdentityUserToken
     {

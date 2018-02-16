@@ -1,7 +1,7 @@
 ﻿using Mongolino;
-using Microsoft.AspNetCore.Identity;
+using Mongolino.Attributes;
 
-namespace Maddalena.Identity
+namespace Microsoft.AspNetCore.Identity.Mongo
 {
     public class IdentityUserLogin :DBObject<IdentityUserLogin>
     {
@@ -14,17 +14,15 @@ namespace Maddalena.Identity
             ProviderKey = providerKey;
         }
 
-        public IdentityUserLogin(ApplicationUser user, UserLoginInfo login)
-        {
-            UserId = user.Id;
-            LoginProvider = login.LoginProvider;
-            ProviderDisplayName = login.ProviderDisplayName;
-            ProviderKey = login.ProviderKey;
-        }
-
+        [AscendingIndex]
         public string UserId { get; set; }
+
+        [AscendingIndex]
         public string LoginProvider { get; set; }
+
         public string ProviderDisplayName { get; set; }
+
+        [AscendingIndex]
         public string ProviderKey { get; set; }
 
         public UserLoginInfo ToUserLoginInfo()
