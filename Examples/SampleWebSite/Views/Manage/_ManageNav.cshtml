@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNetCore.Identity.Mongo
+@inject SignInManager<MongoIdentityUser> SignInManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+
+<ul class="list-group">
+    <li class="list-group-item">
+        <a asp-action="Index">Profile</a>
+    </li>
+    <li class="list-group-item">
+        <a asp-action="ChangePassword">Password</a>
+    </li>
+    @if (hasExternalLogins)
+    {
+        <li class="list-group-item">
+            <a asp-action="ExternalLogins">External logins</a>
+        </li>
+    }
+    <li class="list-group-item">
+        <a asp-action="TwoFactorAuthentication">Two-factor authentication</a>
+    </li>
+</ul>

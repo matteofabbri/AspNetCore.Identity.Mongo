@@ -1,0 +1,19 @@
+﻿@using Example.DefaultUser.Modules.Blog
+@model Example.DefaultUser.Modules.Blog.BlogArticle
+
+@{
+    ViewData["Title"] = "Read";
+}
+
+<h2>@Model.Title</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        @Html.Raw(Model.Body)
+    </div>
+    <hr/>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new {/* id = Model.PrimaryKey */}) |
+    <a asp-action="Index">Back to List</a>
+</div>

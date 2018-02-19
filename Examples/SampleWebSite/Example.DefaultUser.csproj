@@ -1,0 +1,127 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <UserSecretsId>aspnet-Maddalena-592E672F-2C2F-4793-AC51-4ECF5BB8D94F</UserSecretsId>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netcoreapp2.0\Maddalena.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Modules\File\**" />
+    <Compile Remove="Pages\**" />
+    <Content Remove="Modules\File\**" />
+    <Content Remove="Pages\**" />
+    <EmbeddedResource Remove="Modules\File\**" />
+    <EmbeddedResource Remove="Pages\**" />
+    <None Remove="Modules\File\**" />
+    <None Remove="Pages\**" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" PrivateAssets="All" />
+    <PackageReference Include="MongoDB.Driver" Version="2.5.0" />
+    <PackageReference Include="MongoDB.Driver.GridFS" Version="2.5.0" />
+    <PackageReference Include="Mongolino" Version="1.2.4" />
+    <PackageReference Include="Stripe.net" Version="13.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\jquery\" />
+    <Folder Include="wwwroot\lib\bootstrap\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\lib\jodit\jodit.min.js" />
+    <None Include="wwwroot\lib\font-awesome\js\fa-brands.js" />
+    <None Include="wwwroot\lib\font-awesome\js\fa-brands.min.js" />
+    <None Include="wwwroot\lib\font-awesome\js\fa-regular.js" />
+    <None Include="wwwroot\lib\font-awesome\js\fa-regular.min.js" />
+    <None Include="wwwroot\lib\font-awesome\js\fa-solid.js" />
+    <None Include="wwwroot\lib\font-awesome\js\fa-solid.min.js" />
+    <None Include="wwwroot\lib\font-awesome\js\fa-v4-shims.js" />
+    <None Include="wwwroot\lib\font-awesome\js\fa-v4-shims.min.js" />
+    <None Include="wwwroot\lib\font-awesome\js\fontawesome-all.js" />
+    <None Include="wwwroot\lib\font-awesome\js\fontawesome-all.min.js" />
+    <None Include="wwwroot\lib\font-awesome\js\fontawesome.js" />
+    <None Include="wwwroot\lib\font-awesome\js\fontawesome.min.js" />
+    <None Include="wwwroot\lib\font-awesome\sprites\fa-brands.svg" />
+    <None Include="wwwroot\lib\font-awesome\sprites\fa-regular.svg" />
+    <None Include="wwwroot\lib\font-awesome\sprites\fa-solid.svg" />
+    <None Include="wwwroot\lib\font-awesome\webfonts\fa-brands-400.svg" />
+    <None Include="wwwroot\lib\font-awesome\webfonts\fa-brands-400.woff2" />
+    <None Include="wwwroot\lib\font-awesome\webfonts\fa-regular-400.svg" />
+    <None Include="wwwroot\lib\font-awesome\webfonts\fa-regular-400.woff2" />
+    <None Include="wwwroot\lib\font-awesome\webfonts\fa-solid-900.svg" />
+    <None Include="wwwroot\lib\font-awesome\webfonts\fa-solid-900.woff2" />
+    <None Include="wwwroot\lib\tinymce\jquery.tinymce.min.js" />
+    <None Include="wwwroot\lib\tinymce\langs\readme.md" />
+    <None Include="wwwroot\lib\tinymce\plugins\advlist\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\anchor\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\autolink\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\autoresize\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\autosave\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\bbcode\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\charmap\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\codesample\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\code\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\colorpicker\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\contextmenu\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\directionality\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\emoticons\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\fullpage\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\fullscreen\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\help\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\hr\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\imagetools\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\image\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\importcss\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\insertdatetime\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\legacyoutput\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\link\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\lists\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\media\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\nonbreaking\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\noneditable\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\pagebreak\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\paste\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\preview\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\print\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\save\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\searchreplace\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\spellchecker\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\tabfocus\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\table\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\template\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\textcolor\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\textpattern\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\toc\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\visualblocks\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\visualchars\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\plugins\wordcount\plugin.min.js" />
+    <None Include="wwwroot\lib\tinymce\skins\lightgray\fonts\tinymce-small.svg" />
+    <None Include="wwwroot\lib\tinymce\skins\lightgray\fonts\tinymce.svg" />
+    <None Include="wwwroot\lib\tinymce\themes\inlite\theme.min.js" />
+    <None Include="wwwroot\lib\tinymce\themes\mobile\theme.min.js" />
+    <None Include="wwwroot\lib\tinymce\themes\modern\theme.min.js" />
+    <None Include="wwwroot\lib\tinymce\tinymce.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Microsoft.AspNetCore.Identity.Mongo\Microsoft.AspNetCore.Identity.Mongo.csproj" />
+  </ItemGroup>
+
+</Project>

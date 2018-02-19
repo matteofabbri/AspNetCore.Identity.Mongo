@@ -1,0 +1,56 @@
+﻿@using Example.DefaultUser.Modules.Blog
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="row">
+    <div class="col-md-9">
+        @{
+            var articles = BlogArticle.Queryable().OrderByDescending(x => x.DateTime).Take(5);
+        }
+
+        @foreach (var article in articles)
+        {
+            <section>
+                <article>
+                    <h2>@article.Title</h2>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.Raw(article.Body)
+                        </div>
+                        <hr/>
+                    </div>
+                </article>
+            </section>
+        }
+    </div>
+    <div class="col-md-3">
+        <div class="row">
+            <div class="col-12">
+                <ul class="list-group">
+                    @foreach (var cat in BlogArticle.Categories)
+                    {
+                        <li class="list-group-item">
+                            <a href="/blog/category/@cat">@cat</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 32px">
+            <div class="col-12 text-center">
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                <!-- Display -->
+                <ins class="adsbygoogle"
+                     style="display: block"
+                     data-ad-client="ca-pub-1242825224942421"
+                     data-ad-slot="4007495569"
+                     data-ad-format="auto">
+                </ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+    </div>
+</div>

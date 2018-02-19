@@ -2,3 +2,7 @@
 /Microsoft.AspNetCore.Identity.Mongo/obj
 /.vs/Microsoft.AspNetCore.Identity.Mongo/v15/Server/sqlite3
 /Microsoft.AspNetCore.Identity.Mongo/.vs
+/.vs
+/Examples/SampleWebSite/bin/Debug/netcoreapp2.0
+/Examples/SampleWebSite/obj
+/Examples/SampleWebSite/Properties/PublishProfiles
