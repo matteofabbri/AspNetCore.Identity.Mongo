@@ -6,15 +6,15 @@ Completly wrote from scratch provide support for all identity framework interfac
 * UserClaimStore
 * IUserLoginStore
 * IUserRoleStore
-*IUserPasswordStore
-*IUserSecurityStampStore
-*IUserEmailStore
-*IUserPhoneNumberStore
-*IQueryableUserStore
-*IUserTwoFactorStore
-*IUserLockoutStore
-*IUserAuthenticatorKeyStore
-*IUserTwoFactorRecoveryCodeStore
-*IRoleStore
-*IQueryableRoleStore
+* IUserPasswordStore
+* IUserSecurityStampStore
+* IUserEmailStore
+* IUserPhoneNumberStore
+* IQueryableUserStore
+* IUserTwoFactorStore
+* IUserLockoutStore
+* IUserAuthenticatorKeyStore
+* IUserTwoFactorRecoveryCodeStore
+* IRoleStore
+* IQueryableRoleStore
 
