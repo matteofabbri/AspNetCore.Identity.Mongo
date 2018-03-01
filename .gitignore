@@ -6,3 +6,6 @@
 /Examples/SampleWebSite/bin/Debug/netcoreapp2.0
 /Examples/SampleWebSite/obj
 /Examples/SampleWebSite/Properties/PublishProfiles
+/AspNetCore.Identity.Mongo/bin
+/AspNetCore.Identity.Mongo/obj
+/Examples/SampleWebSite/bin/Release/netcoreapp2.0

@@ -6,7 +6,7 @@ using MongoDB.Bson.Serialization.Attributes;
 using Mongolino;
 using Mongolino.Attributes;
 
-namespace Microsoft.AspNetCore.Identity.Mongo
+namespace AspNetCore.Identity.Mongo
 {
     public class MongoIdentityUser : DBObject<MongoIdentityUser>, IMongoIdentityUser
     {

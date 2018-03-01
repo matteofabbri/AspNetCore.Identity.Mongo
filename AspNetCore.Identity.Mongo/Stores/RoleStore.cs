@@ -2,9 +2,10 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Mongolino;
 
-namespace Microsoft.AspNetCore.Identity.Mongo.Stores
+namespace AspNetCore.Identity.Mongo.Stores
 {
     public class RoleStore<T> : UserStore<T>, IQueryableRoleStore<MongoIdentityRole> where T : DBObject<T>, IMongoIdentityUser
     {

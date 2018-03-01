@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity.Mongo
+﻿@using AspNetCore.Identity.Mongo
 @inject SignInManager<MongoIdentityUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();

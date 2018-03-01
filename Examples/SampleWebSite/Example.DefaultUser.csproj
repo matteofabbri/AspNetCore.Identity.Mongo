@@ -121,7 +121,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.AspNetCore.Identity.Mongo\Microsoft.AspNetCore.Identity.Mongo.csproj" />
+    <ProjectReference Include="..\..\AspNetCore.Identity.Mongo\AspNetCore.Identity.Mongo.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using Mongolino;
 
-namespace Microsoft.AspNetCore.Identity.Mongo
+namespace AspNetCore.Identity.Mongo
 {
     public class IdentityUserClaim : DBObject<IdentityUserClaim>
     {

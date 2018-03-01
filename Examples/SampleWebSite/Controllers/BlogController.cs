@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Example.DefaultUser.Modules.Blog;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity.Mongo;
+using AspNetCore.Identity.Mongo;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Example.DefaultUser.Controllers

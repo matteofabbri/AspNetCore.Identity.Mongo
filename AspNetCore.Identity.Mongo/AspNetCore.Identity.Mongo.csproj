@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <ApplicationIcon />
+    <StartupObject />
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Mongo based identity framework for Asp.Net Core 2</Description>
+    <Copyright>Matteo Fabbri 2018</Copyright>
+    <PackageLicenseUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</RepositoryUrl>
+    <PackageTags>asp core identity mongo framework aspnetcore mongodb</PackageTags>
+    <PackageId>AspNetCore.Identity.Mongo</PackageId>
+    <Authors>Matteo Fabbri</Authors>
+    <Company />
+    <Product>AspNetCore.Identity.Mongo</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.0.1" />
+    <PackageReference Include="MongoDB.Driver" Version="2.5.0" />
+    <PackageReference Include="Mongolino" Version="1.2.4" />
+  </ItemGroup>
+
+</Project>

@@ -2,7 +2,7 @@
 using Mongolino;
 using Mongolino.Attributes;
 
-namespace Microsoft.AspNetCore.Identity.Mongo
+namespace AspNetCore.Identity.Mongo
 {
     public class MongoIdentityRole : DBObject<MongoIdentityRole>
     {

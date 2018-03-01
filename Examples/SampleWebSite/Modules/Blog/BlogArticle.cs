@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using Microsoft.AspNetCore.Identity.Mongo;
+using AspNetCore.Identity.Mongo;
 using MongoDB.Bson.Serialization.Attributes;
 using Mongolino;
 using Newtonsoft.Json;

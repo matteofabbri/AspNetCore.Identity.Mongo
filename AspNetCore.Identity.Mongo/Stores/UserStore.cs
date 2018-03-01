@@ -4,9 +4,10 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Mongolino;
 
-namespace Microsoft.AspNetCore.Identity.Mongo.Stores
+namespace AspNetCore.Identity.Mongo.Stores
 {
     public class UserStore<T> : IUserStore<T>,
         IUserClaimStore<T>,

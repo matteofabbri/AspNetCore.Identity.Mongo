@@ -7,7 +7,7 @@ using Example.DefaultUser.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.Mongo;
+using AspNetCore.Identity.Mongo;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

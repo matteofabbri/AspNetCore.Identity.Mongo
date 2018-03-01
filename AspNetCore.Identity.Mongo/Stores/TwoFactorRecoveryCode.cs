@@ -1,6 +1,6 @@
 ﻿using Mongolino;
 
-namespace Microsoft.AspNetCore.Identity.Mongo.Stores
+namespace AspNetCore.Identity.Mongo.Stores
 {
     public class TwoFactorRecoveryCode : DBObject<TwoFactorRecoveryCode>
     {

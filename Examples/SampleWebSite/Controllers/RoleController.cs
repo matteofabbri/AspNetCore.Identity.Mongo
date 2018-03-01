@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.Mongo;
+using AspNetCore.Identity.Mongo;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Example.DefaultUser.Controllers

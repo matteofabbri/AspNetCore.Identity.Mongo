@@ -1,7 +1,8 @@
-﻿using Mongolino;
+﻿using Microsoft.AspNetCore.Identity;
+using Mongolino;
 using Mongolino.Attributes;
 
-namespace Microsoft.AspNetCore.Identity.Mongo
+namespace AspNetCore.Identity.Mongo
 {
     public class IdentityUserLogin :DBObject<IdentityUserLogin>
     {

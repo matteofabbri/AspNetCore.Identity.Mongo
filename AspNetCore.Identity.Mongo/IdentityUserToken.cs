@@ -1,4 +1,4 @@
-﻿namespace Microsoft.AspNetCore.Identity.Mongo
+﻿namespace AspNetCore.Identity.Mongo
 {
     public class IdentityUserToken
     {

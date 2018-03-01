@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore.Identity.Mongo.Stores;
+using AspNetCore.Identity.Mongo.Stores;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Mongolino;
 
-namespace Microsoft.AspNetCore.Identity.Mongo
+namespace AspNetCore.Identity.Mongo
 {
     public static class Extensions
     {

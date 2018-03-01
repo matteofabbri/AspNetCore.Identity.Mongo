@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.Mongo;
+using AspNetCore.Identity.Mongo;
 
 namespace Example.DefaultUser
 {
