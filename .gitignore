@@ -9,3 +9,6 @@
 /AspNetCore.Identity.Mongo/bin
 /AspNetCore.Identity.Mongo/obj
 /Examples/SampleWebSite/bin/Release/netcoreapp2.0
+/Examples/Example.DefaultUser/bin/Debug/netcoreapp2.0
+/Examples/Example.DefaultUser/obj
+/packages
