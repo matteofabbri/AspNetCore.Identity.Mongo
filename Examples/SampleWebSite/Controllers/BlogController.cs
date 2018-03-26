@@ -70,7 +70,7 @@ namespace Example.DefaultUser.Controllers
             {
                 article.Id = string.Empty;
                 article.DateTime = DateTime.Now;
-                article.Author = await MongoIdentityUser.FirstOrDefaultAsync(x => x.UserName == User.Identity.Name);
+                article.Author = User.Identity.Name;
 
                 await BlogArticle.CreateAsync(article);
 

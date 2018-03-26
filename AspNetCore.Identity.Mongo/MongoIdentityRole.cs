@@ -1,11 +1,15 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using Mongolino;
 using Mongolino.Attributes;
 
 namespace AspNetCore.Identity.Mongo
 {
-    public class MongoIdentityRole : DBObject<MongoIdentityRole>
+    public class MongoIdentityRole : ICollectionItem
     {
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
+
         public MongoIdentityRole()
         {
         }
@@ -24,9 +28,5 @@ namespace AspNetCore.Identity.Mongo
         public string NormalizedName { get; set; }
 
         public override string ToString() => Name;
-
-        [BsonIgnore]
-        public long MembersCount => RoleMembership.Count(x => x.RoleId == Id);
-
     }
 }

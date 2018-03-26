@@ -21,7 +21,7 @@ namespace Example.DefaultUser
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMongoIdentityProvider<MongoIdentityUser>(options =>
+            services.AddMongoIdentityProvider<MongoIdentityUser,MongoIdentityRole>(options =>
             {
                 options.Password.RequiredLength = 6;
                 options.Password.RequireLowercase = false;

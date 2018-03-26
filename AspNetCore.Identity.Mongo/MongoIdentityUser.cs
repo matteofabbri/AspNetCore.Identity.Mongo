@@ -1,15 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Mongolino;
 using Mongolino.Attributes;
 
 namespace AspNetCore.Identity.Mongo
 {
-    public class MongoIdentityUser : DBObject<MongoIdentityUser>, IMongoIdentityUser
+    public class MongoIdentityUser : ICollectionItem
     {
+        public MongoIdentityUser()
+        {
+            Roles = new List<string>();
+            Claims = new List<IdentityUserClaim>();
+            Logins = new List<IdentityUserLogin>();
+            Tokens = new List<IdentityUserToken>();
+            RecoveryCodes = new List<TwoFactorRecoveryCode>();
+        }
+
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
+
         [AscendingIndex]
         public virtual string UserName { get; set; }
 
@@ -42,14 +53,19 @@ namespace AspNetCore.Identity.Mongo
         [BsonIgnoreIfNull]
         public virtual string PasswordHash { get; set; }
 
-        public async Task<IEnumerable<string>> GetRoles()
-        {
-            var memerships = (await RoleMembership.WhereAsync(x => x.UserId == Id)).ToArray();
-            var roles = memerships.Select(memership => MongoIdentityRole.First(x => x.Id == memership.RoleId))
-                .Select(x => x.Name)
-                .ToArray();
+        [BsonIgnoreIfNull]
+        public virtual List<string> Roles { get; set; }
 
-            return roles;
-        }
+        [BsonIgnoreIfNull]
+        public virtual List<IdentityUserClaim> Claims { get; set; }
+
+        [BsonIgnoreIfNull]
+        public virtual List<IdentityUserLogin> Logins { get; set; }
+
+        [BsonIgnoreIfNull]
+        public virtual List<IdentityUserToken> Tokens { get; set; }
+
+        [BsonIgnoreIfNull]
+        public virtual List<TwoFactorRecoveryCode> RecoveryCodes { get; set; }
     }
 }

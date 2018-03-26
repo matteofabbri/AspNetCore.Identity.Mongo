@@ -21,7 +21,7 @@ namespace Example.DefaultUser.Controllers
         // GET: User
         public ActionResult Index()
         {
-            return View(MongoIdentityUser.All);
+            return View(_userManager.Users);
         }
 
         public async Task<ActionResult> AddToRole(string role, string user)
@@ -41,7 +41,7 @@ namespace Example.DefaultUser.Controllers
         // GET: User/Edit/5
         public ActionResult Edit(string id)
         {
-            var user = MongoIdentityUser.FirstOrDefault(x => x.UserName == id);
+            var user = _userManager.FindByNameAsync(id);
 
             if (user == null) return NotFound();
 
@@ -68,7 +68,7 @@ namespace Example.DefaultUser.Controllers
         // GET: User/Delete/5
         public ActionResult Delete(string id)
         {
-            var user = MongoIdentityUser.FirstOrDefault(x => x.UserName == id);
+            var user = _userManager.FindByNameAsync(id);
 
             if (user == null) return NotFound();
 

@@ -8,28 +8,45 @@ namespace AspNetCore.Identity.Mongo
 {
     public static class Extensions
     {
-        public static void AddMongoIdentityProvider<TUser>(this IServiceCollection services, Action<IdentityOptions> setupAction) where TUser : DBObject<TUser>, IMongoIdentityUser
+        public static IServiceCollection AddMongoIdentityProvider(this IServiceCollection services)
         {
-            services.AddIdentity<TUser, MongoIdentityRole>(setupAction)
-                .AddRoleStore<RoleStore<TUser>>()
+            return AddMongoIdentityProvider<MongoIdentityUser, MongoIdentityRole>(services, null, null);
+        }
+
+        public static IServiceCollection AddMongoIdentityProvider<TUser>(this IServiceCollection services) where TUser : MongoIdentityUser
+        {
+            return AddMongoIdentityProvider<TUser, MongoIdentityRole>(services, null, null);
+        }
+
+        public static IServiceCollection AddMongoIdentityProvider<TUser, TRole>(this IServiceCollection services) where TUser : MongoIdentityUser
+            where TRole : MongoIdentityRole
+        {
+            return AddMongoIdentityProvider<TUser, TRole>(services, null, null);
+        }
+
+        public static IServiceCollection AddMongoIdentityProvider<TUser, TRole>(this IServiceCollection services,
+            Action<IdentityOptions> setupAction) where TUser : MongoIdentityUser
+            where TRole : MongoIdentityRole
+        {
+            return AddMongoIdentityProvider<TUser, TRole>(services, null, setupAction);
+        }
+
+        public static IServiceCollection AddMongoIdentityProvider<TUser,TRole>(this IServiceCollection services, string connectionString, Action<IdentityOptions> setupAction) where TUser : MongoIdentityUser
+                                                                                                                                                                 where TRole : MongoIdentityRole
+        {
+            services.AddIdentity<TUser, MongoIdentityRole>(setupAction ?? (x=>{}))
+                .AddRoleStore<RoleStore<TRole>>()
                 .AddUserStore<UserStore<TUser>>()
                 .AddDefaultTokenProviders();
 
-            // Identity Services
-            services.AddTransient<IUserStore<TUser>, UserStore<TUser>>();
-            services.AddTransient<IRoleStore<MongoIdentityRole>, RoleStore<TUser>>();
-        }
+            var userCollection = new Collection<TUser>(connectionString, "users");
+            var roleCollection = new Collection<TRole>(connectionString, "roles");
 
-        public static IServiceCollection AddMongoIdentityProvider(this IServiceCollection services, Action<IdentityOptions> setupAction)
-        {
-            services.AddIdentity<MongoIdentityUser, MongoIdentityRole>(setupAction)
-                .AddRoleStore<RoleStore<MongoIdentityUser>>()
-                .AddUserStore<UserStore<MongoIdentityUser>>()
-                .AddDefaultTokenProviders();
 
             // Identity Services
-            services.AddTransient<IUserStore<MongoIdentityUser>, UserStore<MongoIdentityUser>>();
-            services.AddTransient<IRoleStore<MongoIdentityRole>, RoleStore<MongoIdentityUser>>();
+            services.AddTransient<IUserStore<TUser>>(x => new UserStore<TUser>(userCollection));
+            services.AddTransient<IRoleStore<TRole>>(x => new RoleStore<TRole>(roleCollection));
+
             return services;
         }
     }
