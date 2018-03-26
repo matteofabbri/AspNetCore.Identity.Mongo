@@ -19,13 +19,19 @@ Completly wrote from scratch provide support for all identity framework interfac
 * IQueryableRoleStore
 
 How to use
-'''C#
-            services.AddMongoIdentityProvider<ApplicationUser, ApplicationRole>("mongodb://localhost/maddalena", options =>
-             {
-                 options.Password.RequiredLength = 6;
-                 options.Password.RequireLowercase = false;
-                 options.Password.RequireUppercase = false;
-                 options.Password.RequireNonAlphanumeric = false;
-                 options.Password.RequireDigit = false;
-             });
-'''
+
+
+    services.AddMongoIdentityProvider<ApplicationUser, ApplicationRole>("mongodb://localhost/maddalena", options =>
+    {
+            options.Password.RequiredLength = 6;
+            
+            options.Password.RequireLowercase = false;
+            
+            options.Password.RequireUppercase = false;
+            
+            options.Password.RequireNonAlphanumeric = false;
+            
+            options.Password.RequireDigit = false;
+            
+    });
+    
