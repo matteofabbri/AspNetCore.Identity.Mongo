@@ -1,0 +1,16 @@
+C:\Users\mf185129\Desktop\src\CoreTests\bin\Release\netcoreapp2.0\NUnit3.TestAdapter.dll
+C:\Users\mf185129\Desktop\src\CoreTests\bin\Release\netcoreapp2.0\nunit.engine.netstandard.dll
+C:\Users\mf185129\Desktop\src\CoreTests\bin\Release\netcoreapp2.0\Mono.Cecil.dll
+C:\Users\mf185129\Desktop\src\CoreTests\bin\Release\netcoreapp2.0\CoreTests.deps.json
+C:\Users\mf185129\Desktop\src\CoreTests\bin\Release\netcoreapp2.0\CoreTests.runtimeconfig.json
+C:\Users\mf185129\Desktop\src\CoreTests\bin\Release\netcoreapp2.0\CoreTests.runtimeconfig.dev.json
+C:\Users\mf185129\Desktop\src\CoreTests\bin\Release\netcoreapp2.0\CoreTests.dll
+C:\Users\mf185129\Desktop\src\CoreTests\bin\Release\netcoreapp2.0\CoreTests.pdb
+C:\Users\mf185129\Desktop\src\CoreTests\bin\Release\netcoreapp2.0\Microsoft.AspNetCore.Identity.MongoDB.dll
+C:\Users\mf185129\Desktop\src\CoreTests\bin\Release\netcoreapp2.0\Microsoft.AspNetCore.Identity.MongoDB.pdb
+C:\Users\mf185129\Desktop\src\CoreTests\obj\Release\netcoreapp2.0\CoreTests.csprojResolveAssemblyReference.cache
+C:\Users\mf185129\Desktop\src\CoreTests\obj\Release\netcoreapp2.0\CoreTests.csproj.CoreCompileInputs.cache
+C:\Users\mf185129\Desktop\src\CoreTests\obj\Release\netcoreapp2.0\CoreTests.AssemblyInfoInputs.cache
+C:\Users\mf185129\Desktop\src\CoreTests\obj\Release\netcoreapp2.0\CoreTests.AssemblyInfo.cs
+C:\Users\mf185129\Desktop\src\CoreTests\obj\Release\netcoreapp2.0\CoreTests.dll
+C:\Users\mf185129\Desktop\src\CoreTests\obj\Release\netcoreapp2.0\CoreTests.pdb

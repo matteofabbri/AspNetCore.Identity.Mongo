@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.Identity.Mongo",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example.CustomUser", "Examples\Example.DefaultUser\Example.CustomUser.csproj", "{B680350D-D252-4B44-A97B-DF98243E578F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "Tests\UnitTests\UnitTests.csproj", "{485C8198-B069-41F1-95A7-5BA2CB024555}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{B680350D-D252-4B44-A97B-DF98243E578F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B680350D-D252-4B44-A97B-DF98243E578F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B680350D-D252-4B44-A97B-DF98243E578F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{485C8198-B069-41F1-95A7-5BA2CB024555}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{485C8198-B069-41F1-95A7-5BA2CB024555}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{485C8198-B069-41F1-95A7-5BA2CB024555}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{485C8198-B069-41F1-95A7-5BA2CB024555}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
