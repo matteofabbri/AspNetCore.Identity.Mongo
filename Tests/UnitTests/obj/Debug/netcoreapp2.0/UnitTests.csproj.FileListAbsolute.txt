@@ -3,3 +3,4 @@ D:\Maddalena\Microsoft.AspNetCore.Identity.Mongo\Tests\UnitTests\bin\Debug\netco
 D:\Maddalena\Microsoft.AspNetCore.Identity.Mongo\Tests\UnitTests\obj\Debug\netcoreapp2.0\UnitTests.csproj.CoreCompileInputs.cache
 D:\Maddalena\Microsoft.AspNetCore.Identity.Mongo\Tests\UnitTests\obj\Debug\netcoreapp2.0\UnitTests.AssemblyInfoInputs.cache
 D:\Maddalena\Microsoft.AspNetCore.Identity.Mongo\Tests\UnitTests\obj\Debug\netcoreapp2.0\UnitTests.AssemblyInfo.cs
+D:\Maddalena\Microsoft.AspNetCore.Identity.Mongo\Tests\UnitTests\obj\Debug\netcoreapp2.0\UnitTests.csprojResolveAssemblyReference.cache

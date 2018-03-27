@@ -34,9 +34,9 @@ namespace AspNetCore.Identity.Mongo
         public static IServiceCollection AddMongoIdentityProvider<TUser,TRole>(this IServiceCollection services, string connectionString, Action<IdentityOptions> setupAction) where TUser : MongoIdentityUser
                                                                                                                                                                  where TRole : MongoIdentityRole
         {
-            services.AddIdentity<TUser, MongoIdentityRole>(setupAction ?? (x=>{}))
+            services.AddIdentity<TUser, TRole>(setupAction ?? (x=>{}))
                 .AddRoleStore<RoleStore<TRole>>()
-                .AddUserStore<UserStore<TUser>>()
+                .AddUserStore<UserStore<TUser,TRole>>()
                 .AddDefaultTokenProviders();
 
             var userCollection = new Collection<TUser>(connectionString, "users");
@@ -44,7 +44,7 @@ namespace AspNetCore.Identity.Mongo
 
 
             // Identity Services
-            services.AddTransient<IUserStore<TUser>>(x => new UserStore<TUser>(userCollection));
+            services.AddTransient<IUserStore<TUser>>(x => new UserStore<TUser,TRole>(userCollection,roleCollection));
             services.AddTransient<IRoleStore<TRole>>(x => new RoleStore<TRole>(roleCollection));
 
             return services;

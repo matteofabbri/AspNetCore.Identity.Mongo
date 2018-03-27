@@ -9,7 +9,7 @@ using Mongolino;
 
 namespace AspNetCore.Identity.Mongo.Stores
 {
-    public class UserStore<TUser> :
+    public class UserStore<TUser,TRole> :
         IUserClaimStore<TUser>,
         IUserLoginStore<TUser>,
         IUserRoleStore<TUser>,
@@ -23,12 +23,16 @@ namespace AspNetCore.Identity.Mongo.Stores
         IUserAuthenticatorKeyStore<TUser>,
         IUserAuthenticationTokenStore<TUser>,
         IUserTwoFactorRecoveryCodeStore<TUser> where TUser : MongoIdentityUser
+                                               where TRole : MongoIdentityRole
     {
-        private readonly Collection<TUser> _userCollection;
 
-        public UserStore(Collection<TUser> userCollection)
+        private readonly Collection<TUser> _userCollection;
+        private readonly Collection<TRole> _roleCollection;
+
+        public UserStore(Collection<TUser> userCollection, Collection<TRole> roleCollection)
         {
             _userCollection = userCollection;
+            _roleCollection = roleCollection;
         }
 
         public IQueryable<TUser> Users => _userCollection.Queryable();
@@ -135,7 +139,10 @@ namespace AspNetCore.Identity.Mongo.Stores
 
         public async Task AddToRoleAsync(TUser user, string roleName, CancellationToken cancellationToken)
         {
-            await _userCollection.AddToAsync(user, x => x.Roles, roleName);
+            if(user.Roles == null) user.Roles = new List<string>();
+            user.Roles.Add(roleName);
+
+            await _userCollection.UpdateAsync(user);
         }
 
         public async Task RemoveFromRoleAsync(TUser user, string roleName, CancellationToken cancellationToken)
@@ -181,7 +188,10 @@ namespace AspNetCore.Identity.Mongo.Stores
 
         public async Task<IList<string>> GetRolesAsync(TUser user, CancellationToken cancellationToken)
         {
-            return (await _userCollection.FirstOrDefaultAsync(x => x.Id == user.Id))?.Roles ?? new List<string>();
+            return (await _userCollection.FirstOrDefaultAsync(x => x.Id == user.Id))?.Roles?.Select(roleId=>_roleCollection.FirstOrDefault(x=>x.NormalizedName == roleId))
+                   .Where(x=> x != null)
+                   .Select(x=>x.Name)
+                   .ToList() ?? new List<string>();
         }
 
         public async Task<IList<UserLoginInfo>> GetLoginsAsync(TUser user, CancellationToken cancellationToken)

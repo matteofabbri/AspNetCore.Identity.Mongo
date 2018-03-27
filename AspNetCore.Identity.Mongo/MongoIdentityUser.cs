@@ -51,21 +51,21 @@ namespace AspNetCore.Identity.Mongo
         public string AuthenticatorKey { get; set; }
 
         [BsonIgnoreIfNull]
-        public virtual string PasswordHash { get; set; }
+        public string PasswordHash { get; set; }
 
         [BsonIgnoreIfNull]
-        public virtual List<string> Roles { get; set; }
+        public List<string> Roles { get; set; }
 
         [BsonIgnoreIfNull]
-        public virtual List<IdentityUserClaim> Claims { get; set; }
+        public List<IdentityUserClaim> Claims { get; set; }
 
         [BsonIgnoreIfNull]
-        public virtual List<IdentityUserLogin> Logins { get; set; }
+        public List<IdentityUserLogin> Logins { get; set; }
 
         [BsonIgnoreIfNull]
-        public virtual List<IdentityUserToken> Tokens { get; set; }
+        public List<IdentityUserToken> Tokens { get; set; }
 
         [BsonIgnoreIfNull]
-        public virtual List<TwoFactorRecoveryCode> RecoveryCodes { get; set; }
+        public List<TwoFactorRecoveryCode> RecoveryCodes { get; set; }
     }
 }
