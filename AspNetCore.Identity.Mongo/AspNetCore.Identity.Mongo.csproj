@@ -19,6 +19,7 @@
     <AssemblyVersion>2.0.1.0</AssemblyVersion>
     <FileVersion>2.0.1.0</FileVersion>
     <PackageProjectUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</PackageProjectUrl>
+    <NeutralLanguage />
   </PropertyGroup>
 
   <ItemGroup>

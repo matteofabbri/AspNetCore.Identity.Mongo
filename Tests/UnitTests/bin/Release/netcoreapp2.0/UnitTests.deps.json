@@ -8,7 +8,8 @@
     ".NETCoreApp,Version=v2.0": {
       "UnitTests/1.0.0": {
         "dependencies": {
-          "AspNetCore.Identity.Mongo": "1.0.0",
+          "AspNetCore.Identity.Mongo": "2.0.1",
+          "MongoDB.Driver": "2.5.0",
           "NUnit": "3.10.1"
         },
         "runtime": {
@@ -1233,7 +1234,7 @@
           "System.Runtime.Handles": "4.3.0"
         }
       },
-      "AspNetCore.Identity.Mongo/1.0.0": {
+      "AspNetCore.Identity.Mongo/2.0.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Authorization": "2.0.3",
           "Microsoft.AspNetCore.Identity": "2.0.2",
@@ -2022,7 +2023,7 @@
       "path": "system.threading.threadpool/4.3.0",
       "hashPath": "system.threading.threadpool.4.3.0.nupkg.sha512"
     },
-    "AspNetCore.Identity.Mongo/1.0.0": {
+    "AspNetCore.Identity.Mongo/2.0.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
