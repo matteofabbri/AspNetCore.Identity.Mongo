@@ -8,14 +8,14 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Mongo based identity framework for Asp.Net Core 2</Description>
     <Copyright>Matteo Fabbri 2018</Copyright>
-    <PackageLicenseUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</PackageLicenseUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/matteofabbri/AspNetCore.Identity.Mongo/master/LICENSE.txt</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</RepositoryUrl>
     <PackageTags>asp core identity mongo framework aspnetcore mongodb dotnetcore netcore2 core2</PackageTags>
     <PackageId>AspNetCore.Identity.Mongo</PackageId>
     <Authors>Matteo Fabbri</Authors>
     <Company />
     <Product>AspNetCore.Identity.Mongo</Product>
-    <Version>2.0.1</Version>
+    <Version>2.5.1</Version>
     <AssemblyVersion>2.5.1.0</AssemblyVersion>
     <FileVersion>2.5.1.0</FileVersion>
     <PackageProjectUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</PackageProjectUrl>
