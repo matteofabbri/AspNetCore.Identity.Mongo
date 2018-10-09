@@ -1,6 +1,4 @@
-using System;
-
-namespace Example.DefaultUser.Models
+namespace Example.CustomUser.Models
 {
     public class ErrorViewModel
     {

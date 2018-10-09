@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Example.DefaultUser.Models.ManageViewModels
+namespace Example.CustomUser.Models.ManageViewModels
 {
     public class EnableAuthenticatorViewModel
     {

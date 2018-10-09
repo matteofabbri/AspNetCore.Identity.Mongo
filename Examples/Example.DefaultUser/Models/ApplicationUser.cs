@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AspNetCore.Identity.Mongo;
-using Microsoft.AspNetCore.Identity;
+﻿using AspNetCore.Identity.Mongo.Model;
 
-namespace Example.DefaultUser.Models
+namespace Example.CustomUser.Models
 {
     // Add profile data for application users by adding properties to the ApplicationUser class
-    public class ApplicationUser : MongoIdentityUser
+    public class ApplicationUser : MongoUser
     {
     }
 }

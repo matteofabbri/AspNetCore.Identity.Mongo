@@ -1,20 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Example.CustomUser.Extensions;
+using Example.CustomUser.Models;
+using Example.CustomUser.Models.ManageViewModels;
+using Example.CustomUser.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Example.DefaultUser.Models;
-using Example.DefaultUser.Models.ManageViewModels;
-using Example.DefaultUser.Services;
 
-namespace Example.DefaultUser.Controllers
+namespace Example.CustomUser.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]

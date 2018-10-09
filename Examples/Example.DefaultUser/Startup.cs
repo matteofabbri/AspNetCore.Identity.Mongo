@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AspNetCore.Identity.Mongo;
-using Example.DefaultUser.Models;
+﻿using AspNetCore.Identity.Mongo;
+using Example.CustomUser.Models;
+using Example.CustomUser.Services;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Example.DefaultUser.Services;
 
-namespace Example.DefaultUser
+namespace Example.CustomUser
 {
     public class Startup
     {
@@ -26,7 +20,7 @@ namespace Example.DefaultUser
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMongoIdentityProvider<ApplicationUser>();
+            services.AddIdentityMongoDbProvider<ApplicationUser>();
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
