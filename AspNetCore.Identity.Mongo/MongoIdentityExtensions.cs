@@ -45,9 +45,8 @@ namespace AspNetCore.Identity.Mongo
             services.AddTransient<IIdentityUserCollection<TUser>>(x => userCollection);
             services.AddTransient<IIdentityRoleCollection<TRole>>(x => roleCollection);
 
-
             // Identity Services
-            services.AddTransient<IUserStore<TUser>>(x => new UserStore<TUser, TRole>(userCollection, roleCollection));
+            services.AddTransient<IUserStore<TUser>>(x => new UserStore<TUser, TRole>(userCollection, roleCollection, x.GetService<ILookupNormalizer>()));
 			services.AddTransient<IRoleStore<TRole>>(x => new RoleStore<TRole>(roleCollection));
 			return services;
 		}
