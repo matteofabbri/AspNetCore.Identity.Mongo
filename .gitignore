@@ -14,3 +14,5 @@
 /Tests/UnitTests/bin
 /packages
 /Tests/UnitTests/obj
+/SelfCheck/bin
+/SelfCheck/obj
