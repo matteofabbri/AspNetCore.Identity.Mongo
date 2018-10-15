@@ -21,8 +21,10 @@ Completly wrote from scratch provide support for all identity framework interfac
 How to use
 
 
-    services.AddMongoIdentityProvider<ApplicationUser, ApplicationRole>("mongodb://localhost/maddalena", options =>
+    services.AddIdentityMongoDbProvider<ApplicationUser, ApplicationRole>(options =>
     {
+             options.ConnectionString = "mongodb://localhost/maddalena";
+             
             options.Password.RequiredLength = 6;
             
             options.Password.RequireLowercase = false;
