@@ -144,6 +144,8 @@ namespace AspNetCore.Identity.Mongo.Stores
 			var dbUser = await _userCollection.FindByIdAsync(user.Id);
 			user?.Claims?.RemoveAll(x => x.Type == claim.Type);
 			dbUser?.Claims?.RemoveAll(x => x.Type == claim.Type);
+			
+			dbUser?.Claims?.Add(newClaim);
 
 			await _userCollection.UpdateAsync(dbUser);
 		}
