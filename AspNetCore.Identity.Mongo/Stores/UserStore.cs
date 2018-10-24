@@ -29,10 +29,13 @@ namespace AspNetCore.Identity.Mongo.Stores
 
 		private readonly IIdentityUserCollection<TUser> _userCollection;
 
-		public UserStore(IIdentityUserCollection<TUser> userCollection, IIdentityRoleCollection<TRole> roleCollection)
+	    private readonly ILookupNormalizer _normalizer;
+
+        public UserStore(IIdentityUserCollection<TUser> userCollection, IIdentityRoleCollection<TRole> roleCollection, ILookupNormalizer normalizer)
 		{
 			_userCollection = userCollection;
 			_roleCollection = roleCollection;
+		    _normalizer = normalizer;
 		}
 
 		public IQueryable<TUser> Users => _userCollection.GetAllAsync().Result.AsQueryable();
@@ -97,9 +100,10 @@ namespace AspNetCore.Identity.Mongo.Stores
 
 			await _userCollection.CreateAsync(user);
 
-            if (user.Email != null) await SetEmailAsync(user, user.Email, cancellationToken);
-		    if (user.PhoneNumber != null) await SetPhoneNumberAsync(user, user.PhoneNumber, cancellationToken);
-
+		    if (user.Email != null)
+		    {
+                await SetEmailAsync(user, user.Email, cancellationToken);
+		    }
             return IdentityResult.Success;
 		}
 
@@ -121,6 +125,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 
 		public async Task<IdentityResult> UpdateAsync(TUser user, CancellationToken cancellationToken)
 		{
+		    await SetEmailAsync(user, user.Email, cancellationToken);
 			await _userCollection.UpdateAsync(user);
 			return IdentityResult.Success;
 		}
@@ -139,6 +144,8 @@ namespace AspNetCore.Identity.Mongo.Stores
 			var dbUser = await _userCollection.FindByIdAsync(user.Id);
 			user?.Claims?.RemoveAll(x => x.Type == claim.Type);
 			dbUser?.Claims?.RemoveAll(x => x.Type == claim.Type);
+			
+			dbUser?.Claims?.Add(new IdentityUserClaim(newClaim));
 
 			await _userCollection.UpdateAsync(dbUser);
 		}
@@ -231,10 +238,12 @@ namespace AspNetCore.Identity.Mongo.Stores
 			return _userCollection.UpdateAsync(user);
 		}
 
-		public Task SetEmailAsync(TUser user, string email, CancellationToken cancellationToken)
+		public async Task SetEmailAsync(TUser user, string email, CancellationToken cancellationToken)
 		{
-			user.Email = email;
-			return _userCollection.UpdateAsync(user);
+		    await SetNormalizedEmailAsync(user, _normalizer.Normalize(user.Email), cancellationToken);
+
+            user.Email = email;
+			await _userCollection.UpdateAsync(user);
 		}
 
 		public async Task<int> GetAccessFailedCountAsync(TUser user, CancellationToken cancellationToken)

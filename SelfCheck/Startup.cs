@@ -1,12 +1,13 @@
 ﻿using AspNetCore.Identity.Mongo;
-using Example.CustomUser.Models;
-using Example.CustomUser.Services;
+using AspNetCore.Identity.Mongo.Model;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Example.CustomUser
+namespace SelfCheck
 {
     public class Startup
     {
@@ -20,13 +21,11 @@ namespace Example.CustomUser
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentityMongoDbProvider<ApplicationUser>(options =>
-                {
-                    options.ConnectionString = "mongodb://localhost/test";
-                });
+            services.AddIdentityMongoDbProvider<MongoUser>(options =>
+            {
+                options.ConnectionString = "mongodb://localhost/selfTest";
+            });
 
-            // Add application services.
-            services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc();
         }
