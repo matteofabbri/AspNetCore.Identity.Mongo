@@ -20,7 +20,7 @@ namespace Example.CustomUser
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentityMongoDbProvider<ApplicationUser>();
+            services.AddIdentityMongoDbProvider<ApplicationUser>(x);
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
