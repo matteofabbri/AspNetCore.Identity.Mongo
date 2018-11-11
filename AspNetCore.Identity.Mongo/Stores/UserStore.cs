@@ -63,20 +63,17 @@ namespace AspNetCore.Identity.Mongo.Stores
 		public async Task RemoveTokenAsync(TUser user, string loginProvider, string name,
 			CancellationToken cancellationToken)
 		{
-			var dbUser = await _userCollection.FindByIdAsync(user.Id);
-			;
-			if (dbUser?.Tokens == null) return;
+			if (user?.Tokens == null) return;
 
-			dbUser.Tokens.RemoveAll(x => x.LoginProvider == loginProvider && x.Name == name);
+		    user.Tokens.RemoveAll(x => x.LoginProvider == loginProvider && x.Name == name);
 
-			await _userCollection.UpdateAsync(dbUser);
+			await _userCollection.UpdateAsync(user);
 		}
 
-		public async Task<string> GetTokenAsync(TUser user, string loginProvider, string name,
+		public Task<string> GetTokenAsync(TUser user, string loginProvider, string name,
 			CancellationToken cancellationToken)
 		{
-			var dbUser = await _userCollection.FindByIdAsync(user.Id);
-			return dbUser?.Tokens?.FirstOrDefault(x => x.LoginProvider == loginProvider && x.Name == name)?.Value;
+			return Task.FromResult(user?.Tokens?.FirstOrDefault(x => x.LoginProvider == loginProvider && x.Name == name)?.Value);
 		}
 
 		public async Task<string> GetAuthenticatorKeyAsync(TUser user, CancellationToken cancellationToken)
