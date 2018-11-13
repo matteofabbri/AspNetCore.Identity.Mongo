@@ -39,7 +39,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 
 		async Task<string> IRoleStore<TRole>.GetRoleIdAsync(TRole role, CancellationToken cancellationToken)
 		{
-			return (await Task.FromResult(role.Id)).ToString();
+			return await Task.FromResult(role.Id);
 		}
 
 		async Task<string> IRoleStore<TRole>.GetRoleNameAsync(TRole role, CancellationToken cancellationToken)
