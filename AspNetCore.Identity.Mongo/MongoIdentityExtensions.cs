@@ -27,7 +27,13 @@ namespace AspNetCore.Identity.Mongo
             return AddIdentityMongoDbProvider<TUser, TRole>(services, x => { }, setupDatabaseAction);
         }
 
-		public static IServiceCollection AddIdentityMongoDbProvider<TUser, TRole>(this IServiceCollection services,
+	    public static IServiceCollection AddIdentityMongoDbProvider<TUser>(this IServiceCollection services,
+	        Action<IdentityOptions> setupIdentityAction, Action<MongoIdentityOptions> setupDatabaseAction) where TUser : MongoUser
+	    {
+	        return AddIdentityMongoDbProvider<TUser, MongoRole>(services, setupIdentityAction, setupDatabaseAction);
+        }
+
+        public static IServiceCollection AddIdentityMongoDbProvider<TUser, TRole>(this IServiceCollection services,
 			Action<IdentityOptions> setupIdentityAction, Action<MongoIdentityOptions> setupDatabaseAction) where TUser : MongoUser
 			where TRole : MongoRole
 		{

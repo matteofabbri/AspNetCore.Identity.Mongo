@@ -20,18 +20,14 @@ This is a MongoDB provider for the ASP.NET Core 2 Identity framework. It is comp
 How to use:
 
 ```csharp
-services.AddIdentityMongoDbProvider<ApplicationUser, ApplicationRole>(options =>
+services.AddIdentityMongoDbProvider<ApplicationUser, ApplicationRole>(identityOptions =>
 {
-    options.ConnectionString = "mongodb://localhost/maddalena";
-
-    options.Password.RequiredLength = 6;
-
-    options.Password.RequireLowercase = false;
-
-    options.Password.RequireUppercase = false;
-
-    options.Password.RequireNonAlphanumeric = false;
-
-    options.Password.RequireDigit = false;
+    identityOptions.Password.RequiredLength = 6;
+    identityOptions.Password.RequireLowercase = false;
+    identityOptions.Password.RequireUppercase = false;
+    identityOptions.Password.RequireNonAlphanumeric = false;
+    identityOptions.Password.RequireDigit = false;
+}, mongoIdentityOptions => {
+    mongoIdentityOptions.ConnectionString = "mongodb://localhost/maddalena";
 });
 ```
