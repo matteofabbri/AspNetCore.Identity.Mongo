@@ -78,7 +78,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 
 		public async Task<string> GetAuthenticatorKeyAsync(TUser user, CancellationToken cancellationToken)
 		{
-			return (await _userCollection.FindByIdAsync(user.Id))?.AuthenticatorKey;
+			return (await _userCollection.FindByIdAsync(user.Id))?.AuthenticatorKey ?? user.AuthenticatorKey;
 		}
 
 		public Task SetAuthenticatorKeyAsync(TUser user, string key, CancellationToken cancellationToken)
@@ -199,12 +199,12 @@ namespace AspNetCore.Identity.Mongo.Stores
 
 		public async Task<string> GetEmailAsync(TUser user, CancellationToken cancellationToken)
 		{
-			return (await _userCollection.FindByIdAsync(user.Id))?.Email;
+		    return (await _userCollection.FindByIdAsync(user.Id))?.Email ?? user.Email;
 		}
 
 		public async Task<bool> GetEmailConfirmedAsync(TUser user, CancellationToken cancellationToken)
 		{
-			return (await _userCollection.FindByIdAsync(user.Id))?.EmailConfirmed ?? false;
+			return (await _userCollection.FindByIdAsync(user.Id))?.EmailConfirmed ?? user.EmailConfirmed;
 		}
 
 		public async Task<TUser> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
@@ -214,7 +214,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 
 		public async Task<string> GetNormalizedEmailAsync(TUser user, CancellationToken cancellationToken)
 		{
-			return (await _userCollection.FindByIdAsync(user.Id))?.NormalizedEmail;
+			return (await _userCollection.FindByIdAsync(user.Id))?.NormalizedEmail ?? user.NormalizedEmail;
 		}
 
 		public Task SetEmailConfirmedAsync(TUser user, bool confirmed, CancellationToken cancellationToken)
@@ -238,12 +238,12 @@ namespace AspNetCore.Identity.Mongo.Stores
 
 		public async Task<int> GetAccessFailedCountAsync(TUser user, CancellationToken cancellationToken)
 		{
-			return (await _userCollection.FindByIdAsync(user.Id))?.AccessFailedCount ?? 0;
+			return (await _userCollection.FindByIdAsync(user.Id))?.AccessFailedCount ?? user.AccessFailedCount;
 		}
 
 		public async Task<bool> GetLockoutEnabledAsync(TUser user, CancellationToken cancellationToken)
 		{
-			return (await _userCollection.FindByIdAsync(user.Id))?.LockoutEnabled ?? false;
+			return (await _userCollection.FindByIdAsync(user.Id))?.LockoutEnabled ?? user.LockoutEnabled;
 		}
 
 		public async Task<int> IncrementAccessFailedCountAsync(TUser user, CancellationToken cancellationToken)
@@ -261,7 +261,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 
 		public async Task<DateTimeOffset?> GetLockoutEndDateAsync(TUser user, CancellationToken cancellationToken)
 		{
-			return (await _userCollection.FindByIdAsync(user.Id))?.LockoutEndDateUtc;
+			return (await _userCollection.FindByIdAsync(user.Id))?.LockoutEndDateUtc ?? user.LockoutEndDateUtc;
 		}
 
 		public Task SetLockoutEndDateAsync(TUser user, DateTimeOffset? lockoutEnd, CancellationToken cancellationToken)
@@ -426,7 +426,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 
 		public async Task<bool> GetTwoFactorEnabledAsync(TUser user, CancellationToken cancellationToken)
 		{
-			return (await _userCollection.FindByIdAsync(user.Id))?.TwoFactorEnabled ?? false;
+			return (await _userCollection.FindByIdAsync(user.Id))?.TwoFactorEnabled ?? user.TwoFactorEnabled;
 		}
 
 		public Task SetTwoFactorEnabledAsync(TUser user, bool enabled, CancellationToken cancellationToken)
