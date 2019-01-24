@@ -1,12 +1,12 @@
-﻿using MongoDB.Bson;
+﻿using Microsoft.AspNetCore.Identity;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace AspNetCore.Identity.Mongo.Model
 {
-	public class MongoRole
+	public class MongoRole : IdentityRole
 	{
-	    [BsonRepresentation(BsonType.ObjectId)]
-	    public string Id { get; set; }
+	    //public ObjectId _id { get; set; }
 
         public MongoRole()
 		{
@@ -17,9 +17,6 @@ namespace AspNetCore.Identity.Mongo.Model
 			Name = name;
 			NormalizedName = name.ToUpperInvariant();
 		}
-
-		public string Name { get; set; }
-		public string NormalizedName { get; set; }
 
 		public override string ToString()
 		{

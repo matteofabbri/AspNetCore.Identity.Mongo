@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 
-namespace AspNetCore.Identity.Mongo.Mongo
+namespace AspNetCore.Identity.Mongo
 {
     internal static class MongoUtil
     {

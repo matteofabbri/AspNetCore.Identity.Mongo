@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AspNetCore.Identity.Mongo.Model;
-using AspNetCore.Identity.Mongo.Mongo;
 using MongoDB.Driver;
 
-namespace AspNetCore.Identity.Mongo.Stores
+namespace AspNetCore.Identity.Mongo.Collections
 {
 
     public class IdentityRoleCollection<TRole> : IIdentityRoleCollection<TRole> where TRole : MongoRole
