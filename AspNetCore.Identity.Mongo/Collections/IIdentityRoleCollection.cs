@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using AspNetCore.Identity.Mongo.Model;
 
-namespace AspNetCore.Identity.Mongo.Stores
+namespace AspNetCore.Identity.Mongo.Collections
 {
 	public interface IIdentityRoleCollection<TRole> where TRole : MongoRole
 	{

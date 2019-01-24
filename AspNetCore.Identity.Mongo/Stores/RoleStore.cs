@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AspNetCore.Identity.Mongo.Collections;
 using AspNetCore.Identity.Mongo.Model;
 using Microsoft.AspNetCore.Identity;
 
@@ -41,7 +42,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 		{
 			return await Task.FromResult(role.Id);
 		}
-
+        
 		async Task<string> IRoleStore<TRole>.GetRoleNameAsync(TRole role, CancellationToken cancellationToken)
 		{
 			return await Task.FromResult(role.Name);
@@ -58,8 +59,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 			return await Task.FromResult(role.NormalizedName);
 		}
 
-		async Task IRoleStore<TRole>.SetNormalizedRoleNameAsync(TRole role, string normalizedName,
-			CancellationToken cancellationToken)
+		async Task IRoleStore<TRole>.SetNormalizedRoleNameAsync(TRole role, string normalizedName, CancellationToken cancellationToken)
 		{
 			role.NormalizedName = normalizedName;
 			await _collection.UpdateAsync(role);

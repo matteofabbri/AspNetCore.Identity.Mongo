@@ -2,10 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AspNetCore.Identity.Mongo.Model;
-using AspNetCore.Identity.Mongo.Mongo;
 using MongoDB.Driver;
 
-namespace AspNetCore.Identity.Mongo.Stores
+namespace AspNetCore.Identity.Mongo.Collections
 {
     public class IdentityUserCollection<TUser> : IIdentityUserCollection<TUser> where TUser : MongoUser
 	{
@@ -39,7 +38,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 
 		public async Task<IEnumerable<TUser>> FindUsersByClaimAsync(string claimType, string claimValue)
 		{
-			return await _users.WhereAsync(u => u.Claims.Any(c => c.Type == claimType && c.Value == claimValue));
+			return await _users.WhereAsync(u => u.Claims.Any(c => c.ClaimType == claimType && c.ClaimType == claimValue));
 		}
 
 		public async Task<IEnumerable<TUser>> FindUsersInRoleAsync(string roleName)
