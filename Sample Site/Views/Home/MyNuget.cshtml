@@ -1,0 +1,30 @@
+﻿@model IEnumerable<SampleSite.Nuget.Package>
+
+    @{
+    ViewData["Title"] = "MyNuget";
+    }
+
+    <div class="row">
+        <div class="col-12">
+            <h2>My Nuget</h2>
+
+            <ul class="list-unstyled" style="margin-top:50px">
+                @foreach (var item in Model)
+                {
+                    <li class="media">
+                        <div class="media-body" style="margin-bottom:32px">
+                            <h5 class="mt-0 mb-1">
+                                <a href="https://www.nuget.org/packages/@item.Id" target="_blank">
+                                    @item.Id @item.Version
+                                </a>
+                            </h5>
+                            Downloads: @item.TotalDownloads
+                            <br />
+                            @item.Description
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+

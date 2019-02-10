@@ -1,0 +1,56 @@
+﻿@using SampleSite.Blog
+@model SampleSite.Blog.BlogPost
+@{
+    ViewData["Title"] = Model.Title;
+    ViewData["Description"] = Model.Excerpt;
+    bool showFullPost = ViewContext.RouteData.Values.ContainsKey("slug");
+    string host = Context.Request.Scheme + "://" + Context.Request.Host;
+    bool isCodePreview = Model.Content.Contains("</code>");
+
+    var link = $"{@host}/read/{Model.Slug}";
+}
+
+@section Head {
+    <link rel="canonical" href="@link" />
+}
+
+<section>
+    <article class="post container" itemscope itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
+        <div class="row">
+            <div class="col-10">
+                <h1 itemprop="name headline">
+                    @Model.Title
+                </h1>
+            </div>
+            <div class="col-2">
+                <time datetime="@Model.PubDate.ToString("s")" itemprop="datePublished">
+                    @Model.PubDate.ToString("MMM d, yyyy")
+                </time>
+
+                @if (User.Identity.IsAuthenticated && User.IsInRole("blog"))
+                {
+                    <br />
+                    <br />
+                    <a asp-controller="Blog" asp-action="edit" asp-route-id="@Model.Id" class="btn btn-success" title="Edit the post">Edit post</a>
+                }
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div itemprop="articleBody mainEntityOfPage" cdnify>
+                    @Html.Raw(Model.Content)
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <footer>
+                    <meta itemprop="dateModified" content="@Model.LastModified.ToString("s")" />
+                    <meta itemprop="mainEntityOfPage" content="@link" />
+                </footer>
+            </div>
+        </div>
+    </article>
+</section>

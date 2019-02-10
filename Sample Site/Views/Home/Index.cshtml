@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@using ServerSideAnalytics.Extensions
+@inject SampleSite.Blog.IBlogService blog
+@inject ServerSideAnalytics.IAnalyticStore _store
+
+@{
+    var from = DateTime.MinValue;
+    var to = DateTime.MaxValue;
+}
+
+
+<div class="text-center mb-5">
+    <h1 class="display-4">An Italian nerd in Prague</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-white bg-dark" style="max-width: 18rem;">
+            <div class="card-header">Articles</div>
+            <div class="card-body">
+                @foreach (var article in await blog.GetPosts(10))
+                {
+                    <a href="/read/@article.Slug" style="color: #fff !important;">
+                        <h5 class="card-title">
+                            @article.Title
+                        </h5>
+                    </a>
+
+                    <p class="card-text">
+                        <a href="/read/@article.Slug" style="color: #fff !important;">
+                            @article.Excerpt
+                        </a>
+                    </p>
+                    <hr />
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <section>
+            <p class="text-center">
+                <a href="/user" class="btn btn-bg btn-dark"> User managment</a>
+            </p>
+        </section>
+    </div>
+</div>
+
+@section Scripts
+{
+    @{
+        var daily = (await _store.DailyServed(from, to)).OrderBy(x => x.Day);
+
+        var dayPoints = string.Join(',', daily.Select(x => x.Served.ToString()));
+        var dayLabels = string.Join(',', daily.Select(x => "'" + x.Day.ToString("dd/MM") + "'"));
+    }
+
+    <script>
+        $(function()
+        {
+
+        });
+    </script>
+}
