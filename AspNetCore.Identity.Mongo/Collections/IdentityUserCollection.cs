@@ -38,7 +38,7 @@ namespace AspNetCore.Identity.Mongo.Collections
 
 		public async Task<IEnumerable<TUser>> FindUsersByClaimAsync(string claimType, string claimValue)
 		{
-			return await _users.WhereAsync(u => u.Claims.Any(c => c.ClaimType == claimType && c.ClaimType == claimValue));
+			return await _users.WhereAsync(u => u.Claims.Any(c => c.ClaimType == claimType && c.ClaimValue == claimValue));
 		}
 
 		public async Task<IEnumerable<TUser>> FindUsersInRoleAsync(string roleName)
