@@ -9,37 +9,37 @@ namespace AspNetCore.Identity.Mongo
 {
 	public static class MongoIdentityExtensions
 	{
-	    public static IServiceCollection AddIdentityMongoDbProvider<TUser>(this IServiceCollection services) where TUser : MongoUser
+	    public static IdentityBuilder AddIdentityMongoDbProvider<TUser>(this IServiceCollection services) where TUser : MongoUser
 	    {
 	        return AddIdentityMongoDbProvider<TUser, MongoRole>(services, x => { });
 	    }
 
-        public static IServiceCollection AddIdentityMongoDbProvider<TUser>(this IServiceCollection services,
+        public static IdentityBuilder AddIdentityMongoDbProvider<TUser>(this IServiceCollection services,
 	        Action<MongoIdentityOptions> setupDatabaseAction) where TUser : MongoUser
 	    {
 	        return AddIdentityMongoDbProvider<TUser, MongoRole>(services, setupDatabaseAction);
 	    }
 
-        public static IServiceCollection AddIdentityMongoDbProvider<TUser, TRole>(this IServiceCollection services,
+        public static IdentityBuilder AddIdentityMongoDbProvider<TUser, TRole>(this IServiceCollection services,
 			Action<MongoIdentityOptions> setupDatabaseAction) where TUser : MongoUser
 			where TRole : MongoRole
         {
             return AddIdentityMongoDbProvider<TUser, TRole>(services, x => { }, setupDatabaseAction);
         }
 
-	    public static IServiceCollection AddIdentityMongoDbProvider(this IServiceCollection services,
+	    public static IdentityBuilder AddIdentityMongoDbProvider(this IServiceCollection services,
 	        Action<IdentityOptions> setupIdentityAction, Action<MongoIdentityOptions> setupDatabaseAction)
 	    {
 	        return AddIdentityMongoDbProvider<MongoUser, MongoRole>(services, setupIdentityAction, setupDatabaseAction);
 	    }
 
-	    public static IServiceCollection AddIdentityMongoDbProvider<TUser>(this IServiceCollection services,
+	    public static IdentityBuilder AddIdentityMongoDbProvider<TUser>(this IServiceCollection services,
 	        Action<IdentityOptions> setupIdentityAction, Action<MongoIdentityOptions> setupDatabaseAction) where TUser : MongoUser
 	    {
 	        return AddIdentityMongoDbProvider<TUser, MongoRole>(services, setupIdentityAction, setupDatabaseAction);
         }
 
-	    public static IServiceCollection AddIdentityMongoDbProvider<TUser, TRole>(this IServiceCollection services,
+	    public static IdentityBuilder AddIdentityMongoDbProvider<TUser, TRole>(this IServiceCollection services,
 	        Action<IdentityOptions> setupIdentityAction, Action<MongoIdentityOptions> setupDatabaseAction) where TUser : MongoUser
 	        where TRole : MongoRole
 	    {
@@ -65,7 +65,7 @@ namespace AspNetCore.Identity.Mongo
 	        services.AddTransient<IRoleStore<TRole>>(x => new RoleStore<TRole>(roleCollection));
 	       
 	        
-	        return services;
+	        return builder;
 	    }
 	}
 }
