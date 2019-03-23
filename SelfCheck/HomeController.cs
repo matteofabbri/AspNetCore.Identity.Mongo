@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AspNetCore.Identity.Mongo.Collections;
 using AspNetCore.Identity.Mongo.Model;
-using AspNetCore.Identity.Mongo.Stores;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,9 +41,9 @@ namespace SelfCheck.Controllers
         public async Task<IActionResult> Index()
         {
             await CreateNoPassword();
-            await Delete();
+            await DeleteAll();
             await CreatePassword();
-            await Delete();
+            await DeleteAll();
             await DoubleCreateNoPassword();
             await DoubleCreatePassword();
             //FIXME
@@ -73,13 +71,15 @@ namespace SelfCheck.Controllers
             if (users.Count() != 2) throw new Exception(nameof(CreateNoPassword));
         }
 
-        async Task Delete()
+        async Task DeleteAll()
         {
-            await _userManager.DeleteAsync(UserWithMail);
-            await _userManager.DeleteAsync(UserWithNoMail);
+            foreach (var item in await _userCollection.GetAllAsync())
+            {
+                await _userCollection.DeleteAsync(item);
+            }
 
             var users = (await _userCollection.GetAllAsync());
-            if (users.Count() != 0) throw new Exception(nameof(Delete));
+            if (users.Count() != 0) throw new Exception(nameof(DeleteAll));
         }
 
         async Task DoubleCreateNoPassword()
