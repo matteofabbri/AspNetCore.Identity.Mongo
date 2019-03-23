@@ -1,6 +1,4 @@
 ﻿using AspNetCore.Identity.Mongo;
-using SampleSite.Blog;
-using SampleSite.GridFs;
 using SampleSite.Identity;
 using SampleSite.Mailing;
 using Microsoft.AspNetCore.Builder;
@@ -9,8 +7,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ServerSideAnalytics;
-using ServerSideAnalytics.Mongo;
 
 namespace SampleSite
 {
@@ -41,24 +37,11 @@ namespace SampleSite
                 mongo.ConnectionString = ConnectionString;
             });
 
-            var store = GetAnalyticStore(ConnectionString);
-            services.AddSingleton<IAnalyticStore>(store);
-
             services.AddTransient<IEmailSender, EmailSender>();
-
-            var gridFs = new GridFileSystem(ConnectionString, "gridFsTable");
-
-            services.AddSingleton<IGridFileSystem>(gridFs);
-            services.AddSingleton<IBlogService>(new MongoBlogService(ConnectionString));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
-        public MongoAnalyticStore GetAnalyticStore(string connectionString)
-        {
-            var store = (new MongoAnalyticStore(connectionString));
-            return store;
-        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -75,7 +58,6 @@ namespace SampleSite
                 app.UseHsts();
             }
 
-            app.UseServerSideAnalytics(GetAnalyticStore(ConnectionString));
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

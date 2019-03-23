@@ -9,27 +9,15 @@
 
 
   <ItemGroup>
-    <PackageReference Include="AspNetCore.Identity.Mongo" Version="5.0.0.12" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.8.14" />
+    <PackageReference Include="AspNetCore.Identity.Mongo" Version="5.0.0.13" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.SyndicationFeed.ReaderWriter" Version="1.0.2" />
-    <PackageReference Include="MimeMapping" Version="1.0.1.12" />
-    <PackageReference Include="MongoDB.Driver" Version="2.7.3" />
-    <PackageReference Include="MongoDB.Driver.GridFS" Version="2.7.3" />
-    <PackageReference Include="ServerSideAnalytics" Version="5.0.0" />
-    <PackageReference Include="ServerSideAnalytics.Extensions" Version="2.1.0" />
-    <PackageReference Include="ServerSideAnalytics.Mongo" Version="5.0.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.9.0-beta1" />
   </ItemGroup>
 
 
   <ItemGroup>
-    <Content Update="Views\Blog\Edit.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Views\Blog\Read.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
     <Content Update="Views\User\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
