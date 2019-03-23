@@ -101,9 +101,7 @@ namespace SampleSite.Controllers
             }
 
             var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
-            var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-            var email = user.Email;
-            await EmailSender.SendEmailConfirmationAsync(email, callbackUrl);
+            await EmailSender.SendMailConfirmationLink(user.Id, code);
 
             StatusMessage = "Verification email sent. Please check your email.";
             return RedirectToAction(nameof(UserData));

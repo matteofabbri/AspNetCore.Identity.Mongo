@@ -7,6 +7,8 @@ using SampleSite.Mailing;
 using System.Threading.Tasks;
 using AspNetCore.Identity.Mongo.Collections;
 using AspNetCore.Identity.Mongo.Model;
+using SampleSite.Exceptions;
+using System;
 
 namespace SampleSite.Controllers
 {
@@ -34,9 +36,9 @@ namespace SampleSite.Controllers
 
         public async Task<IActionResult> Index()
         {
-            foreach (var user in await UserCollection.GetAllAsync())
+            foreach (var delUser in await UserCollection.GetAllAsync())
             {
-                await UserCollection.DeleteAsync(user);
+                await UserCollection.DeleteAsync(delUser);
             }
 
             await Register(new Identity.AccountViewModels.RegisterViewModel
@@ -56,7 +58,64 @@ namespace SampleSite.Controllers
 
             await Logout();
 
+            await TestConfirmEmail();
+
+            await TestWrongPasswordLogin();
+
+            await TestMissingUserLogin();
+
             return Content("EVERYTHING IS FINE");
+        }
+
+        private async Task TestConfirmEmail()
+        {
+            await ConfirmEmail(EmailSender.UserId, EmailSender.Token);
+
+            var user = await UserCollection.FindByIdAsync(EmailSender.UserId);
+
+            if (!user.EmailConfirmed) throw new System.Exception("Confirm email fails");
+        }
+
+        private async Task TestWrongPasswordLogin()
+        {
+            var exceptionRaised = false;
+
+            try
+            {
+                await Login(new Identity.AccountViewModels.LoginViewModel
+                {
+                    Password = "A VERY INVALID PASSWORD",
+                    RememberMe = true,
+                    Username = TestData.Username
+                });
+            }
+            catch (InvalidLogin)
+            {
+                exceptionRaised = true;
+            }
+
+            if (!exceptionRaised) throw new Exception("Invalid login stop fails");
+        }
+
+        private async Task TestMissingUserLogin()
+        {
+            var exceptionRaised = false;
+
+            try
+            {
+                await Login(new Identity.AccountViewModels.LoginViewModel
+                {
+                    Password = "A VERY INVALID PASSWORD",
+                    RememberMe = true,
+                    Username = "AN USER THAT DOES NOT EXISTS"
+                });
+            }
+            catch (InvalidLogin)
+            {
+                exceptionRaised = true;
+            }
+
+            if (!exceptionRaised) throw new Exception("Invalid login stop fails");
         }
     }
 }

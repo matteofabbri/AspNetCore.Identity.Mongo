@@ -1,4 +1,5 @@
-﻿using System.Text.Encodings.Web;
+﻿using System;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
 namespace SampleSite.Mailing
@@ -7,15 +8,20 @@ namespace SampleSite.Mailing
     // For more details see https://go.microsoft.com/fwlink/?LinkID=532713
     public class EmailSender : IEmailSender
     {
-        public Task SendEmailAsync(string email, string subject, string message)
+        public string UserId { get;set; }
+
+        public string Token { get; set; }
+
+        public Task SendMailConfirmationLink(string userId, string token)
         {
+            UserId = userId;
+            Token = token;
             return Task.CompletedTask;
         }
 
-        public Task SendEmailConfirmationAsync(string email, string link)
+        Task IEmailSender.SendMailPasswordReset(string userId, string token)
         {
-            return SendEmailAsync(email, "Confirm your email",
-                $"Please confirm your account by clicking this link: <a href='{HtmlEncoder.Default.Encode(link)}'>link</a>");
+            return Task.CompletedTask;
         }
     }
 }
