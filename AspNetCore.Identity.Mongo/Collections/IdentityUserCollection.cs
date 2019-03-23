@@ -51,7 +51,7 @@ namespace AspNetCore.Identity.Mongo.Collections
         public async Task<IEnumerable<TUser>> GetAllAsync()
         {
             var res = await _users.FindAsync(x=>true);
-            return res.ToEnumerable();
+            return await res.ToListAsync();
         }
 
         public async Task<TUser> CreateAsync(TUser obj)
