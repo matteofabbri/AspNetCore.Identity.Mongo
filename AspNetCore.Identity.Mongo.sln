@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.Identity.Mongo",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleSite", "Sample Site\SampleSite.csproj", "{266938F5-E7F0-4257-97F5-1BF3AFBF3864}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SelfCheck", "SelfCheck\SelfCheck.csproj", "{9DDCC57A-7B15-4560-8307-3A1BB60C2F43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Selfcheck", "Selfcheck\Selfcheck.csproj", "{6D10BD6E-12BF-4681-B969-5D2F051950C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{266938F5-E7F0-4257-97F5-1BF3AFBF3864}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{266938F5-E7F0-4257-97F5-1BF3AFBF3864}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{266938F5-E7F0-4257-97F5-1BF3AFBF3864}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9DDCC57A-7B15-4560-8307-3A1BB60C2F43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9DDCC57A-7B15-4560-8307-3A1BB60C2F43}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9DDCC57A-7B15-4560-8307-3A1BB60C2F43}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9DDCC57A-7B15-4560-8307-3A1BB60C2F43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D10BD6E-12BF-4681-B969-5D2F051950C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D10BD6E-12BF-4681-B969-5D2F051950C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D10BD6E-12BF-4681-B969-5D2F051950C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D10BD6E-12BF-4681-B969-5D2F051950C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

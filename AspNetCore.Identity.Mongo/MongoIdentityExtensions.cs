@@ -51,6 +51,7 @@ namespace AspNetCore.Identity.Mongo
 	        builder.AddRoleStore<RoleStore<TRole>>()
 	        .AddUserStore<UserStore<TUser, TRole>>()
 	        .AddUserManager<UserManager<TUser>>()
+            .AddRoleManager<RoleManager<TRole>>()
 	        .AddDefaultTokenProviders();
 
 
