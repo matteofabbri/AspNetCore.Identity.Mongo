@@ -23,7 +23,10 @@ namespace AspNetCore.Identity.Mongo.Stores
 		IUserLockoutStore<TUser>,
 		IUserAuthenticatorKeyStore<TUser>,
 		IUserAuthenticationTokenStore<TUser>,
-		IUserTwoFactorRecoveryCodeStore<TUser> where TUser : MongoUser
+		IUserTwoFactorRecoveryCodeStore<TUser>,
+        IProtectedUserStore<TUser>
+
+        where TUser : MongoUser
 		where TRole : MongoRole
 	{
 		private readonly IIdentityRoleCollection<TRole> _roleCollection;

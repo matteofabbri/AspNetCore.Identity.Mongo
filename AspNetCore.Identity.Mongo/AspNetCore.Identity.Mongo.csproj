@@ -15,7 +15,7 @@
     <Authors>Matteo Fabbri</Authors>
     <Company />
     <Product>AspNetCore.Identity.Mongo</Product>
-    <Version>5.1.0.16</Version>
+    <Version>5.1.0.17</Version>
     <AssemblyVersion>5.0.0.16</AssemblyVersion>
     <FileVersion>5.0.0.16</FileVersion>
     <PackageProjectUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</PackageProjectUrl>
