@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <ApplicationIcon />
     <StartupObject />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -25,9 +25,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="2.2.0" />
-    <PackageReference Include="MongoDB.Driver" Version="2.8.1" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="3.0.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.9.1" />
   </ItemGroup>
 
 </Project>

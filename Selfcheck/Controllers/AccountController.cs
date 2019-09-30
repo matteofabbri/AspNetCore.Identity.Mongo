@@ -5,25 +5,24 @@ using SampleSite.Extensions;
 using SampleSite.Identity;
 using SampleSite.Identity.AccountViewModels;
 using SampleSite.Mailing;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Text.Encodings.Web;
-using AspNetCore.Identity.Mongo.Collections;
 using SampleSite.Exceptions;
 using AspNetCore.Identity.Mongo.Model;
+using MongoDB.Driver;
 
 namespace SampleSite.Controllers
 {
     public class AccountController : Controller
     {
         public RoleManager<MongoRole> RoleManager;
-        public UserManager<MaddalenaUser> UserManager;
-        public SignInManager<MaddalenaUser> SignInManager;
+        public UserManager<TestSiteUser> UserManager;
+        public SignInManager<TestSiteUser> SignInManager;
 
-        public IIdentityUserCollection<MaddalenaUser> UserCollection;
+        public IMongoCollection<TestSiteUser> UserCollection;
 
         public IEmailSender EmailSender;
         public ILogger Logger;
@@ -66,7 +65,7 @@ namespace SampleSite.Controllers
 
         public async Task Register(RegisterViewModel model, string returnUrl = null)
         {
-            var user = new MaddalenaUser { UserName = model.Username, Email = model.Email };
+            var user = new TestSiteUser { UserName = model.Username, Email = model.Email };
             var result = await UserManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
@@ -263,7 +262,7 @@ namespace SampleSite.Controllers
                 {
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
-                var user = new MaddalenaUser { UserName = model.Email, Email = model.Email };
+                var user = new TestSiteUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

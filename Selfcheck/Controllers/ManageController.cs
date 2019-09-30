@@ -504,7 +504,7 @@ namespace SampleSite.Controllers
                 unformattedKey);
         }
 
-        private async Task LoadSharedKeyAndQrCodeUriAsync(MaddalenaUser user, EnableAuthenticatorViewModel model)
+        private async Task LoadSharedKeyAndQrCodeUriAsync(TestSiteUser user, EnableAuthenticatorViewModel model)
         {
             var unformattedKey = await UserManager.GetAuthenticatorKeyAsync(user);
             if (string.IsNullOrEmpty(unformattedKey))

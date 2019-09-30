@@ -5,21 +5,22 @@ using System.Text.Encodings.Web;
 using Microsoft.Extensions.Logging;
 using SampleSite.Mailing;
 using System.Threading.Tasks;
-using AspNetCore.Identity.Mongo.Collections;
 using AspNetCore.Identity.Mongo.Model;
 using SampleSite.Exceptions;
 using System;
+using MongoDB.Driver;
+using Maddalena.Mongo;
 
 namespace SampleSite.Controllers
 {
     public class HomeController : UserController
     {
         public HomeController(
-  UserManager<MaddalenaUser> userManager,
-  SignInManager<MaddalenaUser> signInManager,
+  UserManager<TestSiteUser> userManager,
+  SignInManager<TestSiteUser> signInManager,
   RoleManager<MongoRole> roleManager,
 
-  IIdentityUserCollection<MaddalenaUser> userCollection,
+  IMongoCollection<TestSiteUser> userCollection,
 
   IEmailSender emailSender,
   ILogger<ManageController> logger,
@@ -36,10 +37,7 @@ namespace SampleSite.Controllers
 
         public async Task<IActionResult> Index()
         {
-            foreach (var delUser in await UserCollection.GetAllAsync())
-            {
-                await UserCollection.DeleteAsync(delUser);
-            }
+            await UserCollection.DeleteManyAsync(x => true);
 
             await Register(new Identity.AccountViewModels.RegisterViewModel
             {
@@ -71,7 +69,7 @@ namespace SampleSite.Controllers
         {
             await ConfirmEmail(EmailSender.UserId, EmailSender.Token);
 
-            var user = await UserCollection.FindByIdAsync(EmailSender.UserId);
+            var user = await UserCollection.FirstOrDefaultAsync(x => x.Id == EmailSender.UserId);
 
             if (!user.EmailConfirmed) throw new System.Exception("Confirm email fails");
         }

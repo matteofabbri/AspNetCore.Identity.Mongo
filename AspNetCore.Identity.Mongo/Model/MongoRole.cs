@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace AspNetCore.Identity.Mongo.Model
 {
-	public class MongoRole : IdentityRole
+    public class MongoRole : IdentityRole
 	{
 	    //public ObjectId _id { get; set; }
 

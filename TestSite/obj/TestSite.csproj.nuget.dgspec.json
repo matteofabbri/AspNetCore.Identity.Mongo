@@ -1,0 +1,179 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\k2dkca\\Desktop\\AspNetCore.Identity.Mongo\\TestSite\\TestSite.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\k2dkca\\Desktop\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo.csproj": {
+      "version": "5.2.1",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\k2dkca\\Desktop\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo.csproj",
+        "projectName": "AspNetCore.Identity.Mongo",
+        "projectPath": "C:\\Users\\k2dkca\\Desktop\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo.csproj",
+        "packagesPath": "C:\\Users\\k2dkca\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\k2dkca\\Desktop\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\k2dkca\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://packages.xenko.com/nuget": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "dependencies": {
+            "Microsoft.AspNetCore.Authentication": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Identity": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.Extensions.Identity.Core": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
+            "Microsoft.Extensions.Identity.Stores": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.9.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "NETStandard.Library": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\k2dkca\\Desktop\\AspNetCore.Identity.Mongo\\TestSite\\TestSite.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\k2dkca\\Desktop\\AspNetCore.Identity.Mongo\\TestSite\\TestSite.csproj",
+        "projectName": "TestSite",
+        "projectPath": "C:\\Users\\k2dkca\\Desktop\\AspNetCore.Identity.Mongo\\TestSite\\TestSite.csproj",
+        "packagesPath": "C:\\Users\\k2dkca\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\k2dkca\\Desktop\\AspNetCore.Identity.Mongo\\TestSite\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\k2dkca\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://packages.xenko.com/nuget": {}
+        },
+        "frameworks": {
+          "netcoreapp3.0": {
+            "projectReferences": {
+              "C:\\Users\\k2dkca\\Desktop\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo.csproj": {
+                "projectPath": "C:\\Users\\k2dkca\\Desktop\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.0": {
+          "dependencies": {
+            "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
+            "Microsoft.AspNetCore.Identity.UI": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
+            "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
+              "target": "Package",
+              "version": "[1.9.5, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

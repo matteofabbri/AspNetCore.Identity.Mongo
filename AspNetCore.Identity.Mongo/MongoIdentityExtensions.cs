@@ -1,9 +1,9 @@
 ﻿using System;
-using AspNetCore.Identity.Mongo.Collections;
 using AspNetCore.Identity.Mongo.Model;
 using AspNetCore.Identity.Mongo.Stores;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Driver;
 
 namespace AspNetCore.Identity.Mongo
 {
@@ -55,11 +55,11 @@ namespace AspNetCore.Identity.Mongo
 	        .AddDefaultTokenProviders();
 
 
-	        var userCollection = new IdentityUserCollection<TUser>(dbOptions.ConnectionString, dbOptions.UsersCollection);
-	        var roleCollection = new IdentityRoleCollection<TRole>(dbOptions.ConnectionString, dbOptions.RolesCollection);
+	        var userCollection =  MongoUtil.FromConnectionString<TUser>(dbOptions.ConnectionString, dbOptions.UsersCollection);
+	        var roleCollection = MongoUtil.FromConnectionString<TRole>(dbOptions.ConnectionString, dbOptions.RolesCollection);
 
-	        services.AddTransient<IIdentityUserCollection<TUser>>(x => userCollection);
-	        services.AddTransient<IIdentityRoleCollection<TRole>>(x => roleCollection);
+	        services.AddSingleton<IMongoCollection<TUser>>(x => userCollection);
+	        services.AddSingleton<IMongoCollection<TRole>>(x => roleCollection);
 
 	        // Identity Services
 	        services.AddTransient<IUserStore<TUser>>(x => new UserStore<TUser, TRole>(userCollection, roleCollection, x.GetService<ILookupNormalizer>()));
