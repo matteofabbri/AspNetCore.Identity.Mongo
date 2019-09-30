@@ -27,3 +27,5 @@
 /Sample Site/obj
 /TO BE UPDATED/Examples/Example.DefaultUser/obj
 /TO BE UPDATED/SelfCheck
+/TestSite/bin/Release/netcoreapp3.0
+/TestSite/obj/Release/netcoreapp3.0

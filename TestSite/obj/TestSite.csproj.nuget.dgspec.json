@@ -1,24 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\k2dkca\\Desktop\\AspNetCore.Identity.Mongo\\TestSite\\TestSite.csproj": {}
+    "D:\\PROGETTI\\AspNetCore.Identity.Mongo\\TestSite\\TestSite.csproj": {}
   },
   "projects": {
-    "C:\\Users\\k2dkca\\Desktop\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo.csproj": {
-      "version": "5.2.1",
+    "D:\\PROGETTI\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo.csproj": {
+      "version": "6.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\k2dkca\\Desktop\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo.csproj",
+        "projectUniqueName": "D:\\PROGETTI\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo.csproj",
         "projectName": "AspNetCore.Identity.Mongo",
-        "projectPath": "C:\\Users\\k2dkca\\Desktop\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo.csproj",
-        "packagesPath": "C:\\Users\\k2dkca\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\k2dkca\\Desktop\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo\\obj\\",
+        "projectPath": "D:\\PROGETTI\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "D:\\PROGETTI\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\k2dkca\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -27,8 +27,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://packages.xenko.com/nuget": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netstandard2.1": {
@@ -84,21 +83,21 @@
         }
       }
     },
-    "C:\\Users\\k2dkca\\Desktop\\AspNetCore.Identity.Mongo\\TestSite\\TestSite.csproj": {
+    "D:\\PROGETTI\\AspNetCore.Identity.Mongo\\TestSite\\TestSite.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\k2dkca\\Desktop\\AspNetCore.Identity.Mongo\\TestSite\\TestSite.csproj",
+        "projectUniqueName": "D:\\PROGETTI\\AspNetCore.Identity.Mongo\\TestSite\\TestSite.csproj",
         "projectName": "TestSite",
-        "projectPath": "C:\\Users\\k2dkca\\Desktop\\AspNetCore.Identity.Mongo\\TestSite\\TestSite.csproj",
-        "packagesPath": "C:\\Users\\k2dkca\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\k2dkca\\Desktop\\AspNetCore.Identity.Mongo\\TestSite\\obj\\",
+        "projectPath": "D:\\PROGETTI\\AspNetCore.Identity.Mongo\\TestSite\\TestSite.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "D:\\PROGETTI\\AspNetCore.Identity.Mongo\\TestSite\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\k2dkca\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -107,14 +106,13 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://packages.xenko.com/nuget": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.0": {
             "projectReferences": {
-              "C:\\Users\\k2dkca\\Desktop\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo.csproj": {
-                "projectPath": "C:\\Users\\k2dkca\\Desktop\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo.csproj"
+              "D:\\PROGETTI\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo.csproj": {
+                "projectPath": "D:\\PROGETTI\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo\\AspNetCore.Identity.Mongo.csproj"
               }
             }
           }
