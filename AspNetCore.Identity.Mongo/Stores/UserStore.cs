@@ -296,7 +296,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 		{
 		    cancellationToken.ThrowIfCancellationRequested();
 
-			return await ById(normalizedEmail);
+			return await _userCollection.FirstOrDefaultAsync(a => a.NormalizedEmail == normalizedEmail);
 		}
 
 		public async Task<string> GetNormalizedEmailAsync(TUser user, CancellationToken cancellationToken)
