@@ -29,3 +29,5 @@
 /TO BE UPDATED/SelfCheck
 /TestSite/bin/Release/netcoreapp3.0
 /TestSite/obj/Release/netcoreapp3.0
+/TestSite/obj
+/TestSite/bin
