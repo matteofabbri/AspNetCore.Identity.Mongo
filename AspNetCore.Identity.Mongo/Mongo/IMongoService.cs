@@ -1,7 +1,7 @@
 ﻿using System;
 using MongoDB.Driver;
 
-namespace Maddalena.Mongo
+namespace AspNetCore.Identity.Mongo.Mongo
 {
     public interface IMongoService
     {

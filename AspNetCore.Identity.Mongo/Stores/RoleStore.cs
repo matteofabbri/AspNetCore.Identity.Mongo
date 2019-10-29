@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AspNetCore.Identity.Mongo.Model;
-using Maddalena.Mongo;
+using AspNetCore.Identity.Mongo.Mongo;
 using Microsoft.AspNetCore.Identity;
 using MongoDB.Driver;
 
@@ -31,7 +31,7 @@ namespace AspNetCore.Identity.Mongo.Stores
         async Task<IdentityResult> IRoleStore<TRole>.CreateAsync(TRole role, CancellationToken cancellationToken)
 		{
 			var found = await _collection.FirstOrDefaultAsync(x => x.NormalizedName == role.NormalizedName);
-			if (found == null) await _collection.InsertOneAsync(role);
+			if (found == null) await _collection.InsertOneAsync(role, new InsertOneOptions(), cancellationToken);
 			return IdentityResult.Success;
 		}
 
@@ -60,7 +60,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 		async Task IRoleStore<TRole>.SetRoleNameAsync(TRole role, string roleName, CancellationToken cancellationToken)
 		{
 			role.Name = roleName;
-			await _collection.UpdateOneAsync(x=>x.Id == role.Id, Builders<TRole>.Update.Set(x=>x.Name, roleName));
+			await _collection.UpdateOneAsync(x=>x.Id == role.Id, Builders<TRole>.Update.Set(x=>x.Name, roleName), cancellationToken: cancellationToken);
 		}
 
 		async Task<string> IRoleStore<TRole>.GetNormalizedRoleNameAsync(TRole role, CancellationToken cancellationToken)
@@ -71,7 +71,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 		async Task IRoleStore<TRole>.SetNormalizedRoleNameAsync(TRole role, string normalizedName, CancellationToken cancellationToken)
 		{
 			role.NormalizedName = normalizedName;
-            await _collection.UpdateOneAsync(x => x.Id == role.Id, Builders<TRole>.Update.Set(x => x.NormalizedName, normalizedName));
+            await _collection.UpdateOneAsync(x => x.Id == role.Id, Builders<TRole>.Update.Set(x => x.NormalizedName, normalizedName), cancellationToken: cancellationToken);
         }
 
 		Task<TRole> IRoleStore<TRole>.FindByIdAsync(string roleId, CancellationToken cancellationToken)

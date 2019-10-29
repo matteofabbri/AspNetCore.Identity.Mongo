@@ -36,7 +36,6 @@ namespace TestSite
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseDeveloperExceptionPage();
-            app.UseDatabaseErrorPage();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

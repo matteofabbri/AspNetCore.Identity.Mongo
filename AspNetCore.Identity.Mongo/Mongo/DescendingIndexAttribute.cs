@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Maddalena.Mongo
+namespace AspNetCore.Identity.Mongo.Mongo
 {
     public class DescendingIndexAttribute  : Attribute
     {

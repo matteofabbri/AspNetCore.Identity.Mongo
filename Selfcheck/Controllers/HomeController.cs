@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 using AspNetCore.Identity.Mongo.Model;
 using SampleSite.Exceptions;
 using System;
+using AspNetCore.Identity.Mongo.Mongo;
 using MongoDB.Driver;
-using Maddalena.Mongo;
 
 namespace SampleSite.Controllers
 {

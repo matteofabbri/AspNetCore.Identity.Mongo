@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Maddalena.Mongo
+namespace AspNetCore.Identity.Mongo.Mongo
 {
 	public abstract class MongoObject
 	{
