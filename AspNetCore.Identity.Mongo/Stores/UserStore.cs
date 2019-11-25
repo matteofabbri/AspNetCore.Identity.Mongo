@@ -31,7 +31,7 @@ namespace AspNetCore.Identity.Mongo.Stores
         where TUser : MongoUser
 		where TRole : MongoRole
 	{
-		private readonly IMongoCollection<TRole> _roleCollection;
+		private readonly RoleStore<TRole> _roleStore;
 
 		private readonly IMongoCollection<TUser> _userCollection;
 
@@ -42,10 +42,10 @@ namespace AspNetCore.Identity.Mongo.Stores
         private static readonly UpdateOptions UpdateOptions = new UpdateOptions();
 
 
-        public UserStore(IMongoCollection<TUser> userCollection, IMongoCollection<TRole> roleCollection, ILookupNormalizer normalizer)
+        public UserStore(IMongoCollection<TUser> userCollection, RoleStore<TRole> roleStore, ILookupNormalizer normalizer)
 		{
 			_userCollection = userCollection;
-			_roleCollection = roleCollection;
+			_roleStore = roleStore;
 		    _normalizer = normalizer;
 		}
 
@@ -485,7 +485,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 		public async Task AddToRoleAsync(TUser user, string roleName, CancellationToken cancellationToken)
 		{
             cancellationToken.ThrowIfCancellationRequested();
-            var role = await _roleCollection.FirstOrDefaultAsync(x => x.NormalizedName == roleName);
+            var role = await _roleStore.FindByNameAsync(roleName, cancellationToken);
             if (role == null) return;
 
             user.Roles.Add(role.Id);
@@ -496,7 +496,7 @@ namespace AspNetCore.Identity.Mongo.Stores
         public async Task RemoveFromRoleAsync(TUser user, string roleName, CancellationToken cancellationToken)
 		{
             cancellationToken.ThrowIfCancellationRequested();
-            var role = await _roleCollection.FirstOrDefaultAsync(x => x.NormalizedName == roleName);
+            var role = await _roleStore.FindByNameAsync(roleName, cancellationToken);
             if (role == null) return;
 
             user.Roles.Remove(roleName);
@@ -508,7 +508,7 @@ namespace AspNetCore.Identity.Mongo.Stores
         public async Task<IList<TUser>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken)
 		{
             cancellationToken.ThrowIfCancellationRequested();
-            var role = await _roleCollection.FirstOrDefaultAsync(x => x.NormalizedName == roleName);
+            var role = await _roleStore.FindByNameAsync(roleName, cancellationToken);
             if (role == null) return new List<TUser>();
 
             var filter = Builders<TUser>.Filter.AnyEq(x => x.Roles, role.Id);
@@ -526,7 +526,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 
             foreach (var item in userDb.Roles)
             {
-                var dbRole = await _roleCollection.FirstOrDefaultAsync(x => x.Id == item);
+                var dbRole = await _roleStore.FindByIdAsync(item, cancellationToken);
                 
                 if(dbRole != null)
                 {
@@ -542,7 +542,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 
 			var dbUser = await ById(user.Id);
 
-            var role = await _roleCollection.FirstOrDefaultAsync(x => x.NormalizedName == roleName);
+            var role = await  _roleStore.FindByNameAsync(roleName, cancellationToken);
 
             if (role == null) return false;
 

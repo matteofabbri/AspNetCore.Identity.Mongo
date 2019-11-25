@@ -15,11 +15,13 @@
     <Authors>Matteo Fabbri</Authors>
     <Company />
     <Product>AspNetCore.Identity.Mongo</Product>
-    <Version>6.1.1</Version>
-    <AssemblyVersion>6.0.1.1</AssemblyVersion>
-    <FileVersion>6.0.1.1</FileVersion>
+    <Version>6.1.3</Version>
+    <AssemblyVersion>6.0.1.3</AssemblyVersion>
+    <FileVersion>6.0.1.3</FileVersion>
     <PackageProjectUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</PackageProjectUrl>
     <NeutralLanguage />
+    <PackageReleaseNotes>- Fixed User In Role Bug
+- Implemented cancellation token methods</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
