@@ -23,10 +23,20 @@ namespace TestSite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentityMongoDbProvider<TestSiteUser>(mongo =>
-            {
-                mongo.ConnectionString = ConnectionString;
-            });
+            services.AddIdentityMongoDbProvider<TestSiteUser>(identity =>
+                {
+                    identity.Password.RequireDigit = false;
+                    identity.Password.RequireLowercase = false;
+                    identity.Password.RequireNonAlphanumeric = false;
+                    identity.Password.RequireUppercase = false;
+                    identity.Password.RequiredLength = 1;
+                    identity.Password.RequiredUniqueChars = 0;
+                } ,
+                mongo =>
+                {
+                    mongo.ConnectionString = ConnectionString;
+                }
+            );
 
             services.AddSingleton<IEmailSender, EmailSender>();
             services.AddRazorPages();
