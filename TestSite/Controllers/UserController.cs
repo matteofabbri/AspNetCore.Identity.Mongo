@@ -40,6 +40,20 @@ namespace SampleSite.Controllers
             return Redirect($"/user/edit/{userName}");
         }
 
+        public async Task<ActionResult> CheckInRole(string roleName, string userName)
+        {
+            var u = await _userManager.FindByNameAsync(userName);
+
+            if (!await _roleManager.RoleExistsAsync(roleName))
+                await _roleManager.CreateAsync(new MongoRole(roleName));
+
+            if (u == null) return NotFound();
+
+            var res = await _userManager.IsInRoleAsync(u, roleName);
+
+            return Content(res.ToString());
+        }
+
         public async Task<ActionResult> Edit(string id)
         {
             var user = await _userManager.FindByNameAsync(id);

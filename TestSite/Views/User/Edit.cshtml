@@ -89,30 +89,46 @@
       </section>
     </div>
 
-    <div class="col-md-4">
-      <section>
-        <form method="post" action="/user/addToRole">
-          <input type="hidden" name="userName" value="@Model.UserName" />
-          <div class="form-group">
-            <input type="text" name="roleName" class="form-control" placeholder="Role name" />
+      <div class="col-md-4">          
+          <div class="row">
+              <section>
+                  <form method="post" action="/user/addToRole">
+                      <input type="hidden" name="userName" value="@Model.UserName" />
+                      <div class="form-group">
+                          <input type="text" name="roleName" class="form-control" placeholder="Role name" />
+                      </div>
+                      <div class="form-group">
+                          <input type="submit" class="btn btn-primary" value="Add to role" />
+                      </div>
+                  </form>
+              </section>
+              <section>
+                  <h3>User roles</h3>
+                  @{
+                      var roles = await _userManager.GetRolesAsync(Model);
+                  }
+                  <ul>
+                      @foreach (var role in roles)
+                      {
+                          <li>@role</li>
+                      }
+                  </ul>
+              </section>
           </div>
-          <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="Add to role" />
+          <div class="row">
+              <section>
+                  <h4>Check user in role</h4>
+                  <form method="post" action="/user/checkinrole">
+                      <input type="hidden" name="userName" value="@Model.UserName"/>
+                      <div class="form-group">
+                          <input type="text" name="roleName" class="form-control" placeholder="Role name"/>
+                      </div>
+                      <div class="form-group">
+                          <input type="submit" class="btn btn-primary" value="Check if in role"/>
+                      </div>
+                  </form>
+              </section>
           </div>
-        </form>
-      </section>
-      <section>
-        <h3>User roles</h3>
-        @{
-          var roles = await _userManager.GetRolesAsync(Model);
-        }
-        <ul>
-          @foreach (var role in roles)
-          {
-            <li>@role</li>
-          }
-        </ul>
-      </section>
     </div>
   </div>
 </section>
