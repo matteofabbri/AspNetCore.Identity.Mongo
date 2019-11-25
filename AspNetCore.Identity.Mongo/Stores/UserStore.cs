@@ -37,6 +37,11 @@ namespace AspNetCore.Identity.Mongo.Stores
 
 	    private readonly ILookupNormalizer _normalizer;
 
+        private static readonly InsertOneOptions InsertOneOptions = new InsertOneOptions();
+
+        private static readonly UpdateOptions UpdateOptions = new UpdateOptions();
+
+
         public UserStore(IMongoCollection<TUser> userCollection, IMongoCollection<TRole> roleCollection, ILookupNormalizer normalizer)
 		{
 			_userCollection = userCollection;
@@ -129,7 +134,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 			var u = await _userCollection.FirstOrDefaultAsync(x=> x.UserName == user.UserName);
 			if (u != null) return IdentityResult.Failed(new IdentityError { Code = "Username already in use" } );
 
-            await _userCollection.InsertOneAsync(user);
+            await _userCollection.InsertOneAsync(user, InsertOneOptions, cancellationToken);
 
             if (user.Email != null)
 		    {
@@ -143,7 +148,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 		{
 		    cancellationToken.ThrowIfCancellationRequested();
 
-			await _userCollection.DeleteOneAsync(x => x.Id == user.Id);
+			await _userCollection.DeleteOneAsync(x => x.Id == user.Id, cancellationToken);
 			return IdentityResult.Success;
 		}
 
@@ -166,7 +171,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 		    cancellationToken.ThrowIfCancellationRequested();
 
 		    await SetEmailAsync(user, user.Email, cancellationToken);
-			await _userCollection.ReplaceOneAsync(x=>x.Id == user.Id, user);
+			await _userCollection.ReplaceOneAsync(x=>x.Id == user.Id, user, UpdateOptions, cancellationToken);
 
 			return IdentityResult.Success;
 		}
@@ -507,7 +512,7 @@ namespace AspNetCore.Identity.Mongo.Stores
             if (role == null) return new List<TUser>();
 
             var filter = Builders<TUser>.Filter.AnyEq(x => x.Roles, role.Id);
-            return (await _userCollection.FindAsync(filter)).ToList();
+            return (await _userCollection.FindAsync(filter, new FindOptions<TUser>(), cancellationToken)).ToList();
         }
 
 		public async Task<IList<string>> GetRolesAsync(TUser user, CancellationToken cancellationToken)
