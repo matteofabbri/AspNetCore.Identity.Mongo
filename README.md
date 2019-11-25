@@ -19,6 +19,7 @@ This is a MongoDB provider for the ASP.NET Core 2 Identity framework. It is comp
 
 ## Dot Net Core 2.2 and 3.0 
 For 2.2 use Nuget packages of the 5 series ( latest 5.3 )
+
 For 3.0 use Nuget packages of the 6 series ( latest 6.3 )
 
 ## How to use:
