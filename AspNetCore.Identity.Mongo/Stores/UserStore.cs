@@ -129,9 +129,9 @@ namespace AspNetCore.Identity.Mongo.Stores
 			var u = await _userCollection.FirstOrDefaultAsync(x=> x.UserName == user.UserName);
 			if (u != null) return IdentityResult.Failed(new IdentityError { Code = "Username already in use" } );
 
-			await _userCollection.InsertOneAsync(user);
+            await _userCollection.InsertOneAsync(user);
 
-		    if (user.Email != null)
+            if (user.Email != null)
 		    {
                 await SetEmailAsync(user, user.Email, cancellationToken);
 		    }
@@ -536,7 +536,12 @@ namespace AspNetCore.Identity.Mongo.Stores
 		    cancellationToken.ThrowIfCancellationRequested();
 
 			var dbUser = await ById(user.Id);
-			return dbUser?.Roles.Contains(roleName) ?? false;
+
+            var role = await _roleCollection.FirstOrDefaultAsync(x => x.NormalizedName == roleName);
+
+            if (role == null) return false;
+
+			return dbUser?.Roles.Contains(role.Id) ?? false;
 		}
 
 		public async Task<string> GetSecurityStampAsync(TUser user, CancellationToken cancellationToken)
