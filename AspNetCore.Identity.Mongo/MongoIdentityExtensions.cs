@@ -62,9 +62,9 @@ namespace AspNetCore.Identity.Mongo
 	        services.AddSingleton<IMongoCollection<TRole>>(x => roleCollection);
 
 	        // Identity Services
-            var roleStore = new RoleStore<TRole>(roleCollection);
-	        services.AddTransient<IUserStore<TUser>>(x => new UserStore<TUser, TRole>(userCollection, roleStore, x.GetService<ILookupNormalizer>()));
-	        services.AddTransient<IRoleStore<TRole>>(x => roleStore);
+            services.AddTransient<IRoleStore<TRole>>(x => new RoleStore<TRole>(roleCollection));
+            services.AddTransient<IUserStore<TUser>>(x => new UserStore<TUser, TRole>(userCollection, new RoleStore<TRole>(roleCollection), x.GetService<ILookupNormalizer>()));
+
 	       
 	        
 	        return builder;

@@ -31,7 +31,7 @@ namespace AspNetCore.Identity.Mongo.Stores
         where TUser : MongoUser
 		where TRole : MongoRole
 	{
-		private readonly RoleStore<TRole> _roleStore;
+		private readonly IRoleStore<TRole> _roleStore;
 
 		private readonly IMongoCollection<TUser> _userCollection;
 
@@ -42,7 +42,7 @@ namespace AspNetCore.Identity.Mongo.Stores
         private static readonly UpdateOptions UpdateOptions = new UpdateOptions();
 
 
-        public UserStore(IMongoCollection<TUser> userCollection, RoleStore<TRole> roleStore, ILookupNormalizer normalizer)
+        public UserStore(IMongoCollection<TUser> userCollection, IRoleStore<TRole> roleStore, ILookupNormalizer normalizer)
 		{
 			_userCollection = userCollection;
 			_roleStore = roleStore;

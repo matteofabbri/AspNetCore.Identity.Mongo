@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Security.Claims;
+using System.Threading.Tasks;
 using AspNetCore.Identity.Mongo.Model;
 using SampleSite.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -36,6 +37,7 @@ namespace SampleSite.Controllers
             if (u == null) return NotFound();
 
             await _userManager.AddToRoleAsync(u, roleName);
+            await _userManager.AddClaimAsync(u, new Claim(ClaimTypes.Role, roleName));
 
             return Redirect($"/user/edit/{userName}");
         }
