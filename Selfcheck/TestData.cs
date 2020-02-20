@@ -7,8 +7,9 @@ namespace SampleSite
 {
     public class TestData
     {
-        public static string Username = "USERNAME";
-        public static string Password = "Cicciobello12!";
-        public static string Email = "me@me.com";
+        public const string Username = "USERNAME";
+        public const string Password = "Cicciobello12!";
+        public const string Email = "me@me.com";
+        public const string RoleName = "TestRole";
     }
 }

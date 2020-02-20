@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AspNetCore.Identity.Mongo.Model;
 using SampleSite.Exceptions;
 using System;
+using System.Linq;
 using AspNetCore.Identity.Mongo.Mongo;
 using MongoDB.Driver;
 
@@ -62,6 +63,8 @@ namespace SampleSite.Controllers
 
             await TestMissingUserLogin();
 
+            await TestUserRoles();
+
             return Content("EVERYTHING IS FINE");
         }
 
@@ -114,6 +117,40 @@ namespace SampleSite.Controllers
             }
 
             if (!exceptionRaised) throw new Exception("Invalid login stop fails");
+        }
+
+        private async Task TestUserRoles()
+        {
+            if (await RoleManager.RoleExistsAsync(TestData.RoleName))
+                await RoleManager.DeleteAsync(await RoleManager.FindByNameAsync(TestData.RoleName));
+
+            IdentityResult roleResult = await RoleManager.CreateAsync(new MongoRole(TestData.RoleName));
+            if (!roleResult.Succeeded)
+                throw new Exception("Add role fails");
+
+            MongoRole role = await RoleManager.FindByNameAsync(TestData.RoleName);
+            TestSiteUser user = await UserManager.FindByEmailAsync(TestData.Email);
+            if (user == null)
+            {
+                user = new TestSiteUser { UserName = TestData.Username, Email = TestData.Email };
+                IdentityResult result = await UserManager.CreateAsync(user, TestData.Password);
+            }
+
+            IdentityResult addRoleResult = await UserManager.AddToRoleAsync(user, TestData.RoleName);
+            if (!addRoleResult.Succeeded)
+                throw new Exception("Add role to user fails");
+
+            TestSiteUser userWithRole = await UserManager.FindByEmailAsync(TestData.Email);
+            if (!userWithRole.Roles.Any(r => r == role.Id))
+                throw new Exception("Add role to user fails");
+
+            IdentityResult removeRoleResult = await UserManager.RemoveFromRoleAsync(user, TestData.RoleName);
+            if (!removeRoleResult.Succeeded)
+                throw new Exception("Remove user from role fails");
+
+            TestSiteUser userWithoutRole = await UserManager.FindByEmailAsync(TestData.Email);
+            if (userWithoutRole.Roles.Any(r => r == role.Id))
+                throw new Exception("Remove user from role fails");
         }
     }
 }

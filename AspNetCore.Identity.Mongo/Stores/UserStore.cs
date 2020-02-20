@@ -499,7 +499,7 @@ namespace AspNetCore.Identity.Mongo.Stores
             var role = await _roleStore.FindByNameAsync(roleName, cancellationToken);
             if (role == null) return;
 
-            user.Roles.Remove(roleName);
+            user.Roles.Remove(role.Id);
 
             await Update(user, x => x.Roles, user.Roles);
         }
