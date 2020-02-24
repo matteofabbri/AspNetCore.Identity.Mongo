@@ -9,6 +9,7 @@ using AspNetCore.Identity.Mongo.Model;
 using SampleSite.Exceptions;
 using System;
 using System.Linq;
+using System.Security.Claims;
 using AspNetCore.Identity.Mongo.Mongo;
 using MongoDB.Driver;
 
@@ -16,15 +17,7 @@ namespace SampleSite.Controllers
 {
     public class HomeController : UserController
     {
-        public HomeController(
-  UserManager<TestSiteUser> userManager,
-  SignInManager<TestSiteUser> signInManager,
-  RoleManager<MongoRole> roleManager,
-
-  IMongoCollection<TestSiteUser> userCollection,
-
-  IEmailSender emailSender,
-  ILogger<ManageController> logger,
+        public HomeController(UserManager<TestSiteUser> userManager,SignInManager<TestSiteUser> signInManager,RoleManager<MongoRole> roleManager,IMongoCollection<TestSiteUser> userCollection,IEmailSender emailSender,ILogger<ManageController> logger,
   UrlEncoder urlEncoder)
         {
             UserManager = userManager;
@@ -65,7 +58,42 @@ namespace SampleSite.Controllers
 
             await TestUserRoles();
 
+            await TestAuthenticationTokens();
+
+            await TestClaims();
+
             return Content("EVERYTHING IS FINE");
+        }
+
+        private async Task TestClaims()
+        {
+            TestSiteUser user = await UserManager.FindByEmailAsync(TestData.Email);
+            var claim = new Claim(TestData.ClaimType, TestData.ClaimValue, TestData.ClaimIssuer); 
+
+            if (!(await UserManager.AddClaimAsync(user,claim)).Succeeded) throw new ClaimFailsException("Failed add claim");
+
+            if((await UserManager.GetClaimsAsync(user)).All(x => x.Value != TestData.ClaimValue)) throw new ClaimFailsException("Failed retrieve claim");
+
+            await UserManager.RemoveClaimAsync(user, claim);
+
+            if((await UserManager.GetClaimsAsync(user)).Any(x => x.Value == TestData.ClaimValue)) throw new ClaimFailsException("Failed removed claim");
+        }
+
+        private async Task TestAuthenticationTokens()
+        {
+            TestSiteUser user = await UserManager.FindByEmailAsync(TestData.Email);
+
+            await UserManager.SetAuthenticationTokenAsync(user, TestData.LoginProvider, TestData.TokenName, TestData.TokenValue);
+            var token = await UserManager.GetAuthenticationTokenAsync(user, TestData.LoginProvider, TestData.TokenName);
+
+            if (token != TestData.TokenValue) throw new AutheticationTokenException("Authentication token fails");
+
+            var res = await UserManager.RemoveAuthenticationTokenAsync(user, TestData.LoginProvider, TestData.TokenName);
+
+            if (!res.Succeeded || await UserManager.GetAuthenticationTokenAsync(user, TestData.LoginProvider, TestData.TokenName) != null)
+            {
+                throw new AutheticationTokenException("Authentication token fails");
+            }
         }
 
         private async Task TestConfirmEmail()
@@ -73,7 +101,6 @@ namespace SampleSite.Controllers
             await ConfirmEmail(EmailSender.UserId, EmailSender.Token);
 
             var user = await UserCollection.FirstOrDefaultAsync(x => x.Id == EmailSender.UserId);
-
             if (!user.EmailConfirmed) throw new System.Exception("Confirm email fails");
         }
 
@@ -125,8 +152,9 @@ namespace SampleSite.Controllers
                 await RoleManager.DeleteAsync(await RoleManager.FindByNameAsync(TestData.RoleName));
 
             IdentityResult roleResult = await RoleManager.CreateAsync(new MongoRole(TestData.RoleName));
-            if (!roleResult.Succeeded)
+            if (!roleResult.Succeeded || !await RoleManager.RoleExistsAsync(TestData.RoleName))
                 throw new Exception("Add role fails");
+
 
             MongoRole role = await RoleManager.FindByNameAsync(TestData.RoleName);
             TestSiteUser user = await UserManager.FindByEmailAsync(TestData.Email);
@@ -137,15 +165,12 @@ namespace SampleSite.Controllers
             }
 
             IdentityResult addRoleResult = await UserManager.AddToRoleAsync(user, TestData.RoleName);
-            if (!addRoleResult.Succeeded)
+            if (!addRoleResult.Succeeded || ! await UserManager.IsInRoleAsync(user,TestData.RoleName))
                 throw new Exception("Add role to user fails");
 
-            TestSiteUser userWithRole = await UserManager.FindByEmailAsync(TestData.Email);
-            if (!userWithRole.Roles.Any(r => r == role.Id))
-                throw new Exception("Add role to user fails");
 
             IdentityResult removeRoleResult = await UserManager.RemoveFromRoleAsync(user, TestData.RoleName);
-            if (!removeRoleResult.Succeeded)
+            if (!removeRoleResult.Succeeded|| await UserManager.IsInRoleAsync(user,TestData.RoleName))
                 throw new Exception("Remove user from role fails");
 
             TestSiteUser userWithoutRole = await UserManager.FindByEmailAsync(TestData.Email);

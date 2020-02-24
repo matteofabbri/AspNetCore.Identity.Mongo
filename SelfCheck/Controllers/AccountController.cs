@@ -51,10 +51,8 @@ namespace SampleSite.Controllers
             {
                 throw new UserLockedOut();
             }
-            else
-            {
-                throw new InvalidLogin();
-            }
+
+            throw new InvalidLogin();
         }
 
         public async Task Logout()

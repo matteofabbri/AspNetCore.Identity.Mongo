@@ -77,22 +77,26 @@ namespace AspNetCore.Identity.Mongo.Stores
 		{
 		    cancellationToken.ThrowIfCancellationRequested();
 
-			var userTokens = user.Tokens ?? new List<IdentityUserToken<string>>();
+			if(user.Tokens == null) user.Tokens = new List<IdentityUserToken<string>>();
 
-			var token = userTokens.FirstOrDefault(x => x.LoginProvider == loginProvider && x.Name == name);
+			var token = user.Tokens.FirstOrDefault(x => x.LoginProvider == loginProvider && x.Name == name);
 
 			if (token == null)
-			{
-                await Add(user, x => x.Tokens, new IdentityUserToken<string>
+            {
+                token = new IdentityUserToken<string>
                 {
-                    LoginProvider = loginProvider, 
-                    Name = name, Value = value 
-                });
+                    LoginProvider = loginProvider,
+                    Name = name,
+                    Value = value
+                };
+
+                await Add(user, x => x.Tokens, token);
+				user.Tokens.Add(token);
 			}
 			else
 			{
 				token.Value = value;
-                await Update(user, x => x.Tokens, userTokens);
+                await Update(user, x => x.Tokens, user.Tokens);
 			}
 		}
 
@@ -105,12 +109,20 @@ namespace AspNetCore.Identity.Mongo.Stores
             await Update(user, x => x.Tokens, userTokens);
         }
 
-		public Task<string> GetTokenAsync(TUser user, string loginProvider, string name, CancellationToken cancellationToken)
+		public async Task<string> GetTokenAsync(TUser user, string loginProvider, string name, CancellationToken cancellationToken)
 		{
 		    cancellationToken.ThrowIfCancellationRequested();
+            
+            var token = user?.Tokens?.FirstOrDefault(x => x.LoginProvider == loginProvider && x.Name == name);
 
-			return Task.FromResult(user?.Tokens?.FirstOrDefault(x => x.LoginProvider == loginProvider && x.Name == name)?.Value);
-		}
+            if (token == null)
+            {
+                user = await ById(user.Id);
+				return user?.Tokens?.FirstOrDefault(x => x.LoginProvider == loginProvider && x.Name == name)?.Value;
+            }
+
+            return token.Value;
+        }
 
 		public async Task<string> GetAuthenticatorKeyAsync(TUser user, CancellationToken cancellationToken)
 		{
@@ -171,7 +183,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 		    cancellationToken.ThrowIfCancellationRequested();
 
 		    await SetEmailAsync(user, user.Email, cancellationToken);
-			await _userCollection.ReplaceOneAsync(x=>x.Id == user.Id, user, UpdateOptions, cancellationToken);
+			await _userCollection.ReplaceOneAsync(x=>x.Id == user.Id, user, new ReplaceOptions(), cancellationToken);
 
 			return IdentityResult.Success;
 		}

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
 namespace AspNetCore.Identity.Mongo.Model
@@ -13,7 +12,7 @@ namespace AspNetCore.Identity.Mongo.Model
 			Logins = new List<IdentityUserLogin<string>>();
 			Tokens = new List<IdentityUserToken<string>>();
 			RecoveryCodes = new List<TwoFactorRecoveryCode>();
-		}
+        }
 
 		public string AuthenticatorKey { get; set; }
 

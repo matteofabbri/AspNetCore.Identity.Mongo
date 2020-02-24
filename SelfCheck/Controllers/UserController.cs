@@ -39,7 +39,7 @@ namespace SampleSite.Controllers
         public async Task<ActionResult> Edit(TestSiteUser user)
         {
             var filter = Builders<TestSiteUser>.Filter.Eq(x => x.Id, user.Id);
-            await UserCollection.ReplaceOneAsync(filter, user, null, CancellationToken.None);
+            await UserCollection.ReplaceOneAsync(filter, user);
             return Redirect("/user");
         }
 
