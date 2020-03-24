@@ -25,7 +25,14 @@ namespace SampleSite.Controllers
             _userUserCollection = userCollection;
         }
 
-        public ActionResult Index(string id) => View(_userManager.Users);
+        public async Task<ActionResult> Index(string id)
+        {
+            await _roleManager.CreateAsync(new MongoRole("Admin"));
+            var role = await _roleManager.FindByNameAsync("Admin");
+            await _roleManager.AddClaimAsync(role, new Claim("Permission", "ManageCourses"));
+            return View(_userManager.Users);
+        }
+
 
         public async Task<ActionResult> AddToRole(string roleName, string userName)
         {

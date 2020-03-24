@@ -6,6 +6,8 @@ using Microsoft.Extensions.Hosting;
 using SampleSite.Identity;
 using AspNetCore.Identity.Mongo;
 using SampleSite.Mailing;
+using Microsoft.AspNetCore.Authorization;
+using Policy;
 
 namespace TestSite
 {
@@ -37,6 +39,9 @@ namespace TestSite
                     mongo.ConnectionString = ConnectionString;
                 }
             );
+
+            services.AddSingleton<IAuthorizationPolicyProvider, AuthorizationPolicyProvider>();
+            services.AddSingleton<IAuthorizationHandler, HasClaimHandler>();
 
             services.AddSingleton<IEmailSender, EmailSender>();
             services.AddRazorPages();
