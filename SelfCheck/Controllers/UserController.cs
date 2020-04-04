@@ -4,6 +4,7 @@ using SampleSite.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using MongoDB.Driver;
+using MongoDB.Bson;
 
 namespace SampleSite.Controllers
 {
@@ -47,7 +48,7 @@ namespace SampleSite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(string id)
         {
-            await UserCollection.DeleteOneAsync(x => x.Id == id);
+            await UserCollection.DeleteOneAsync(x => x.Id == ObjectId.Parse(id));
             return Redirect("/user");
         }
     }

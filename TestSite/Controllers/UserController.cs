@@ -5,6 +5,8 @@ using SampleSite.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
+using MongoDB.Bson;
+using TestSite.Models;
 
 namespace SampleSite.Controllers
 {
@@ -69,14 +71,50 @@ namespace SampleSite.Controllers
 
             if (user == null) return NotFound();
 
-            return View(user);
+            var model = new TestSiteUserViewModel
+            {
+                Id = user.Id.ToString(),
+                AccessFailedCount = user.AccessFailedCount,
+                AuthenticatorKey = user.AuthenticatorKey,
+                ConcurrencyStamp = user.ConcurrencyStamp,
+                Email = user.Email,
+                EmailConfirmed = user.EmailConfirmed,
+                LockoutEnabled = user.LockoutEnabled,
+                LockoutEnd = user.LockoutEnd,
+                NormalizedEmail = user.NormalizedEmail,
+                NormalizedUserName = user.NormalizedUserName,
+                PasswordHash = user.PasswordHash,
+                PhoneNumber = user.PhoneNumber,
+                PhoneNumberConfirmed = user.PhoneNumberConfirmed,
+                SecurityStamp = user.SecurityStamp,
+                TwoFactorEnabled = user.TwoFactorEnabled,
+                UserName = user.UserName
+            };
+
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(TestSiteUser user)
+        public async Task<ActionResult> Edit(TestSiteUserViewModel model)
         {
-            await _userUserCollection.ReplaceOneAsync(x=>x.Id == user.Id, user);
+            var user = await _userManager.FindByIdAsync(model.Id);
+
+            if (user == null) return NotFound();
+
+            user.AccessFailedCount = model.AccessFailedCount;
+            user.ConcurrencyStamp = model.ConcurrencyStamp;
+            user.Email = model.Email;
+            user.EmailConfirmed = model.EmailConfirmed;
+            user.LockoutEnabled = model.LockoutEnabled;
+            user.LockoutEnd = model.LockoutEnd;
+            user.PhoneNumber = model.PhoneNumber;
+            user.PhoneNumberConfirmed = model.PhoneNumberConfirmed;
+            user.SecurityStamp = model.SecurityStamp;
+            user.TwoFactorEnabled = model.TwoFactorEnabled;
+            user.UserName = model.UserName;
+
+            await _userManager.UpdateAsync(user);
             return Redirect("/user");
         }
 
@@ -84,7 +122,7 @@ namespace SampleSite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(string id)
         {
-            var user = await _userUserCollection.DeleteOneAsync(x=>x.Id == id);
+            var user = await _userUserCollection.DeleteOneAsync(x => x.Id == ObjectId.Parse(id));
             return Redirect("/user");
         }
     }

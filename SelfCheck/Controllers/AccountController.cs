@@ -71,7 +71,7 @@ namespace SampleSite.Controllers
             }
 
             var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
-            await EmailSender.SendMailConfirmationLink(user.Id, code);
+            await EmailSender.SendMailConfirmationLink(user.Id.ToString(), code);
 
             await SignInManager.SignInAsync(user, isPersistent: false);
         }
@@ -85,7 +85,7 @@ namespace SampleSite.Controllers
             }
             var result = await UserManager.ConfirmEmailAsync(user, code);
 
-            if(!result.Succeeded)
+            if (!result.Succeeded)
             {
                 throw new ValidationException(result.Errors);
             }
@@ -105,7 +105,7 @@ namespace SampleSite.Controllers
                 // For more information on how to enable account confirmation and password reset please
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await UserManager.GeneratePasswordResetTokenAsync(user);
-                var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
+                var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);
                 await EmailSender.SendMailPasswordReset(model.Email, callbackUrl);
             }
         }
@@ -166,7 +166,7 @@ namespace SampleSite.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        
+
         public async Task<IActionResult> LoginWithRecoveryCode(LoginWithRecoveryCodeViewModel model, string returnUrl = null)
         {
             if (!ModelState.IsValid)
@@ -281,7 +281,7 @@ namespace SampleSite.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        
+
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
             if (!ModelState.IsValid)
