@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AspNetCore.Identity.Mongo.Model
 {
-    public class MongoRole : IdentityRole
+	public class MongoRole : IdentityRole
 	{
 	    //public ObjectId _id { get; set; }
 

@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.Identity.Mongo",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Selfcheck", "Selfcheck\Selfcheck.csproj", "{6D10BD6E-12BF-4681-B969-5D2F051950C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSite", "TestSite\TestSite.csproj", "{25627014-8963-42D8-B1EC-A56FBDE16937}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestSite", "TestSite\TestSite.csproj", "{25627014-8963-42D8-B1EC-A56FBDE16937}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{703D8F39-B182-45FF-85DC-140D730F237E}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
