@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using MongoDB.Bson;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AspNetCore.Identity.Mongo.Model
 {
