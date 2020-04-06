@@ -98,7 +98,7 @@ namespace SampleSite.Controllers
             }
 
             var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
-            await EmailSender.SendMailConfirmationLink(user.Id, code);
+            await EmailSender.SendMailConfirmationLink(user.Id.ToString(), code);
 
             StatusMessage = "Verification email sent. Please check your email.";
             return RedirectToAction(nameof(UserData));
@@ -241,7 +241,7 @@ namespace SampleSite.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{UserManager.GetUserId(User)}'.");
             }
 
-            var info = await SignInManager.GetExternalLoginInfoAsync(user.Id);
+            var info = await SignInManager.GetExternalLoginInfoAsync(user.Id.ToString());
             if (info == null)
             {
                 throw new ApplicationException($"Unexpected error occurred loading external login info for user with ID '{user.Id}'.");

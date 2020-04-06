@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AspNetCore.Identity.Mongo.Model;
 using AspNetCore.Identity.Mongo.Mongo;
 using Microsoft.AspNetCore.Identity;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace AspNetCore.Identity.Mongo.Stores
@@ -53,7 +54,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 
         public async Task<string> GetRoleIdAsync(TRole role, CancellationToken cancellationToken)
         {
-            return await Task.FromResult(role.Id);
+            return await Task.FromResult(role.Id.ToString());
         }
 
         public async Task<string> GetRoleNameAsync(TRole role, CancellationToken cancellationToken)
@@ -80,7 +81,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 
         public Task<TRole> FindByIdAsync(string roleId, CancellationToken cancellationToken)
         {
-            return _collection.FirstOrDefaultAsync(x => x.Id == roleId);
+            return _collection.FirstOrDefaultAsync(x => x.Id == ObjectId.Parse(roleId));
         }
 
         public Task<TRole> FindByNameAsync(string normalizedRoleName, CancellationToken cancellationToken)
