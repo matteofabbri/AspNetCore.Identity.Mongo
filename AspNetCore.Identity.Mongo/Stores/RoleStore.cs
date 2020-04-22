@@ -9,12 +9,15 @@ using AspNetCore.Identity.Mongo.Mongo;
 using Microsoft.AspNetCore.Identity;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 
 namespace AspNetCore.Identity.Mongo.Stores
 {
     public class RoleStore<TRole> :
-       IRoleClaimStore<TRole>,
-       IQueryableRoleStore<TRole> where TRole : MongoRole
+        IRoleClaimStore<TRole>,
+        IQueryableRoleStore<TRole>
+        
+        where TRole : MongoRole
     {
         private readonly IMongoCollection<TRole> _collection;
 
@@ -23,15 +26,7 @@ namespace AspNetCore.Identity.Mongo.Stores
             _collection = collection;
         }
 
-        IQueryable<TRole> IQueryableRoleStore<TRole>.Roles
-        {
-            get
-            {
-                var task = _collection.All();
-                Task.WaitAny(task);
-                return task.Result.AsQueryable();
-            }
-        }
+        IQueryable<TRole> IQueryableRoleStore<TRole>.Roles => _collection.AsQueryable();
 
         public async Task<IdentityResult> CreateAsync(TRole role, CancellationToken cancellationToken)
         {

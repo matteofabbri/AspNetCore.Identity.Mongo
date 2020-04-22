@@ -10,6 +10,7 @@ using AspNetCore.Identity.Mongo.Mongo;
 using Microsoft.AspNetCore.Identity;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 
 namespace AspNetCore.Identity.Mongo.Stores
 {
@@ -51,15 +52,7 @@ namespace AspNetCore.Identity.Mongo.Stores
             _normalizer = normalizer;
         }
 
-        public IQueryable<TUser> Users
-        {
-            get
-            {
-                var task = _userCollection.All();
-                Task.WaitAny(task);
-                return task.Result.AsQueryable();
-            }
-        }
+        public IQueryable<TUser> Users => _userCollection.AsQueryable();
 
         private async Task Update<TFIELD>(TUser user, Expression<Func<TUser, TFIELD>> expression, TFIELD value)
         {
