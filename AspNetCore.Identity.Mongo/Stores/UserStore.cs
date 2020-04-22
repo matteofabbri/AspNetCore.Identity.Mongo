@@ -54,25 +54,33 @@ namespace AspNetCore.Identity.Mongo.Stores
 
         public IQueryable<TUser> Users => _userCollection.AsQueryable();
 
-        private async Task Update<TFIELD>(TUser user, Expression<Func<TUser, TFIELD>> expression, TFIELD value)
+        private async Task UpdateAsync<TFieldValue>(TUser user, Expression<Func<TUser, TFieldValue>> expression, TFieldValue value, CancellationToken cancellationToken)
         {
-            var upd = Builders<TUser>.Update.Set(expression, value);
-            await _userCollection.UpdateOneAsync(x => x.Id == user.Id, upd).ConfigureAwait(false);
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
+            var updateDefinition = Builders<TUser>.Update.Set(expression, value);
+
+            await _userCollection.UpdateOneAsync(x => x.Id == user.Id, updateDefinition, cancellationToken: cancellationToken).ConfigureAwait(false);
         }
 
-        private async Task Add<TFIELD>(TUser user, Expression<Func<TUser, IEnumerable<TFIELD>>> expression, TFIELD value)
+        private async Task AddAsync<TFieldValue>(TUser user, Expression<Func<TUser, IEnumerable<TFieldValue>>> expression, TFieldValue value, CancellationToken cancellationToken)
         {
-            var upd = Builders<TUser>.Update.AddToSet(expression, value);
-            await _userCollection.UpdateOneAsync(x => x.Id == user.Id, upd).ConfigureAwait(false);
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
+            var addDefinition = Builders<TUser>.Update.AddToSet(expression, value);
+
+            await _userCollection.UpdateOneAsync(x => x.Id == user.Id, addDefinition, cancellationToken: cancellationToken).ConfigureAwait(false);
         }
 
-        private Task<TUser> ById(ObjectId id)
+        private Task<TUser> ByIdAsync(ObjectId id, CancellationToken cancellationToken)
         {
-            return _userCollection.FirstOrDefaultAsync(x => x.Id == id);
+            return _userCollection.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
         public async Task SetTokenAsync(TUser user, string loginProvider, string name, string value, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+            
             cancellationToken.ThrowIfCancellationRequested();
 
             if (user.Tokens == null) user.Tokens = new List<IdentityUserToken<string>>();
@@ -88,34 +96,38 @@ namespace AspNetCore.Identity.Mongo.Stores
                     Value = value
                 };
 
-                await Add(user, x => x.Tokens, token).ConfigureAwait(false);
+                await AddAsync(user, x => x.Tokens, token, cancellationToken).ConfigureAwait(false);
                 user.Tokens.Add(token);
             }
             else
             {
                 token.Value = value;
-                await Update(user, x => x.Tokens, user.Tokens).ConfigureAwait(false);
+                await UpdateAsync(user, x => x.Tokens, user.Tokens, cancellationToken).ConfigureAwait(false);
             }
         }
 
         public async Task RemoveTokenAsync(TUser user, string loginProvider, string name, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
             var userTokens = user.Tokens ?? new List<IdentityUserToken<string>>();
             userTokens.RemoveAll(x => x.LoginProvider == loginProvider && x.Name == name);
-            await Update(user, x => x.Tokens, userTokens).ConfigureAwait(false);
+            await UpdateAsync(user, x => x.Tokens, userTokens, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<string> GetTokenAsync(TUser user, string loginProvider, string name, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+            
             cancellationToken.ThrowIfCancellationRequested();
 
             var token = user?.Tokens?.FirstOrDefault(x => x.LoginProvider == loginProvider && x.Name == name);
 
             if (token == null)
             {
-                user = await ById(user.Id).ConfigureAwait(true);
+                user = await ByIdAsync(user.Id, cancellationToken).ConfigureAwait(true);
                 return user?.Tokens?.FirstOrDefault(x => x.LoginProvider == loginProvider && x.Name == name)?.Value;
             }
 
@@ -124,21 +136,28 @@ namespace AspNetCore.Identity.Mongo.Stores
 
         public async Task<string> GetAuthenticatorKeyAsync(TUser user, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
-            return (await ById(user.Id).ConfigureAwait(true))?.AuthenticatorKey ?? user.AuthenticatorKey;
+            return (await ByIdAsync(user.Id, cancellationToken).ConfigureAwait(true))?.AuthenticatorKey ?? user.AuthenticatorKey;
         }
 
         public async Task SetAuthenticatorKeyAsync(TUser user, string key, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
             user.AuthenticatorKey = key;
-            await Update(user, x => x.AuthenticatorKey, key).ConfigureAwait(false);
+
+            await UpdateAsync(user, x => x.AuthenticatorKey, key, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<IdentityResult> CreateAsync(TUser user, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
             var u = await _userCollection.FirstOrDefaultAsync(x => x.UserName == user.UserName).ConfigureAwait(true);
@@ -156,6 +175,8 @@ namespace AspNetCore.Identity.Mongo.Stores
 
         public async Task<IdentityResult> DeleteAsync(TUser user, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
             await _userCollection.DeleteOneAsync(x => x.Id == user.Id, cancellationToken).ConfigureAwait(false);
@@ -166,28 +187,33 @@ namespace AspNetCore.Identity.Mongo.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            return ById(ObjectId.Parse(userId));
+            return ByIdAsync(ObjectId.Parse(userId), cancellationToken);
         }
 
         public Task<TUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            return _userCollection.FirstOrDefaultAsync(x => x.NormalizedUserName == normalizedUserName);
+            return _userCollection.FirstOrDefaultAsync(x => x.NormalizedUserName == normalizedUserName, cancellationToken: cancellationToken);
         }
 
         public async Task<IdentityResult> UpdateAsync(TUser user, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
             await SetEmailAsync(user, user.Email, cancellationToken).ConfigureAwait(false);
-            await _userCollection.ReplaceOneAsync(x => x.Id == user.Id, user, ReplaceOptions, cancellationToken);
+            await _userCollection.ReplaceOneAsync(x => x.Id == user.Id, user, ReplaceOptions, cancellationToken).ConfigureAwait(false);
 
             return IdentityResult.Success;
         }
 
         public async Task AddClaimsAsync(TUser user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+            if (claims == null) throw new ArgumentNullException(nameof(claims));
+
             cancellationToken.ThrowIfCancellationRequested();
 
             foreach (var claim in claims)
@@ -199,12 +225,17 @@ namespace AspNetCore.Identity.Mongo.Stores
                 };
 
                 user.Claims.Add(identityClaim);
-                await Add(user, x => x.Claims, identityClaim).ConfigureAwait(false);
+
+                await AddAsync(user, x => x.Claims, identityClaim, cancellationToken).ConfigureAwait(false);
             }
         }
 
         public async Task ReplaceClaimAsync(TUser user, Claim claim, Claim newClaim, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+            if (claim == null) throw new ArgumentNullException(nameof(claim));
+            if (newClaim == null) throw new ArgumentNullException(nameof(newClaim));
+
             cancellationToken.ThrowIfCancellationRequested();
 
             var claims = user.Claims;
@@ -218,11 +249,14 @@ namespace AspNetCore.Identity.Mongo.Stores
             user.Claims = claims;
 
 
-            await Update(user, x => x.Claims, claims).ConfigureAwait(false);
+            await UpdateAsync(user, x => x.Claims, claims, cancellationToken).ConfigureAwait(false);
         }
 
         public Task RemoveClaimsAsync(TUser user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+            if (claims == null) throw new ArgumentNullException(nameof(claims));
+
             cancellationToken.ThrowIfCancellationRequested();
 
             foreach (var claim in claims)
@@ -230,20 +264,23 @@ namespace AspNetCore.Identity.Mongo.Stores
                 user.Claims.RemoveAll(x => x.ClaimType == claim.Type);
             }
 
-            return Update(user, x => x.Claims, user.Claims);
+            return UpdateAsync(user, x => x.Claims, user.Claims, cancellationToken);
         }
 
         public async Task<IList<TUser>> GetUsersForClaimAsync(Claim claim, CancellationToken cancellationToken)
         {
+            if (claim == null) throw new ArgumentNullException(nameof(claim));
+
             cancellationToken.ThrowIfCancellationRequested();
 
-            return (await _userCollection.WhereAsync(u => u.Claims.Any(c => c.ClaimType == claim.Type && c.ClaimValue == claim.Value)))
-                        .ToList();
+            return (await _userCollection.WhereAsync(u => u.Claims.Any(c => c.ClaimType == claim.Type && c.ClaimValue == claim.Value), cancellationToken).ConfigureAwait(false)).ToList();
 
         }
 
         public Task<string> GetNormalizedUserNameAsync(TUser user, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
             return Task.FromResult(user.NormalizedUserName ?? _normalizer.NormalizeName(user.UserName));
@@ -251,13 +288,17 @@ namespace AspNetCore.Identity.Mongo.Stores
 
         public Task<string> GetUserIdAsync(TUser user, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+            
             cancellationToken.ThrowIfCancellationRequested();
 
-            return Task.FromResult(user?.Id.ToString());
+            return Task.FromResult(user.Id.ToString());
         }
 
         public Task<string> GetUserNameAsync(TUser user, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
             return Task.FromResult(user.UserName);
@@ -265,47 +306,54 @@ namespace AspNetCore.Identity.Mongo.Stores
 
         public async Task<IList<Claim>> GetClaimsAsync(TUser user, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
-            var dbUser = await ById(user.Id).ConfigureAwait(true);
+            var dbUser = await ByIdAsync(user.Id, cancellationToken).ConfigureAwait(true);
             return dbUser?.Claims?.Select(x => new Claim(x.ClaimType, x.ClaimValue))?.ToList() ?? new List<Claim>();
         }
 
         public Task SetNormalizedUserNameAsync(TUser user, string normalizedName, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             var name = normalizedName ?? _normalizer.NormalizeName(user.UserName);
 
             user.NormalizedUserName = name;
-            return Update(user, x => x.NormalizedUserName, name);
+            return UpdateAsync(user, x => x.NormalizedUserName, name, cancellationToken);
         }
 
         public async Task SetUserNameAsync(TUser user, string userName, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
             await SetNormalizedUserNameAsync(user, _normalizer.NormalizeName(userName), cancellationToken)
                 .ConfigureAwait(false);
 
             user.UserName = userName;
-            await Update(user, x => x.UserName, userName).ConfigureAwait(false);
-        }
 
-        void IDisposable.Dispose()
-        {
+            await UpdateAsync(user, x => x.UserName, userName, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<string> GetEmailAsync(TUser user, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
-            return (await ById(user.Id))?.Email ?? user.Email;
+            return (await ByIdAsync(user.Id, cancellationToken).ConfigureAwait(false))?.Email ?? user.Email;
         }
 
         public async Task<bool> GetEmailConfirmedAsync(TUser user, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
-            return (await ById(user.Id))?.EmailConfirmed ?? user.EmailConfirmed;
+            return (await ByIdAsync(user.Id, cancellationToken).ConfigureAwait(false))?.EmailConfirmed ?? user.EmailConfirmed;
         }
 
         public Task<TUser> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
@@ -317,92 +365,119 @@ namespace AspNetCore.Identity.Mongo.Stores
 
         public async Task<string> GetNormalizedEmailAsync(TUser user, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
-            return (await ById(user.Id).ConfigureAwait(true))?.NormalizedEmail ?? user.NormalizedEmail;
+            return (await ByIdAsync(user.Id, cancellationToken).ConfigureAwait(true))?.NormalizedEmail ?? user.NormalizedEmail;
         }
 
         public Task SetEmailConfirmedAsync(TUser user, bool confirmed, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             user.EmailConfirmed = confirmed;
-            return Update(user, x => x.EmailConfirmed, confirmed);
+
+            return UpdateAsync(user, x => x.EmailConfirmed, confirmed, cancellationToken);
         }
 
         public Task SetNormalizedEmailAsync(TUser user, string normalizedEmail, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
             user.NormalizedEmail = normalizedEmail ?? _normalizer.NormalizeEmail(user.Email);
-            return Update(user, x => x.NormalizedEmail, user.NormalizedEmail);
+
+            return UpdateAsync(user, x => x.NormalizedEmail, user.NormalizedEmail, cancellationToken);
         }
 
         public async Task SetEmailAsync(TUser user, string email, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
-            await SetNormalizedEmailAsync(user, _normalizer.NormalizeEmail(user.Email), cancellationToken)
-                .ConfigureAwait(false);
+            await SetNormalizedEmailAsync(user, _normalizer.NormalizeEmail(user.Email), cancellationToken).ConfigureAwait(false);
+            
             user.Email = email;
 
-            await Update(user, x => x.Email, user.Email).ConfigureAwait(false);
+            await UpdateAsync(user, x => x.Email, user.Email, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<int> GetAccessFailedCountAsync(TUser user, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
-            return (await ById(user.Id))?.AccessFailedCount ?? user.AccessFailedCount;
+            return (await ByIdAsync(user.Id, cancellationToken).ConfigureAwait(false))?.AccessFailedCount ?? user.AccessFailedCount;
         }
 
         public async Task<bool> GetLockoutEnabledAsync(TUser user, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
-            return (await ById(user.Id))?.LockoutEnabled ?? user.LockoutEnabled;
+            return (await ByIdAsync(user.Id, cancellationToken).ConfigureAwait(false))?.LockoutEnabled ?? user.LockoutEnabled;
         }
 
         public async Task<int> IncrementAccessFailedCountAsync(TUser user, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
             user.AccessFailedCount++;
-            await Update(user, x => x.AccessFailedCount, user.AccessFailedCount).ConfigureAwait(false);
+            await UpdateAsync(user, x => x.AccessFailedCount, user.AccessFailedCount, cancellationToken).ConfigureAwait(false);
             return user.AccessFailedCount;
         }
 
         public async Task ResetAccessFailedCountAsync(TUser user, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
             user.AccessFailedCount = 0;
-            await Update(user, x => x.AccessFailedCount, 0).ConfigureAwait(false);
+            await UpdateAsync(user, x => x.AccessFailedCount, 0, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<DateTimeOffset?> GetLockoutEndDateAsync(TUser user, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
-            return (await ById(user.Id))?.LockoutEnd ?? user.LockoutEnd;
+            return (await ByIdAsync(user.Id, cancellationToken).ConfigureAwait(false))?.LockoutEnd ?? user.LockoutEnd;
         }
 
         public async Task SetLockoutEndDateAsync(TUser user, DateTimeOffset? lockoutEnd, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
             user.LockoutEnd = lockoutEnd;
-            await Update(user, x => x.LockoutEnd, user.LockoutEnd).ConfigureAwait(false);
+            await UpdateAsync(user, x => x.LockoutEnd, user.LockoutEnd, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task SetLockoutEnabledAsync(TUser user, bool enabled, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
             user.LockoutEnabled = enabled;
-            await Update(user, x => x.LockoutEnabled, user.LockoutEnabled).ConfigureAwait(false);
+            await UpdateAsync(user, x => x.LockoutEnabled, user.LockoutEnabled, cancellationToken).ConfigureAwait(false);
         }
 
         public Task AddLoginAsync(TUser user, UserLoginInfo login, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+            if (login == null) throw new ArgumentNullException(nameof(login));
+
             cancellationToken.ThrowIfCancellationRequested();
 
             var iul = new IdentityUserLogin<string>
@@ -415,36 +490,48 @@ namespace AspNetCore.Identity.Mongo.Stores
 
             user.Logins.Add(iul);
 
-            return Add(user, x => x.Logins, iul);
+            return AddAsync(user, x => x.Logins, iul, cancellationToken);
         }
 
         public async Task RemoveLoginAsync(TUser user, string loginProvider, string providerKey, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+            if (string.IsNullOrEmpty(loginProvider)) throw new ArgumentNullException(nameof(loginProvider));
+            if (string.IsNullOrEmpty(providerKey)) throw new ArgumentNullException(nameof(providerKey));
+
             cancellationToken.ThrowIfCancellationRequested();
+
             user.Logins.RemoveAll(x => x.LoginProvider == loginProvider && x.ProviderKey == providerKey);
 
-            await Update(user, x => x.Logins, user.Logins).ConfigureAwait(false);
+            await UpdateAsync(user, x => x.Logins, user.Logins, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<TUser> FindByLoginAsync(string loginProvider, string providerKey, CancellationToken cancellationToken)
         {
+            if (string.IsNullOrEmpty(loginProvider)) throw new ArgumentNullException(nameof(loginProvider));
+            if (string.IsNullOrEmpty(providerKey)) throw new ArgumentNullException(nameof(providerKey));
+
             cancellationToken.ThrowIfCancellationRequested();
 
             return await _userCollection.FirstOrDefaultAsync(u =>
-                u.Logins.Any(l => l.LoginProvider == loginProvider && l.ProviderKey == providerKey))
-                .ConfigureAwait(true);
+                u.Logins.Any(l => l.LoginProvider == loginProvider && l.ProviderKey == providerKey), cancellationToken).ConfigureAwait(true);
         }
 
         public async Task<IList<UserLoginInfo>> GetLoginsAsync(TUser user, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
-            var dbUser = await ById(user.Id).ConfigureAwait(true);
+            var dbUser = await ByIdAsync(user.Id, cancellationToken).ConfigureAwait(true);
+
             return dbUser?.Logins?.Select(x => new UserLoginInfo(x.LoginProvider, x.ProviderKey, x.ProviderDisplayName))?.ToList() ?? new List<UserLoginInfo>();
         }
 
         public Task<string> GetPasswordHashAsync(TUser user, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
             return Task.FromResult(user.PasswordHash);
@@ -452,51 +539,66 @@ namespace AspNetCore.Identity.Mongo.Stores
 
         public async Task<bool> HasPasswordAsync(TUser user, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
-            return (await ById(user.Id).ConfigureAwait(true))?.PasswordHash != null;
+            return (await ByIdAsync(user.Id, cancellationToken).ConfigureAwait(true))?.PasswordHash != null;
         }
 
         public Task SetPasswordHashAsync(TUser user, string passwordHash, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
             user.PasswordHash = passwordHash;
-            return Update(user, x => x.PasswordHash, passwordHash);
+
+            return UpdateAsync(user, x => x.PasswordHash, passwordHash, cancellationToken);
         }
 
         public async Task<string> GetPhoneNumberAsync(TUser user, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
-            return (await ById(user.Id).ConfigureAwait(true))?.PhoneNumber;
+            return (await ByIdAsync(user.Id, cancellationToken).ConfigureAwait(true))?.PhoneNumber;
         }
 
         public async Task<bool> GetPhoneNumberConfirmedAsync(TUser user, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
-            return (await ById(user.Id).ConfigureAwait(true))?.PhoneNumberConfirmed ?? false;
+            return (await ByIdAsync(user.Id, cancellationToken).ConfigureAwait(true))?.PhoneNumberConfirmed ?? false;
         }
 
         public Task SetPhoneNumberAsync(TUser user, string phoneNumber, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
             user.PhoneNumber = phoneNumber;
-            return Update(user, x => x.PhoneNumber, phoneNumber);
+            return UpdateAsync(user, x => x.PhoneNumber, phoneNumber, cancellationToken);
         }
 
         public Task SetPhoneNumberConfirmedAsync(TUser user, bool confirmed, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
             user.PhoneNumberConfirmed = confirmed;
-            return Update(user, x => x.PhoneNumberConfirmed, confirmed);
+            return UpdateAsync(user, x => x.PhoneNumberConfirmed, confirmed, cancellationToken);
         }
 
         public async Task AddToRoleAsync(TUser user, string roleName, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
             var role = await _roleStore.FindByNameAsync(roleName, cancellationToken).ConfigureAwait(true);
@@ -504,18 +606,22 @@ namespace AspNetCore.Identity.Mongo.Stores
 
             user.Roles.Add(role.Id.ToString());
 
-            await Update(user, x => x.Roles, user.Roles).ConfigureAwait(false);
+            await UpdateAsync(user, x => x.Roles, user.Roles, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task RemoveFromRoleAsync(TUser user, string roleName, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
+
             var role = await _roleStore.FindByNameAsync(roleName, cancellationToken).ConfigureAwait(true);
+
             if (role == null) return;
 
             user.Roles.Remove(role.Id.ToString());
 
-            await Update(user, x => x.Roles, user.Roles).ConfigureAwait(false);
+            await UpdateAsync(user, x => x.Roles, user.Roles, cancellationToken).ConfigureAwait(false);
         }
 
 
@@ -532,9 +638,12 @@ namespace AspNetCore.Identity.Mongo.Stores
 
         public async Task<IList<string>> GetRolesAsync(TUser user, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
-            var userDb = await ById(user.Id).ConfigureAwait(true);
+            var userDb = await ByIdAsync(user.Id, cancellationToken).ConfigureAwait(true);
+
             if (userDb == null) return new List<string>();
 
             var roles = new List<string>();
@@ -553,9 +662,11 @@ namespace AspNetCore.Identity.Mongo.Stores
 
         public async Task<bool> IsInRoleAsync(TUser user, string roleName, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
-            var dbUser = await ById(user.Id).ConfigureAwait(true);
+            var dbUser = await ByIdAsync(user.Id, cancellationToken).ConfigureAwait(true);
 
             var role = await _roleStore.FindByNameAsync(roleName, cancellationToken)
                 .ConfigureAwait(true);
@@ -567,32 +678,41 @@ namespace AspNetCore.Identity.Mongo.Stores
 
         public async Task<string> GetSecurityStampAsync(TUser user, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+            
             cancellationToken.ThrowIfCancellationRequested();
 
-            return (await ById(user.Id).ConfigureAwait(true))?.SecurityStamp ?? user.SecurityStamp;
+            return (await ByIdAsync(user.Id, cancellationToken).ConfigureAwait(true))?.SecurityStamp ?? user.SecurityStamp;
         }
 
         public Task SetSecurityStampAsync(TUser user, string stamp, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             user.SecurityStamp = stamp;
-            return Update(user, x => x.SecurityStamp, user.SecurityStamp);
+
+            return UpdateAsync(user, x => x.SecurityStamp, user.SecurityStamp, cancellationToken);
         }
 
         public Task ReplaceCodesAsync(TUser user, IEnumerable<string> recoveryCodes, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
-            user.RecoveryCodes = recoveryCodes.Select(x => new TwoFactorRecoveryCode { Code = x, Redeemed = false })
-                .ToList();
+            user.RecoveryCodes = recoveryCodes.Select(x => new TwoFactorRecoveryCode { Code = x, Redeemed = false }).ToList();
 
-            return Update(user, x => x.RecoveryCodes, user.RecoveryCodes);
+            return UpdateAsync(user, x => x.RecoveryCodes, user.RecoveryCodes, cancellationToken);
         }
 
         public async Task<bool> RedeemCodeAsync(TUser user, string code, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
-            var dbUser = await ById(user.Id).ConfigureAwait(true);
+            var dbUser = await ByIdAsync(user.Id, cancellationToken).ConfigureAwait(true);
+
             if (dbUser == null) return false;
 
             var c = user.RecoveryCodes.FirstOrDefault(x => x.Code == code);
@@ -601,36 +721,52 @@ namespace AspNetCore.Identity.Mongo.Stores
 
             c.Redeemed = true;
 
-            await Update(user, x => x.RecoveryCodes, user.RecoveryCodes).ConfigureAwait(false);
+            await UpdateAsync(user, x => x.RecoveryCodes, user.RecoveryCodes, cancellationToken).ConfigureAwait(false);
 
             return true;
         }
 
         public async Task<int> CountCodesAsync(TUser user, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
-            var foundUser = await ById(user.Id).ConfigureAwait(true);
+            var foundUser = await ByIdAsync(user.Id, cancellationToken).ConfigureAwait(true);
 
             return foundUser?.RecoveryCodes?.Count ?? user.RecoveryCodes.Count;
         }
 
         public async Task<bool> GetTwoFactorEnabledAsync(TUser user, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
-            var foundUser = await ById(user.Id).ConfigureAwait(true);
+            var foundUser = await ByIdAsync(user.Id, cancellationToken).ConfigureAwait(true);
 
             return foundUser?.TwoFactorEnabled ?? user.TwoFactorEnabled;
         }
 
         public async Task SetTwoFactorEnabledAsync(TUser user, bool enabled, CancellationToken cancellationToken)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
             cancellationToken.ThrowIfCancellationRequested();
 
             user.TwoFactorEnabled = enabled;
 
-            await Update(user, x => x.TwoFactorEnabled, enabled).ConfigureAwait(false);
+            await UpdateAsync(user, x => x.TwoFactorEnabled, enabled, cancellationToken).ConfigureAwait(false);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

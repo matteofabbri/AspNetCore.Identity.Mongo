@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 
@@ -49,95 +50,129 @@ namespace AspNetCore.Identity.Mongo.Mongo
 
         public static void AscendingIndex<TItem>(this IMongoCollection<TItem> collection, Expression<Func<TItem, object>> field)
         {
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+
             var def = Builders<TItem>.IndexKeys.Ascending(field);
+
             collection.Indexes.CreateOne(new CreateIndexModel<TItem>(def));
         }
 
         public static void DescendingIndex<TItem>(this IMongoCollection<TItem> collection, Expression<Func<TItem, object>> field)
         {
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+
             var def = Builders<TItem>.IndexKeys.Descending(field);
+
             collection.Indexes.CreateOne(new CreateIndexModel<TItem>(def));
         }
 
         public static void FullTextIndex<TItem>(this IMongoCollection<TItem> collection, Expression<Func<TItem, object>> field)
         {
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+
             var def = Builders<TItem>.IndexKeys.Text(field);
+
             collection.Indexes.CreateOne(new CreateIndexModel<TItem>(def));
         }
 
-        public static async Task<IEnumerable<TItem>> TakeAsync<TItem>(this IMongoCollection<TItem> collection, int count, int skip = 0)
+        public static async Task<IEnumerable<TItem>> TakeAsync<TItem>(this IMongoCollection<TItem> collection, int count, int skip = 0, CancellationToken cancellationToken = default)
         {
-            return await (await collection.FindAsync(x => true, new FindOptions<TItem, TItem>()
-            {
-                Skip = skip,
-                Limit = count
-            })).ToListAsync();
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+
+            return await (await collection.FindAsync(x => true, new FindOptions<TItem, TItem>(){Skip = skip,Limit = count}, cancellationToken).ConfigureAwait(false)).ToListAsync().ConfigureAwait(false);
         }
 
-        public static async Task<List<TItem>> All<TItem>(this IMongoCollection<TItem> mongoCollection)
+        public static async Task<List<TItem>> AllAsync<TItem>(this IMongoCollection<TItem> collection, CancellationToken cancellationToken = default)
         {
-            return (await (await mongoCollection.FindAsync(Builders<TItem>.Filter.Empty)).ToListAsync());
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+
+            return await (await collection.FindAsync(Builders<TItem>.Filter.Empty, cancellationToken: cancellationToken).ConfigureAwait(false)).ToListAsync().ConfigureAwait(false);
         }
 
-        public static async Task<bool> AnyAsync<TItem>(this IMongoCollection<TItem> mongoCollection)
+        public static async Task<bool> AnyAsync<TItem>(this IMongoCollection<TItem> collection, CancellationToken cancellationToken = default)
         {
-            return await (await mongoCollection.FindAsync(x => true,LimitOneOption<TItem>())).AnyAsync();
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+
+            return await (await collection.FindAsync(x => true, LimitOneOption<TItem>(), cancellationToken).ConfigureAwait(false)).AnyAsync().ConfigureAwait(false);
         }
 
-        public static async Task<bool> AnyAsync<TItem>(this IMongoCollection<TItem> mongoCollection, Expression<Func<TItem, bool>> p)
+        public static async Task<bool> AnyAsync<TItem>(this IMongoCollection<TItem> collection, Expression<Func<TItem, bool>> p, CancellationToken cancellationToken = default)
         {
-            return await (await mongoCollection.FindAsync(p, LimitOneOption<TItem>())).AnyAsync();
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+
+            return await (await collection.FindAsync(p, LimitOneOption<TItem>(), cancellationToken).ConfigureAwait(false)).AnyAsync().ConfigureAwait(false);
         }
 
-        public static async Task<TItem> FirstOrDefault<TItem>(this IMongoCollection<TItem> mongoCollection)
+        public static async Task<TItem> FirstOrDefault<TItem>(this IMongoCollection<TItem> collection, CancellationToken cancellationToken = default)
         {
-            return await (await mongoCollection.FindAsync(Builders<TItem>.Filter.Empty,LimitOneOption<TItem>())).FirstOrDefaultAsync();
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+
+            return await (await collection.FindAsync(Builders<TItem>.Filter.Empty, LimitOneOption<TItem>(), cancellationToken).ConfigureAwait(false)).FirstOrDefaultAsync().ConfigureAwait(false);
         }
 
-        public static TItem FirstOrDefault<TItem>(this IMongoCollection<TItem> mongoCollection, Expression<Func<TItem, bool>> p)
+        public static TItem FirstOrDefault<TItem>(this IMongoCollection<TItem> collection, Expression<Func<TItem, bool>> p)
         {
-            return (mongoCollection.Find(p)).FirstOrDefault();
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+
+            return collection.Find(p).FirstOrDefault();
         }
 
-        public static async Task<TItem> FirstOrDefaultAsync<TItem>(this IMongoCollection<TItem> mongoCollection, FilterDefinition<TItem> p)
+        public static async Task<TItem> FirstOrDefaultAsync<TItem>(this IMongoCollection<TItem> collection, FilterDefinition<TItem> p, CancellationToken cancellationToken = default)
         {
-            return await (await mongoCollection.FindAsync(p,LimitOneOption<TItem>())).FirstOrDefaultAsync();
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+
+            return await (await collection.FindAsync(p, LimitOneOption<TItem>(), cancellationToken).ConfigureAwait(false)).FirstOrDefaultAsync().ConfigureAwait(false);
         }
 
-        public static async Task<TItem> FirstOrDefaultAsync<TItem>(this IMongoCollection<TItem> mongoCollection, Expression<Func<TItem, bool>> p)
+        public static async Task<TItem> FirstOrDefaultAsync<TItem>(this IMongoCollection<TItem> collection, Expression<Func<TItem, bool>> p, CancellationToken cancellationToken = default)
         {
-            return await (await mongoCollection.FindAsync(p,LimitOneOption<TItem>())).FirstOrDefaultAsync();
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+
+            return await (await collection.FindAsync(p, LimitOneOption<TItem>(), cancellationToken).ConfigureAwait(false)).FirstOrDefaultAsync().ConfigureAwait(false);
         }
 
-        public static async Task ForEachAsync<TItem>(this IMongoCollection<TItem> mongoCollection, Expression<Func<TItem, bool>> p,  Action<TItem> action)
+        public static async Task ForEachAsync<TItem>(this IMongoCollection<TItem> collection, Expression<Func<TItem, bool>> p, Action<TItem> action, CancellationToken cancellationToken = default)
         {
-            await (await mongoCollection.FindAsync(p)).ForEachAsync(action);
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+
+            await (await collection.FindAsync(p, cancellationToken: cancellationToken).ConfigureAwait(false)).ForEachAsync(action).ConfigureAwait(false);
         }
 
-        public static async Task ForEachAsync<TItem>(this IMongoCollection<TItem> mongoCollection, Action<TItem> action)
+        public static async Task ForEachAsync<TItem>(this IMongoCollection<TItem> collection, Action<TItem> action, CancellationToken cancellationToken = default)
         {
-            await (await mongoCollection.FindAsync(Builders<TItem>.Filter.Empty)).ForEachAsync(action);
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+
+            await (await collection.FindAsync(Builders<TItem>.Filter.Empty, cancellationToken: cancellationToken).ConfigureAwait(false)).ForEachAsync(action).ConfigureAwait(false);
         }
 
-        public static async Task<IEnumerable<TItem>> WhereAsync<TItem>(this IMongoCollection<TItem> mongoCollection, FilterDefinition<TItem> p)
+        public static async Task<IEnumerable<TItem>> WhereAsync<TItem>(this IMongoCollection<TItem> collection, FilterDefinition<TItem> p, CancellationToken cancellationToken = default)
         {
-            return (await mongoCollection.FindAsync(p)).ToEnumerable();
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+
+            return (await collection.FindAsync(p).ConfigureAwait(false)).ToEnumerable();
         }
 
-        public static async Task<IEnumerable<TItem>> WhereAsync<TItem>(this IMongoCollection<TItem> mongoCollection, Expression<Func<TItem, bool>> p)
+        public static async Task<IEnumerable<TItem>> WhereAsync<TItem>(this IMongoCollection<TItem> collection, Expression<Func<TItem, bool>> p, CancellationToken cancellationToken = default)
         {
-            return (await mongoCollection.FindAsync(p)).ToEnumerable();
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+
+            return (await collection.FindAsync(p, cancellationToken: cancellationToken).ConfigureAwait(false)).ToEnumerable();
         }
 
-        public static async Task<IEnumerable<TItem>> TextSearch<TItem>(this IMongoCollection<TItem> mongoCollection, string str)
+        public static async Task<IEnumerable<TItem>> TextSearch<TItem>(this IMongoCollection<TItem> collection, string str, CancellationToken cancellationToken = default)
         {
-            return (await mongoCollection.FindAsync(Builders<TItem>.Filter.Text(str))).ToEnumerable();
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+
+            return (await collection.FindAsync(Builders<TItem>.Filter.Text(str), cancellationToken: cancellationToken).ConfigureAwait(false)).ToEnumerable();
         }
 
-        public static async Task<IEnumerable<TItem>> TextSearch<TItem>(this IMongoCollection<TItem> mongoCollection, string str, Expression<Func<TItem, bool>> filter)
+        public static async Task<IEnumerable<TItem>> TextSearch<TItem>(this IMongoCollection<TItem> collection, string str, Expression<Func<TItem, bool>> filter, CancellationToken cancellationToken = default)
         {
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+
             var f = Builders<TItem>.Filter.Text(str) & filter;
-            return (await mongoCollection.FindAsync(f)).ToEnumerable();
+
+            return (await collection.FindAsync(f, cancellationToken: cancellationToken).ConfigureAwait(false)).ToEnumerable();
         }
     }
 }
