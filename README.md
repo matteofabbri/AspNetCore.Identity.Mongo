@@ -1,6 +1,6 @@
-# Microsoft.AspNetCore.Identity.Mongo
+# AspNetCore.Identity.Mongo
 
-This is a MongoDB provider for the ASP.NET Core 2 Identity framework. It is completely written from scratch and provides support for all Identity framework interfaces:
+This is a MongoDB provider for the ASP.NET Core Identity framework. It is completely written from scratch and provides support for all Identity framework interfaces:
 
 * UserClaimStore
 * IUserLoginStore
@@ -17,7 +17,10 @@ This is a MongoDB provider for the ASP.NET Core 2 Identity framework. It is comp
 * IRoleStore
 * IQueryableRoleStore
 
-## Dot Net Core 2.2 and 3.0 
+## Dot Net Core 2.2 and 3.0
+
+[![NuGet](https://img.shields.io/nuget/v/AspNetCore.Identity.Mongo.svg)](https://www.nuget.org/packages/AspNetCore.Identity.Mongo/)
+
 For 2.2 use Nuget packages of the 5 series ( latest 5.3 )
 
 For 3.0 use Nuget packages of the 6 series ( latest 6.3 )
