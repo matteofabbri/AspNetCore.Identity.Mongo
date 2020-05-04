@@ -5,7 +5,6 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using AspNetCore.Identity.Mongo.Model;
-using AspNetCore.Identity.Mongo.Mongo;
 using Microsoft.AspNetCore.Identity;
 using MongoDB.Bson;
 using MongoDB.Driver;

@@ -15,12 +15,12 @@ namespace SampleSite.Controllers
     {
         private readonly UserManager<TestSiteUser> _userManager;
         private readonly RoleManager<MongoRole> _roleManager;
-        readonly IMongoCollection<TestSiteUser> _userUserCollection;
+        private readonly IMongoCollection<MongoUserInfo<TestSiteUser>> _userUserCollection;
 
         public UserController(
             UserManager<TestSiteUser> userManager,
             RoleManager<MongoRole> roleManager,
-            IMongoCollection<TestSiteUser> userCollection)
+            IMongoCollection<MongoUserInfo<TestSiteUser>> userCollection)
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -47,6 +47,12 @@ namespace SampleSite.Controllers
 
             await _userManager.AddToRoleAsync(u, roleName);
             await _userManager.AddClaimAsync(u, new Claim(ClaimTypes.Role, roleName));
+
+            int redemptionCodes = await _userManager.CountRecoveryCodesAsync(u);
+
+            await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(u, 3);
+
+            int redemptionCodes2 = await _userManager.CountRecoveryCodesAsync(u);
 
             return Redirect($"/user/edit/{userName}");
         }

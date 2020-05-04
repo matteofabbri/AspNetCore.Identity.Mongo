@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using MongoDB.Bson;
+using System;
 
 namespace AspNetCore.Identity.Mongo.Model
 {
@@ -10,11 +9,6 @@ namespace AspNetCore.Identity.Mongo.Model
     {
         public MongoUser()
         {
-            Roles = new List<ObjectId>();
-            Claims = new List<IdentityUserClaim<string>>();
-            Logins = new List<IdentityUserLogin<string>>();
-            Tokens = new List<IdentityUserToken<string>>();
-            RecoveryCodes = new List<TwoFactorRecoveryCode>();
         }
 
         public MongoUser(string userName)
@@ -24,23 +18,10 @@ namespace AspNetCore.Identity.Mongo.Model
             
             UserName = userName;
             NormalizedUserName = userName.ToUpperInvariant();
-            Roles = new List<ObjectId>();
-            Claims = new List<IdentityUserClaim<string>>();
-            Logins = new List<IdentityUserLogin<string>>();
-            Tokens = new List<IdentityUserToken<string>>();
-            RecoveryCodes = new List<TwoFactorRecoveryCode>();
         }
 
         public string AuthenticatorKey { get; set; }
 
-        public List<ObjectId> Roles { get; set; }
-
-        public List<IdentityUserClaim<string>> Claims { get; set; }
-
-        public List<IdentityUserLogin<string>> Logins { get; set; }
-
-        public List<IdentityUserToken<string>> Tokens { get; set; }
-
-        public List<TwoFactorRecoveryCode> RecoveryCodes { get; set; }
+        public override string ToString() => UserName;
     }
 }
