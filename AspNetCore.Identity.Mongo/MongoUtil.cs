@@ -27,28 +27,28 @@ namespace AspNetCore.Identity.Mongo
 
         public static async Task<IEnumerable<TItem>> TakeAsync<TItem>(this IMongoCollection<TItem> collection, int count, int skip = 0, CancellationToken cancellationToken = default)
         {
-            return await (await collection.FindAsync(x => true, new FindOptions<TItem, TItem>{ Skip = skip, Limit = count }, cancellationToken).ConfigureAwait(false)).ToListAsync().ConfigureAwait(false);
+            var cursor = await collection.FindAsync(x => true, new FindOptions<TItem, TItem> { Skip = skip, Limit = count }, cancellationToken).ConfigureAwait(false);
+
+            return await cursor.ToListAsync().ConfigureAwait(false);
         }
 
-        public static TItem FirstOrDefault<TItem>(this IMongoCollection<TItem> mongoCollection)
+        public static async Task<TItem> FirstOrDefaultAsync<TItem>(this IMongoCollection<TItem> mongoCollection, Expression<Func<TItem, bool>> filter, CancellationToken cancellationToken)
         {
-            return mongoCollection.Find(Builders<TItem>.Filter.Empty).FirstOrDefault();
+            var cursor = await mongoCollection.FindAsync(filter, new FindOptions<TItem, TItem> { Limit = 1 }, cancellationToken).ConfigureAwait(false);
+
+            return await cursor.FirstOrDefaultAsync().ConfigureAwait(false);
         }
 
-        public static TItem FirstOrDefault<TItem>(this IMongoCollection<TItem> mongoCollection, Expression<Func<TItem, bool>> p)
+        public static async Task<TProjection> FirstOrDefaultAsync<TItem, TProjection>(this IMongoCollection<TItem> mongoCollection, Expression<Func<TItem, bool>> filter, Expression<Func<TItem, TProjection>> projection, CancellationToken cancellationToken)
         {
-            return mongoCollection.Find(p).FirstOrDefault();
+            var cursor = await mongoCollection.FindAsync(filter, new FindOptions<TItem, TProjection> { Limit = 1, Projection = Builders<TItem>.Projection.Expression(projection) }, cancellationToken).ConfigureAwait(false);
+
+            return await cursor.FirstOrDefaultAsync().ConfigureAwait(false);
         }
 
-        public static async Task<TItem> FirstOrDefaultAsync<TItem>(this IMongoCollection<TItem> mongoCollection, Expression<Func<TItem, bool>> p, CancellationToken cancellationToken)
+        public static async Task<IEnumerable<TItem>> WhereAsync<TItem>(this IMongoCollection<TItem> mongoCollection, Expression<Func<TItem, bool>> filter, CancellationToken cancellationToken)
         {
-            return await (await mongoCollection.FindAsync(p, cancellationToken: cancellationToken).ConfigureAwait(false)).FirstOrDefaultAsync().ConfigureAwait(false);
-        }
-
-
-        public static async Task<IEnumerable<TItem>> WhereAsync<TItem>(this IMongoCollection<TItem> mongoCollection, Expression<Func<TItem, bool>> p, CancellationToken cancellationToken)
-        {
-            return (await mongoCollection.FindAsync(p, cancellationToken: cancellationToken).ConfigureAwait(false)).ToEnumerable();
+            return (await mongoCollection.FindAsync(filter, cancellationToken: cancellationToken).ConfigureAwait(false)).ToEnumerable();
         }
     }
 }

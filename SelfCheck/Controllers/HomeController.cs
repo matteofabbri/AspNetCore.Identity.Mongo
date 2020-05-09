@@ -175,7 +175,7 @@ namespace SampleSite.Controllers
                 throw new Exception("Remove user from role fails");
 
             TestSiteUser userWithoutRole = await UserManager.FindByEmailAsync(TestData.Email);
-            if (userWithoutRole.Roles.Any(r => r == role.Id.ToString()))
+            if (userWithoutRole.Roles.Any(r => r == role.Id))
                 throw new Exception("Remove user from role fails");
         }
     }
