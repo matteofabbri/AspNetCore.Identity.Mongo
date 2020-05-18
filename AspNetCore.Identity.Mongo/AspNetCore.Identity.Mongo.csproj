@@ -15,9 +15,9 @@
     <Authors>Matteo Fabbri</Authors>
     <Company />
     <Product>AspNetCore.Identity.Mongo</Product>
-    <Version>6.7.0</Version>
-    <AssemblyVersion>6.7.0.0</AssemblyVersion>
-    <FileVersion>6.7.0.0</FileVersion>
+    <Version>6.7.1</Version>
+    <AssemblyVersion>6.7.1.0</AssemblyVersion>
+    <FileVersion>6.7.1.0</FileVersion>
     <PackageProjectUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</PackageProjectUrl>
     <NeutralLanguage />
     <PackageReleaseNotes>- Switched to native Mongo Id 

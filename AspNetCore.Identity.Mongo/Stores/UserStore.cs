@@ -50,6 +50,15 @@ namespace AspNetCore.Identity.Mongo.Stores
             _userCollection = userCollection;
             _roleStore = roleStore;
             _normalizer = normalizer;
+
+            EnsureIndex(x=>x.NormalizedEmail);
+            EnsureIndex(x=>x.NormalizedUserName);
+        }
+
+        private void EnsureIndex(Expression<Func<TUser, object>> field)
+        {
+            var model = new CreateIndexModel<TUser>(Builders<TUser>.IndexKeys.Ascending(field));
+            _userCollection.Indexes.CreateOne(model);
         }
 
         public IQueryable<TUser> Users => _userCollection.AsQueryable();
@@ -360,7 +369,7 @@ namespace AspNetCore.Identity.Mongo.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            return _userCollection.FirstOrDefaultAsync(a => a.NormalizedEmail == normalizedEmail);
+            return _userCollection.FirstOrDefaultAsync(a => a.NormalizedEmail == normalizedEmail, cancellationToken);
         }
 
         public async Task<string> GetNormalizedEmailAsync(TUser user, CancellationToken cancellationToken)
