@@ -2,7 +2,7 @@
 
 This is a MongoDB provider for the ASP.NET Core Identity framework. It is completely written from scratch and provides support for all Identity framework interfaces:
 
-* UserClaimStore
+* IUserClaimStore
 * IUserLoginStore
 * IUserRoleStore
 * IUserPasswordStore
@@ -13,8 +13,11 @@ This is a MongoDB provider for the ASP.NET Core Identity framework. It is comple
 * IUserTwoFactorStore
 * IUserLockoutStore
 * IUserAuthenticatorKeyStore
+* IUserAuthenticationTokenStore
 * IUserTwoFactorRecoveryCodeStore
+* IProtectedUserStore
 * IRoleStore
+* IRoleClaimStore
 * IQueryableRoleStore
 
 ## Dot Net Core 2.2 and 3.0
@@ -23,7 +26,7 @@ This is a MongoDB provider for the ASP.NET Core Identity framework. It is comple
 
 For 2.2 use Nuget packages of the 5 series ( latest 5.3 )
 
-For 3.0 use Nuget packages of the 6 series ( latest 6.3 )
+For 3.0 (3.1) use Nuget packages started from 6 series
 
 ## How to use:
 
@@ -39,3 +42,10 @@ services.AddIdentityMongoDbProvider<ApplicationUser, ApplicationRole>(identityOp
     mongoIdentityOptions.ConnectionString = "mongodb://localhost/myDB";
 });
 ```
+
+## Migration guide to version 6.7.0+
+Started from version 6.7.0 library has new functionality and improvements which can broke you current projects.<br>
+[There](./docs/MigrationGuideToVersion6_7_0AndUpper.md) you can find information how to migrate to newest version.
+
+## License
+This project is licensed under the [MIT license](./blob/master/LICENSE.txt)

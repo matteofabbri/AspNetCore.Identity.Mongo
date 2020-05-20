@@ -12,6 +12,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{703D8F39-B182-45FF-85DC-140D730F237E}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		LICENSE.txt = LICENSE.txt
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{0B883132-A85E-4EA6-9ADC-1EFD7E006F3E}"
+	ProjectSection(SolutionItems) = preProject
+		docs\MigrationGuideToVersion6_7_0AndUpper.md = docs\MigrationGuideToVersion6_7_0AndUpper.md
 	EndProjectSection
 EndProject
 Global
@@ -35,6 +42,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0B883132-A85E-4EA6-9ADC-1EFD7E006F3E} = {703D8F39-B182-45FF-85DC-140D730F237E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3806160E-9B49-41B7-A532-95CD600CE2CF}
