@@ -22,6 +22,7 @@ namespace AspNetCore.Identity.Mongo.Model
         {
             return Name;
         }
+
         public List<IdentityRoleClaim<string>> Claims { get; set; }
     }
 }
