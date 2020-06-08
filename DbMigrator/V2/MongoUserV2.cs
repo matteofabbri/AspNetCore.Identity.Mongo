@@ -4,9 +4,9 @@ using MongoDB.Bson;
 
 namespace DbMigrator.V2
 {
-    public class MongoUser : IdentityUser<ObjectId>
+    public class MongoUserV2 : IdentityUser<ObjectId>
     {
-        public MongoUser()
+        public MongoUserV2()
         {
             Roles = new List<string>();
             Claims = new List<IdentityUserClaim<string>>();
@@ -15,7 +15,7 @@ namespace DbMigrator.V2
             RecoveryCodes = new List<TwoFactorRecoveryCode>();
         }
 
-        public MongoUser(string userName)
+        public MongoUserV2(string userName)
         {
             UserName = userName;
             NormalizedUserName = userName.ToUpperInvariant();

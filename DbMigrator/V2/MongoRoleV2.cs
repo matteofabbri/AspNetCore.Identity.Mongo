@@ -4,13 +4,13 @@ using MongoDB.Bson;
 
 namespace DbMigrator.V2
 {
-    public class MongoRole : IdentityRole<ObjectId>
+    public class MongoRoleV2 : IdentityRole<ObjectId>
     {
-        public MongoRole()
+        public MongoRoleV2()
         {
         }
 
-        public MongoRole(string name)
+        public MongoRoleV2(string name)
         {
             Name = name;
             NormalizedName = name.ToUpperInvariant();
