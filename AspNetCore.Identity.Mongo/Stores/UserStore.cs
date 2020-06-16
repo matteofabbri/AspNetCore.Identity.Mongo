@@ -51,8 +51,8 @@ namespace AspNetCore.Identity.Mongo.Stores
             _roleStore = roleStore;
             _normalizer = normalizer;
 
-            EnsureIndex(x=>x.NormalizedEmail);
-            EnsureIndex(x=>x.NormalizedUserName);
+            EnsureIndex(x => x.NormalizedEmail);
+            EnsureIndex(x => x.NormalizedUserName);
         }
 
         private void EnsureIndex(Expression<Func<TUser, object>> field)
@@ -89,7 +89,7 @@ namespace AspNetCore.Identity.Mongo.Stores
         public async Task SetTokenAsync(TUser user, string loginProvider, string name, string value, CancellationToken cancellationToken)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
-            
+
             cancellationToken.ThrowIfCancellationRequested();
 
             if (user.Tokens == null) user.Tokens = new List<IdentityUserToken<string>>();
@@ -129,7 +129,7 @@ namespace AspNetCore.Identity.Mongo.Stores
         public async Task<string> GetTokenAsync(TUser user, string loginProvider, string name, CancellationToken cancellationToken)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
-            
+
             cancellationToken.ThrowIfCancellationRequested();
 
             var token = user?.Tokens?.FirstOrDefault(x => x.LoginProvider == loginProvider && x.Name == name);
@@ -247,18 +247,14 @@ namespace AspNetCore.Identity.Mongo.Stores
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            var claims = user.Claims;
-
-            claims.RemoveAll(x => x.ClaimType == claim.Type);
-            claims.Add(new IdentityUserClaim<string>()
+            user.Claims.RemoveAll(x => x.ClaimType == claim.Type && x.ClaimValue == claim.Value);
+            user.Claims.Add(new IdentityUserClaim<string>()
             {
                 ClaimType = newClaim.Type,
                 ClaimValue = newClaim.Value
             });
-            user.Claims = claims;
 
-
-            await UpdateAsync(user, x => x.Claims, claims, cancellationToken).ConfigureAwait(false);
+            await UpdateAsync(user, x => x.Claims, user.Claims, cancellationToken).ConfigureAwait(false);
         }
 
         public Task RemoveClaimsAsync(TUser user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
@@ -270,7 +266,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 
             foreach (var claim in claims)
             {
-                user.Claims.RemoveAll(x => x.ClaimType == claim.Type);
+                user.Claims.RemoveAll(x => x.ClaimType == claim.Type && x.ClaimValue == claim.Value);
             }
 
             return UpdateAsync(user, x => x.Claims, user.Claims, cancellationToken);
@@ -283,7 +279,6 @@ namespace AspNetCore.Identity.Mongo.Stores
             cancellationToken.ThrowIfCancellationRequested();
 
             return (await _userCollection.WhereAsync(u => u.Claims.Any(c => c.ClaimType == claim.Type && c.ClaimValue == claim.Value), cancellationToken).ConfigureAwait(false)).ToList();
-
         }
 
         public Task<string> GetNormalizedUserNameAsync(TUser user, CancellationToken cancellationToken)
@@ -298,7 +293,7 @@ namespace AspNetCore.Identity.Mongo.Stores
         public Task<string> GetUserIdAsync(TUser user, CancellationToken cancellationToken)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
-            
+
             cancellationToken.ThrowIfCancellationRequested();
 
             return Task.FromResult(user.Id.ToString());
@@ -408,7 +403,7 @@ namespace AspNetCore.Identity.Mongo.Stores
             cancellationToken.ThrowIfCancellationRequested();
 
             await SetNormalizedEmailAsync(user, _normalizer.NormalizeEmail(user.Email), cancellationToken).ConfigureAwait(false);
-            
+
             user.Email = email;
 
             await UpdateAsync(user, x => x.Email, user.Email, cancellationToken).ConfigureAwait(false);
@@ -688,7 +683,7 @@ namespace AspNetCore.Identity.Mongo.Stores
         public async Task<string> GetSecurityStampAsync(TUser user, CancellationToken cancellationToken)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
-            
+
             cancellationToken.ThrowIfCancellationRequested();
 
             return (await ByIdAsync(user.Id, cancellationToken).ConfigureAwait(true))?.SecurityStamp ?? user.SecurityStamp;
