@@ -9,13 +9,13 @@ namespace AspNetCore.Identity.Mongo.Model
     {
         public MongoRole()
         {
+            Claims = new List<IdentityRoleClaim<string>>();
         }
 
-        public MongoRole(string name)
+        public MongoRole(string name) : this()
         {
             Name = name;
             NormalizedName = name.ToUpperInvariant();
-            Claims = new List<IdentityRoleClaim<string>>();
         }
 
         public override string ToString()
