@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using AspNetCore.Identity.Mongo.Model;
 using AspNetCore.Identity.Mongo.Mongo;
 using AspNetCore.Identity.Mongo.Stores;
@@ -54,6 +55,9 @@ namespace AspNetCore.Identity.Mongo
             .AddRoleManager<RoleManager<TRole>>()
 	        .AddDefaultTokenProviders();
 
+			var migrationCollection = MongoUtil.FromConnectionString<MigrationHistory>(dbOptions.ConnectionString, dbOptions.MigrationCollection);
+
+            Task.WaitAny(Migrator.Apply(migrationCollection));
 
 	        var userCollection =  MongoUtil.FromConnectionString<TUser>(dbOptions.ConnectionString, dbOptions.UsersCollection);
 	        var roleCollection = MongoUtil.FromConnectionString<TRole>(dbOptions.ConnectionString, dbOptions.RolesCollection);

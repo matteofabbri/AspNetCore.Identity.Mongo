@@ -8,6 +8,8 @@
 		
 	    public string RolesCollection { get; set; } = "Roles";
 
+        public string MigrationCollection { get; set; } = "_Migrations";
+
 	    public bool UseDefaultIdentity { get; set; } = true;
 	}
 }
