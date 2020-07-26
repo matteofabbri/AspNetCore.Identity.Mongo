@@ -5,6 +5,8 @@
     <UserSecretsId>aspnet-Sito4-ECDA30E4-4450-4860-B34F-51BF996C8621</UserSecretsId>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <RootNamespace>SampleSite</RootNamespace>
+    <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+    <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
   </PropertyGroup>
 
 
