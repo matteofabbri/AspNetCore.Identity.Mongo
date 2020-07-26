@@ -33,3 +33,4 @@
 /TestSite/bin
 /DbMigrator/obj
 /DbMigrator/bin/Debug/netcoreapp3.1
+/DbMigrator/bin/Release/netcoreapp3.1

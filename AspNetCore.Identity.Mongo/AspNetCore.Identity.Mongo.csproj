@@ -16,8 +16,8 @@
     <Company />
     <Product>AspNetCore.Identity.Mongo</Product>
     <Version>6.7.1</Version>
-    <AssemblyVersion>6.7.1.0</AssemblyVersion>
-    <FileVersion>6.7.1.0</FileVersion>
+    <AssemblyVersion>6.7.2.0</AssemblyVersion>
+    <FileVersion>6.7.2.0</FileVersion>
     <PackageProjectUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</PackageProjectUrl>
     <NeutralLanguage />
     <PackageReleaseNotes>- Switched to native Mongo Id 
@@ -38,8 +38,8 @@ Thanks to GitHub users: vova3211 haseeb200 for their contributions</PackageRelea
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="3.1.4" />
-    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="3.1.6" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="3.1.6" />
     <PackageReference Include="MongoDB.Driver" Version="2.10.4" />
   </ItemGroup>
 
