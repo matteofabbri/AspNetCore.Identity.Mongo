@@ -18,10 +18,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{0B883132-A85E-4EA6-9ADC-1EFD7E006F3E}"
 	ProjectSection(SolutionItems) = preProject
+		docs\MigrationGuideFromVersion3_1_5ToVersion6_7_0AndUpper.md = docs\MigrationGuideFromVersion3_1_5ToVersion6_7_0AndUpper.md
 		docs\MigrationGuideToVersion6_7_0AndUpper.md = docs\MigrationGuideToVersion6_7_0AndUpper.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbMigrator", "DbMigrator\DbMigrator.csproj", "{82CBD4AB-54F5-4438-8B26-6D3BC5B33B19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbMigrator", "DbMigrator\DbMigrator.csproj", "{82CBD4AB-54F5-4438-8B26-6D3BC5B33B19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

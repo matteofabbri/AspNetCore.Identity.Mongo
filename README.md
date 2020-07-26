@@ -31,7 +31,7 @@ For 3.0 (3.1) use Nuget packages started from 6 series
 ## How to use:
 
 ```csharp
-services.AddIdentityMongoDbProvider<ApplicationUser, ApplicationRole>(identityOptions =>
+services.AddIdentityMongoDbProvider<AspNetCore.Identity.Mongo.Model.MongoUser, AspNetCore.Identity.Mongo.Model.MongoRole>(identityOptions =>
 {
     identityOptions.Password.RequiredLength = 6;
     identityOptions.Password.RequireLowercase = false;
@@ -45,7 +45,10 @@ services.AddIdentityMongoDbProvider<ApplicationUser, ApplicationRole>(identityOp
 
 ## Migration guide to version 6.7.0+
 Started from version 6.7.0 library has new functionality and improvements which can broke you current projects.<br>
-[There](./docs/MigrationGuideToVersion6_7_0AndUpper.md) you can find information how to migrate to newest version.
+[There](./docs/MigrationGuideToVersion6_7_0AndUpper.md) you can find information how to migrate from 6.0.0-6.3.5 to newest version.
+[There](./docs/MigrationGuideFromVersion3_1_5ToVersion6_7_0AndUpper.md) you can find information how to migrate from 3.1.5 to newest version.
+
+If you has different version of library and want to update it, just create new issue. We will try to help you or will create new instruction.
 
 ## License
 This project is licensed under the [MIT license](./blob/master/LICENSE.txt)
