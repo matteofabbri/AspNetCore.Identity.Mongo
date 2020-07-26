@@ -1,0 +1,22 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UseDotNet@2
+  displayName: 'Install .NET Core SDK'
+  inputs:
+    packageType: 'sdk'
+    useGlobalJson: true
+- script: dotnet publish IdentityServer4Demo.sln -c Release --self-contained -r win-x86 -o publish
+  displayName: 'build and publish'
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'leastprivilege(b4f1893e-53e4-474d-aee5-7c0db5668eee)'
+    appType: 'webApp'
+    WebAppName: 'identityserver4demo'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/publish'
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
