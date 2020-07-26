@@ -31,7 +31,7 @@ For 3.0 (3.1) use Nuget packages started from 6 series
 ## How to use:
 
 ```csharp
-services.AddIdentityMongoDbProvider<ApplicationUser, ApplicationRole>(identityOptions =>
+services.AddIdentityMongoDbProvider<AspNetCore.Identity.Mongo.Model.MongoUser, AspNetCore.Identity.Mongo.Model.MongoRole>(identityOptions =>
 {
     identityOptions.Password.RequiredLength = 6;
     identityOptions.Password.RequireLowercase = false;
