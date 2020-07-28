@@ -1,3 +1,19 @@
+# Service Notice
+> Im super greatful of all contributions that are coming to this repo and for the help that i'm recieving from this community.
+
+> A very special thanks should go to **Vova3211** and **DNemtsov** which are preserving my menthal healt and spending lot of their times to answering your questions.
+
+> However my condition of being an italian living in Czechia and working for a german company makes me the perfect trigger for Microsoft IP Geofence Alarm.
+
+> For this reason is two damn months that Nuget.org dont let me publish the latest version of the library.
+> The latest news is that i will be may able to access the web site to publish in 30 days, but they already said that other two time so I will not count so much on that
+
+> I'm trying to get in touch with MS help team to solve this issue, but in the meanwhile if you want to use the latest version please checkout this repo instead on rely on Nuget packages
+
+> **Picky sys-admin corner**: One of the problem is that nuget.org is not ever bothering to send me a confirmation email, and yes i checked it deep down to the wireshark level
+
+
+
 # AspNetCore.Identity.Mongo
 
 This is a MongoDB provider for the ASP.NET Core Identity framework. It is completely written from scratch and provides support for all Identity framework interfaces:
