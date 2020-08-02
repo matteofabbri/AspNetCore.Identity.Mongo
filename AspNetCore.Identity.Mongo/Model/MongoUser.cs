@@ -1,10 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using MongoDB.Bson;
 
 namespace AspNetCore.Identity.Mongo.Model
 {
-    public class MongoUser : IdentityUser<ObjectId>
+    public class MongoUser : MongoUser<ObjectId>
+    {
+        public MongoUser() : base() { }
+
+        public MongoUser(string userName) : base(userName) { }
+    }
+
+    public class MongoUser<TKey> : IdentityUser<TKey> where TKey : IEquatable<TKey>
     {
         public MongoUser()
         {
@@ -15,15 +23,10 @@ namespace AspNetCore.Identity.Mongo.Model
             RecoveryCodes = new List<TwoFactorRecoveryCode>();
         }
 
-        public MongoUser(string userName)
+        public MongoUser(string userName) : this()
         {
             UserName = userName;
             NormalizedUserName = userName.ToUpperInvariant();
-            Roles = new List<string>();
-            Claims = new List<IdentityUserClaim<string>>();
-            Logins = new List<IdentityUserLogin<string>>();
-            Tokens = new List<IdentityUserToken<string>>();
-            RecoveryCodes = new List<TwoFactorRecoveryCode>();
         }
 
         public string AuthenticatorKey { get; set; }

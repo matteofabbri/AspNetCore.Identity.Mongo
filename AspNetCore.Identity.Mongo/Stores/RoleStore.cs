@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
@@ -13,11 +14,11 @@ using MongoDB.Driver.Linq;
 
 namespace AspNetCore.Identity.Mongo.Stores
 {
-    public class RoleStore<TRole> :
+    public class RoleStore<TRole, TKey> :
         IRoleClaimStore<TRole>,
         IQueryableRoleStore<TRole>
-        
-        where TRole : MongoRole
+        where TKey : IEquatable<TKey>
+        where TRole : MongoRole<TKey>
     {
         private readonly IMongoCollection<TRole> _collection;
 
@@ -43,7 +44,7 @@ namespace AspNetCore.Identity.Mongo.Stores
         {
             if (role == null) throw new ArgumentNullException(nameof(role));
 
-            await _collection.ReplaceOneAsync(x => x.Id == role.Id, role, cancellationToken: cancellationToken).ConfigureAwait(false);
+            await _collection.ReplaceOneAsync(x => x.Id.Equals(role.Id), role, cancellationToken: cancellationToken).ConfigureAwait(false);
 
             return IdentityResult.Success;
         }
@@ -52,7 +53,7 @@ namespace AspNetCore.Identity.Mongo.Stores
         {
             if (role == null) throw new ArgumentNullException(nameof(role));
 
-            await _collection.DeleteOneAsync(x => x.Id == role.Id, cancellationToken).ConfigureAwait(false);
+            await _collection.DeleteOneAsync(x => x.Id.Equals(role.Id), cancellationToken).ConfigureAwait(false);
 
             return IdentityResult.Success;
         }
@@ -68,7 +69,7 @@ namespace AspNetCore.Identity.Mongo.Stores
         {
             if (role == null) throw new ArgumentNullException(nameof(role));
 
-            return (await _collection.FirstOrDefaultAsync(x => x.Id == role.Id, cancellationToken: cancellationToken).ConfigureAwait(false))?.Name ?? role.Name;
+            return (await _collection.FirstOrDefaultAsync(x => x.Id.Equals(role.Id), cancellationToken: cancellationToken).ConfigureAwait(false))?.Name ?? role.Name;
         }
 
         public async Task SetRoleNameAsync(TRole role, string roleName, CancellationToken cancellationToken)
@@ -78,7 +79,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 
             role.Name = roleName;
 
-            await _collection.UpdateOneAsync(x => x.Id == role.Id, Builders<TRole>.Update.Set(x => x.Name, roleName), cancellationToken: cancellationToken).ConfigureAwait(false);
+            await _collection.UpdateOneAsync(x => x.Id.Equals(role.Id), Builders<TRole>.Update.Set(x => x.Name, roleName), cancellationToken: cancellationToken).ConfigureAwait(false);
         }
 
         public Task<string> GetNormalizedRoleNameAsync(TRole role, CancellationToken cancellationToken)
@@ -95,14 +96,14 @@ namespace AspNetCore.Identity.Mongo.Stores
 
             role.NormalizedName = normalizedRoleName;
 
-            await _collection.UpdateOneAsync(x => x.Id == role.Id, Builders<TRole>.Update.Set(x => x.NormalizedName, normalizedRoleName), cancellationToken: cancellationToken).ConfigureAwait(false);
+            await _collection.UpdateOneAsync(x => x.Id.Equals(role.Id), Builders<TRole>.Update.Set(x => x.NormalizedName, normalizedRoleName), cancellationToken: cancellationToken).ConfigureAwait(false);
         }
 
         public Task<TRole> FindByIdAsync(string roleId, CancellationToken cancellationToken)
         {
             if (string.IsNullOrEmpty(roleId)) throw new ArgumentNullException(nameof(roleId));
 
-            return _collection.FirstOrDefaultAsync(x => x.Id == ObjectId.Parse(roleId), cancellationToken: cancellationToken);
+            return _collection.FirstOrDefaultAsync(x => x.Id.Equals(ConvertIdFromString(roleId)), cancellationToken: cancellationToken);
         }
 
         public Task<TRole> FindByNameAsync(string normalizedRoleName, CancellationToken cancellationToken)
@@ -118,7 +119,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            var dbRole = await _collection.FirstOrDefaultAsync(x => x.Id == role.Id, cancellationToken: cancellationToken).ConfigureAwait(false);
+            var dbRole = await _collection.FirstOrDefaultAsync(x => x.Id.Equals(role.Id), cancellationToken: cancellationToken).ConfigureAwait(false);
 
             return dbRole.Claims.Select(e => new Claim(e.ClaimType, e.ClaimValue)).ToList();
         }
@@ -142,7 +143,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 
                 role.Claims.Add(identityRoleClaim);
 
-                await _collection.UpdateOneAsync(x => x.Id == role.Id, Builders<TRole>.Update.Set(x => x.Claims, role.Claims), cancellationToken: cancellationToken).ConfigureAwait(false);
+                await _collection.UpdateOneAsync(x => x.Id.Equals(role.Id), Builders<TRole>.Update.Set(x => x.Claims, role.Claims), cancellationToken: cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -155,7 +156,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 
             role.Claims.RemoveAll(x => x.ClaimType == claim.Type && x.ClaimValue == claim.Value);
 
-            return _collection.UpdateOneAsync(x => x.Id == role.Id, Builders<TRole>.Update.Set(x => x.Claims, role.Claims), cancellationToken: cancellationToken);
+            return _collection.UpdateOneAsync(x => x.Id.Equals(role.Id), Builders<TRole>.Update.Set(x => x.Claims, role.Claims), cancellationToken: cancellationToken);
         }
 
         protected virtual void Dispose(bool disposing)
@@ -166,6 +167,34 @@ namespace AspNetCore.Identity.Mongo.Stores
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Converts the provided <paramref name="id"/> to a strongly typed key object.
+        /// </summary>
+        /// <param name="id">The id to convert.</param>
+        /// <returns>An instance of <typeparamref name="TKey"/> representing the provided <paramref name="id"/>.</returns>
+        public virtual TKey ConvertIdFromString(string id)
+        {
+            if (id == null)
+            {
+                return default(TKey);
+            }
+            return (TKey)TypeDescriptor.GetConverter(typeof(TKey)).ConvertFromInvariantString(id);
+        }
+
+        /// <summary>
+        /// Converts the provided <paramref name="id"/> to its string representation.
+        /// </summary>
+        /// <param name="id">The id to convert.</param>
+        /// <returns>An <see cref="string"/> representation of the provided <paramref name="id"/>.</returns>
+        public virtual string ConvertIdToString(TKey id)
+        {
+            if (object.Equals(id, default(TKey)))
+            {
+                return null;
+            }
+            return id.ToString();
         }
     }
 }
