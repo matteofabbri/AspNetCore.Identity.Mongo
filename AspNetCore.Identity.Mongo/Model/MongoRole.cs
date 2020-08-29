@@ -1,11 +1,19 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AspNetCore.Identity.Mongo.Model
 {
-    public class MongoRole : IdentityRole<ObjectId>
+    public class MongoRole : MongoRole<ObjectId>
+    {
+        public MongoRole() : base() { }
+
+        public MongoRole(string name) : base(name) { }
+    }
+
+    public class MongoRole<TKey> : IdentityRole<TKey> where TKey : IEquatable<TKey>
     {
         public MongoRole()
         {

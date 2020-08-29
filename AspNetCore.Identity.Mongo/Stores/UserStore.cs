@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Claims;
@@ -14,7 +15,7 @@ using MongoDB.Driver.Linq;
 
 namespace AspNetCore.Identity.Mongo.Stores
 {
-    public class UserStore<TUser, TRole> :
+    public class UserStore<TUser, TRole, TKey> :
         IUserClaimStore<TUser>,
         IUserLoginStore<TUser>,
         IUserRoleStore<TUser>,
@@ -29,9 +30,9 @@ namespace AspNetCore.Identity.Mongo.Stores
         IUserAuthenticationTokenStore<TUser>,
         IUserTwoFactorRecoveryCodeStore<TUser>,
         IProtectedUserStore<TUser>
-
-        where TUser : MongoUser
-        where TRole : MongoRole
+        where TKey : IEquatable<TKey>
+        where TUser : MongoUser<TKey>
+        where TRole : MongoRole<TKey>
     {
         private readonly IRoleStore<TRole> _roleStore;
 
@@ -69,7 +70,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 
             var updateDefinition = Builders<TUser>.Update.Set(expression, value);
 
-            await _userCollection.UpdateOneAsync(x => x.Id == user.Id, updateDefinition, cancellationToken: cancellationToken).ConfigureAwait(false);
+            await _userCollection.UpdateOneAsync(x => x.Id.Equals(user.Id), updateDefinition, cancellationToken: cancellationToken).ConfigureAwait(false);
         }
 
         private async Task AddAsync<TFieldValue>(TUser user, Expression<Func<TUser, IEnumerable<TFieldValue>>> expression, TFieldValue value, CancellationToken cancellationToken)
@@ -78,12 +79,12 @@ namespace AspNetCore.Identity.Mongo.Stores
 
             var addDefinition = Builders<TUser>.Update.AddToSet(expression, value);
 
-            await _userCollection.UpdateOneAsync(x => x.Id == user.Id, addDefinition, cancellationToken: cancellationToken).ConfigureAwait(false);
+            await _userCollection.UpdateOneAsync(x => x.Id.Equals(user.Id), addDefinition, cancellationToken: cancellationToken).ConfigureAwait(false);
         }
 
-        private Task<TUser> ByIdAsync(ObjectId id, CancellationToken cancellationToken)
+        private Task<TUser> ByIdAsync(TKey id, CancellationToken cancellationToken)
         {
-            return _userCollection.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+            return _userCollection.FirstOrDefaultAsync(x => x.Id.Equals(id), cancellationToken);
         }
 
         public async Task SetTokenAsync(TUser user, string loginProvider, string name, string value, CancellationToken cancellationToken)
@@ -188,7 +189,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            await _userCollection.DeleteOneAsync(x => x.Id == user.Id, cancellationToken).ConfigureAwait(false);
+            await _userCollection.DeleteOneAsync(x => x.Id.Equals(user.Id), cancellationToken).ConfigureAwait(false);
             return IdentityResult.Success;
         }
 
@@ -196,7 +197,7 @@ namespace AspNetCore.Identity.Mongo.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            return ByIdAsync(ObjectId.Parse(userId), cancellationToken);
+            return ByIdAsync(ConvertIdFromString(userId), cancellationToken);
         }
 
         public Task<TUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
@@ -213,7 +214,7 @@ namespace AspNetCore.Identity.Mongo.Stores
             cancellationToken.ThrowIfCancellationRequested();
 
             await SetEmailAsync(user, user.Email, cancellationToken).ConfigureAwait(false);
-            await _userCollection.ReplaceOneAsync(x => x.Id == user.Id, user, ReplaceOptions, cancellationToken).ConfigureAwait(false);
+            await _userCollection.ReplaceOneAsync(x => x.Id.Equals(user.Id), user, ReplaceOptions, cancellationToken).ConfigureAwait(false);
 
             return IdentityResult.Success;
         }
@@ -771,6 +772,34 @@ namespace AspNetCore.Identity.Mongo.Stores
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Converts the provided <paramref name="id"/> to a strongly typed key object.
+        /// </summary>
+        /// <param name="id">The id to convert.</param>
+        /// <returns>An instance of <typeparamref name="TKey"/> representing the provided <paramref name="id"/>.</returns>
+        public virtual TKey ConvertIdFromString(string id)
+        {
+            if (id == null)
+            {
+                return default(TKey);
+            }
+            return (TKey)TypeDescriptor.GetConverter(typeof(TKey)).ConvertFromInvariantString(id);
+        }
+
+        /// <summary>
+        /// Converts the provided <paramref name="id"/> to its string representation.
+        /// </summary>
+        /// <param name="id">The id to convert.</param>
+        /// <returns>An <see cref="string"/> representation of the provided <paramref name="id"/>.</returns>
+        public virtual string ConvertIdToString(TKey id)
+        {
+            if (object.Equals(id, default(TKey)))
+            {
+                return null;
+            }
+            return id.ToString();
         }
     }
 }
