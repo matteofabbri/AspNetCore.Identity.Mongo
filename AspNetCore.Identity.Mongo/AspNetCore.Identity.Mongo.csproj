@@ -10,21 +10,19 @@
     <Copyright>Matteo Fabbri 2018</Copyright>
     <PackageLicenseUrl>https://raw.githubusercontent.com/matteofabbri/AspNetCore.Identity.Mongo/master/LICENSE.txt</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</RepositoryUrl>
-    <PackageTags>asp core identity mongo framework aspnetcore mongodb dotnetcore netcore2 core2</PackageTags>
+    <PackageTags>asp core identity mongo framework aspnetcore mongodb dotnetcore netcore2 core2 netcore3, core3, netcore</PackageTags>
     <PackageId>AspNetCore.Identity.Mongo</PackageId>
     <Authors>Matteo Fabbri</Authors>
     <Company />
     <Product>AspNetCore.Identity.Mongo</Product>
-    <Version>6.7.1</Version>
+    <Version>6.7.2</Version>
     <AssemblyVersion>6.7.2.0</AssemblyVersion>
     <FileVersion>6.7.2.0</FileVersion>
     <PackageProjectUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</PackageProjectUrl>
     <NeutralLanguage />
-    <PackageReleaseNotes>- Switched to native Mongo Id 
-- Improved multi threading 
-- Improved role claims 
+    <PackageReleaseNotes>Fixed many bugs, updated nuget references, introduced automatic migrations to avoid manual operations in future releases.
 
-Thanks to GitHub users: vova3211 haseeb200 for their contributions</PackageReleaseNotes>
+Thanks to GitHub users: vova3211, artem-kovalev, DNemtsov, haseeb200, mattwelke, malachib, haseeb200,   fadihania, brikibsw,  ILL35T, 7Kronos, for their contributions</PackageReleaseNotes>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
   </PropertyGroup>
@@ -36,9 +34,9 @@ Thanks to GitHub users: vova3211 haseeb200 for their contributions</PackageRelea
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="3.1.6" />
-    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="3.1.6" />
-    <PackageReference Include="MongoDB.Driver" Version="2.10.4" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="3.1.7" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="3.1.7" />
+    <PackageReference Include="MongoDB.Driver" Version="2.11.1" />
   </ItemGroup>
 
 </Project>
