@@ -1,7 +1,3 @@
-# Service Notice
-
-**I'm very hapy to annunce that access to Nuget publishing as been restored. Lastest version will be published ASAP**
-
 
 # AspNetCore.Identity.Mongo
 
