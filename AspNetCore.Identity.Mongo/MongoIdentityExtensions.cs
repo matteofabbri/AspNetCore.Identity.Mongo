@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using AspNetCore.Identity.Mongo.Migrations;
 using AspNetCore.Identity.Mongo.Model;
@@ -88,11 +89,25 @@ namespace AspNetCore.Identity.Mongo
             services.AddSingleton(x => userCollection);
             services.AddSingleton(x => roleCollection);
 
+            // register custom ObjectId TypeConverter
+            if (typeof(TKey) == typeof(ObjectId))
+            {
+                RegisterTypeConverter<ObjectId, ObjectIdConverter>();
+            }
+
             // Identity Services
             services.AddTransient<IRoleStore<TRole>>(x => new RoleStore<TRole, TKey>(roleCollection));
             services.AddTransient<IUserStore<TUser>>(x => new UserStore<TUser, TRole, TKey>(userCollection, new RoleStore<TRole, TKey>(roleCollection), x.GetService<ILookupNormalizer>()));
 
             return builder;
+        }
+
+        private static void RegisterTypeConverter<T, TC>() where TC : TypeConverter
+        {
+            Attribute[] attr = new Attribute[1];
+            TypeConverterAttribute vConv = new TypeConverterAttribute(typeof(TC));
+            attr[0] = vConv;
+            TypeDescriptor.AddAttributes(typeof(T), attr);
         }
     }
 }
