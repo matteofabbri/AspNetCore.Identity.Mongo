@@ -15,14 +15,12 @@
     <Authors>Matteo Fabbri</Authors>
     <Company />
     <Product>AspNetCore.Identity.Mongo</Product>
-    <Version>6.7.2</Version>
-    <AssemblyVersion>6.7.2.0</AssemblyVersion>
-    <FileVersion>6.7.2.0</FileVersion>
+    <Version>6.7.3-alpha</Version>
+    <AssemblyVersion>6.7.3.0</AssemblyVersion>
+    <FileVersion>6.7.3.0</FileVersion>
     <PackageProjectUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</PackageProjectUrl>
     <NeutralLanguage />
-    <PackageReleaseNotes>Fixed many bugs, updated nuget references, introduced automatic migrations to avoid manual operations in future releases.
-
-Thanks to GitHub users: vova3211, artem-kovalev, DNemtsov, haseeb200, mattwelke, malachib, haseeb200,   fadihania, brikibsw,  ILL35T, 7Kronos, for their contributions</PackageReleaseNotes>
+    <PackageReleaseNotes>Moved Model to a netstandard2.0 package</PackageReleaseNotes>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
   </PropertyGroup>
@@ -37,6 +35,10 @@ Thanks to GitHub users: vova3211, artem-kovalev, DNemtsov, haseeb200, mattwelke,
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="3.1.7" />
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="3.1.7" />
     <PackageReference Include="MongoDB.Driver" Version="2.11.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AspNetCore.Identity.Mongo.Core\AspNetCore.Identity.Mongo.Core.csproj" />
   </ItemGroup>
 
 </Project>

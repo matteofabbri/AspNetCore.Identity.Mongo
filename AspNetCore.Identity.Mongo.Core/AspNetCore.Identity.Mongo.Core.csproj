@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Mongo based identity framework for Asp.Net Core 2</Description>
+    <Copyright>Matteo Fabbri 2020</Copyright>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/matteofabbri/AspNetCore.Identity.Mongo/master/LICENSE.txt</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</RepositoryUrl>
+    <PackageTags>asp core identity mongo framework aspnetcore mongodb dotnetcore netcore2 core2 netcore3, core3, netcore</PackageTags>
+    <PackageId>AspNetCore.Identity.Mongo.Core</PackageId>
+    <Authors>Matteo Fabbri</Authors>
+    <Company />
+    <Product>AspNetCore.Identity.Mongo.Core</Product>
+    <PackageReleaseNotes>
+      Extract Model for better implementations on target projects (eg. separate model and services)
+    </PackageReleaseNotes>
+    <Version>6.7.3-alpha</Version>
+    <AssemblyVersion>6.7.3.0</AssemblyVersion>
+    <FileVersion>6.7.3.0</FileVersion>
+    <PackageProjectUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</PackageProjectUrl>
+    <NeutralLanguage />
+  </PropertyGroup>
+<ItemGroup>
+  <PackageReference Include="MongoDB.Driver" Version="2.11.1" />
+  <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="3.1.7" />
+</ItemGroup>
+</Project>
