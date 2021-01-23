@@ -46,7 +46,7 @@ services.AddIdentityMongoDbProvider<AspNetCore.Identity.Mongo.Model.MongoUser, A
 
 ## Migration guide to version 6.7.0+
 Started from version 6.7.0 library has new functionality and improvements which can broke you current projects.<br>
-[There](./docs/MigrationGuideToVersion6_7_0AndUpper.md) you can find information how to migrate from 6.0.0-6.3.5 to newest version.
+[There](./docs/MigrationGuideToVersion6_7_0AndUpper.md) you can find information how to migrate from 6.0.0-6.3.5 to newest version.<br>
 [There](./docs/MigrationGuideFromVersion3_1_5ToVersion6_7_0AndUpper.md) you can find information how to migrate from 3.1.5 to newest version.
 
 If you has different version of library and want to update it, just create new issue. We will try to help you or will create new instruction.
