@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29318.209
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.Identity.Mongo", "AspNetCore.Identity.Mongo\AspNetCore.Identity.Mongo.csproj", "{39E2704C-B0DE-4BD2-849F-5B51332EE03F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.Identity.Mongo", "src\AspNetCore.Identity.Mongo\AspNetCore.Identity.Mongo.csproj", "{39E2704C-B0DE-4BD2-849F-5B51332EE03F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Selfcheck", "Selfcheck\Selfcheck.csproj", "{6D10BD6E-12BF-4681-B969-5D2F051950C2}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestSite", "TestSite\TestSite.csproj", "{25627014-8963-42D8-B1EC-A56FBDE16937}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestSite", "samples\TestSite\TestSite.csproj", "{25627014-8963-42D8-B1EC-A56FBDE16937}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{703D8F39-B182-45FF-85DC-140D730F237E}"
 	ProjectSection(SolutionItems) = preProject
@@ -22,6 +20,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{0B883132-A
 		docs\MigrationGuideToVersion6_7_0AndUpper.md = docs\MigrationGuideToVersion6_7_0AndUpper.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{238A25AE-691E-4A86-9B5E-727DFC186F33}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{767BB7BE-35C8-424C-B873-FEBD69EE6C1A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7282BE10-249F-4308-BB55-EA2346584782}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,10 +36,6 @@ Global
 		{39E2704C-B0DE-4BD2-849F-5B51332EE03F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39E2704C-B0DE-4BD2-849F-5B51332EE03F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39E2704C-B0DE-4BD2-849F-5B51332EE03F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6D10BD6E-12BF-4681-B969-5D2F051950C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6D10BD6E-12BF-4681-B969-5D2F051950C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6D10BD6E-12BF-4681-B969-5D2F051950C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6D10BD6E-12BF-4681-B969-5D2F051950C2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{25627014-8963-42D8-B1EC-A56FBDE16937}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{25627014-8963-42D8-B1EC-A56FBDE16937}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25627014-8963-42D8-B1EC-A56FBDE16937}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,7 +45,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{0B883132-A85E-4EA6-9ADC-1EFD7E006F3E} = {703D8F39-B182-45FF-85DC-140D730F237E}
+		{39E2704C-B0DE-4BD2-849F-5B51332EE03F} = {7282BE10-249F-4308-BB55-EA2346584782}
+		{25627014-8963-42D8-B1EC-A56FBDE16937} = {238A25AE-691E-4A86-9B5E-727DFC186F33}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3806160E-9B49-41B7-A532-95CD600CE2CF}

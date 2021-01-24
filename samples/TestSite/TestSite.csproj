@@ -1,0 +1,273 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>aspnet-TestSite-4862F257-7F38-4DD8-A1E1-A4E86B434B28</UserSecretsId>
+    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.1" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Content Update="Views\Account\AccessDenied.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Account\ConfirmEmail.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Account\ExternalLogin.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Account\ForgotPassword.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Account\ForgotPasswordConfirmation.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Account\Lockout.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Account\Login.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Account\LoginWith2fa.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Account\LoginWithRecoveryCode.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Account\Register.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Account\ResetPassword.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Account\ResetPasswordConfirmation.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Account\SignedOut.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Shared\_Layout.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Shared\_LoginPartial.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Shared\_ValidationScriptsPartial.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\User\Edit.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\User\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\_ViewImports.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\_ViewStart.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Watch Remove="Views\Manage\_Layout.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Manage\_Layout.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Manage\ChangePassword.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Manage\Disable2fa.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Manage\EnableAuthenticator.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Manage\ExternalLogins.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Manage\GenerateRecoveryCodes.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Manage\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Manage\ResetAuthenticator.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Manage\SetPassword.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Manage\ShowRecoveryCodes.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Manage\TwoFactorAuthentication.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Manage\_Layout.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Manage\_ManageNav.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Manage\_StatusMessage.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Manage\_ViewImports.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\_CookieConsentPartial.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Watch Remove="Views\Manage\_ManageNav.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Manage\_ManageNav.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Watch Remove="Views\Manage\_StatusMessage.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Manage\_StatusMessage.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Watch Remove="Views\Manage\_ViewImports.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Manage\_ViewImports.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Watch Remove="Views\Manage\ChangePassword.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Manage\ChangePassword.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Watch Remove="Views\Manage\Disable2fa.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Manage\Disable2fa.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Watch Remove="Views\Manage\EnableAuthenticator.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Manage\EnableAuthenticator.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Watch Remove="Views\Manage\ExternalLogins.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Manage\ExternalLogins.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Watch Remove="Views\Manage\GenerateRecoveryCodes.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Manage\GenerateRecoveryCodes.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Watch Remove="Views\Manage\Index.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Manage\Index.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Watch Remove="Views\Manage\ResetAuthenticator.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Manage\ResetAuthenticator.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Watch Remove="Views\Manage\SetPassword.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Manage\SetPassword.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Watch Remove="Views\Manage\ShowRecoveryCodes.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Manage\ShowRecoveryCodes.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Watch Remove="Views\Manage\TwoFactorAuthentication.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Manage\TwoFactorAuthentication.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Watch Remove="Views\Shared\_CookieConsentPartial.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Shared\_CookieConsentPartial.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\AspNetCore.Identity.Mongo\AspNetCore.Identity.Mongo.csproj" />
+  </ItemGroup>
+
+</Project>
