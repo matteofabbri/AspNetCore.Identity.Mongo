@@ -6,7 +6,7 @@ What does this implement/fix? Explain your changes.
 
 Does this close any currently open issues?
 ------------------------------------------
-Link using [basic-writing-and-formatting-syntax#referencing-issues-and-pull-requests](https://docs.github.com/en/github/writing-on-github/basic-writing-and-formatting-syntax#referencing-issues-and-pull-requests)
+Mention issue using [basic-writing-and-formatting-syntax#referencing-issues-and-pull-requests](https://docs.github.com/en/github/writing-on-github/basic-writing-and-formatting-syntax#referencing-issues-and-pull-requests)
 
 
 Any relevant logs, error output, etc?
@@ -19,10 +19,9 @@ Where has this been tested?
 
 **.Net Core Verion:** …
 
-**Nuget Package Version:** …
-
 Does this introduce a breaking change?
 -----------------------------------------
+<!--  (check one with "x") -->
 - [ ] Yes
 - [ ] No
 

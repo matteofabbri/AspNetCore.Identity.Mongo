@@ -1,4 +1,4 @@
-## Migration guide from version 3.1.5 to version 6.7.0+
+## Migration guide from version 3.1.5 to version 6.7.x
 Differences between versions:
 * `MongoUser.Roles` property contains id of role instead of NormalizedName
 * `MongoUser.Claims` has new structure of `Claim` object
