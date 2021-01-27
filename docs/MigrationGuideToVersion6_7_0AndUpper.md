@@ -1,4 +1,4 @@
-## Migration guide from version 6.0.0-6.3.5 to version 6.7.0+
+## Migration guide from version 6.0.0-6.3.5 to version 6.7.x
 Started from version 6.7.0 library has 2 big changes:
 * `MongoRole` and `MongoUser` use native MongoBD ObjectId type instead of string.
 * `MongoRole` has new property `Claims`.

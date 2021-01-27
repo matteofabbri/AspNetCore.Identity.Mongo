@@ -110,8 +110,8 @@ New releases could/will have the breaking changes.
 
 Folder [docs](./docs) contains migration guides. E.g.:
 
-[There](./docs/MigrationGuideToVersion6_7_0AndUpper.md) you can find information how to migrate from 6.0.0-6.3.5 to newest version.<br>
-[There](./docs/MigrationGuideFromVersion3_1_5ToVersion6_7_0AndUpper.md) you can find information how to migrate from 3.1.5 to newest version.
+[There](./docs/MigrationGuideToVersion6_7_0AndUpper.md) you can find information how to migrate from 6.0.0-6.3.5 to 6.7.x version.<br>
+[There](./docs/MigrationGuideFromVersion3_1_5ToVersion6_7_0AndUpper.md) you can find information how to migrate from 3.1.5 to 6.7.x version.
 
 If you have different version of the library and want to update it, please create a new issue. We will try to help you or will create new instruction.
 
