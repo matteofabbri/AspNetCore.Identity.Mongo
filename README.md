@@ -1,5 +1,4 @@
-
-# AspNetCore.Identity.Mongo
+# AspNetCore.Identity.Mongo [![NuGet](https://img.shields.io/nuget/v/AspNetCore.Identity.Mongo.svg)](https://www.nuget.org/packages/AspNetCore.Identity.Mongo/)
 
 This is a MongoDB provider for the ASP.NET Core Identity framework. It is completely written from scratch and provides support for all Identity framework interfaces:
 
@@ -21,35 +20,106 @@ This is a MongoDB provider for the ASP.NET Core Identity framework. It is comple
 * IRoleClaimStore
 * IQueryableRoleStore
 
-## Dot Net Core 2.2 and 3.0
+## Dot Net Core Versions support
 
-[![NuGet](https://img.shields.io/nuget/v/AspNetCore.Identity.Mongo.svg)](https://www.nuget.org/packages/AspNetCore.Identity.Mongo/)
+**.Net 5.0** - packages of **8** series
 
-For 2.2 use Nuget packages of the 5 series ( latest 5.3 )
+**.Net Core 3.x** - packages of **6** series
 
-For 3.0 (3.1) use Nuget packages started from 6 series
+**.Net Core 2.x** - packages of **5** series
 
 ## How to use:
-
+AspNetCore.Identity.Mongo is installed from NuGet:
+```
+Install-Package AspNetCore.Identity.Mongo
+```
+The simplest way to set up:
 ```csharp
-services.AddIdentityMongoDbProvider<AspNetCore.Identity.Mongo.Model.MongoUser, AspNetCore.Identity.Mongo.Model.MongoRole>(identityOptions =>
-{
-    identityOptions.Password.RequiredLength = 6;
-    identityOptions.Password.RequireLowercase = false;
-    identityOptions.Password.RequireUppercase = false;
-    identityOptions.Password.RequireNonAlphanumeric = false;
-    identityOptions.Password.RequireDigit = false;
-}, mongoIdentityOptions => {
-    mongoIdentityOptions.ConnectionString = "mongodb://localhost/myDB";
-});
+using AspNetCore.Identity.Mongo;
+using AspNetCore.Identity.Mongo.Model;
+
+// At the ConfigureServices section in Startup.cs
+services.AddIdentityMongoDbProvider<MongoUser>();
 ```
 
-## Migration guide to version 6.7.0+
-Started from version 6.7.0 library has new functionality and improvements which can broke you current projects.<br>
+With Identity and Mongo options:
+```csharp
+using AspNetCore.Identity.Mongo;
+using AspNetCore.Identity.Mongo.Model;
+
+// At the ConfigureServices section in Startup.cs
+services.AddIdentityMongoDbProvider<MongoUser>(identity =>
+   {
+       identity.Password.RequiredLength = 8;
+       // other options
+   } ,
+   mongo =>
+   {
+       mongo.ConnectionString = "mongodb://127.0.0.1:27017/identity";
+       // other options
+   });
+```
+
+Using User and Role models:
+```csharp
+using AspNetCore.Identity.Mongo;
+using AspNetCore.Identity.Mongo.Model;
+
+// At the ConfigureServices section in Startup.cs
+services.AddIdentityMongoDbProvider<MongoUser, MongoRole>(identity =>
+    {
+        identity.Password.RequiredLength = 8;
+        // other options
+    },
+    mongo =>
+    {
+        mongo.ConnectionString = "mongodb://127.0.0.1:27017/identity";
+        // other options
+    });
+```
+
+Using different type of the primary key (default is `MongoDB.Bson.ObjectId`):
+```csharp
+using AspNetCore.Identity.Mongo;
+using AspNetCore.Identity.Mongo.Model;
+
+public class ApplicationUser : MongoUser<string>
+{
+}
+
+public class ApplicationRole : MongoRole<string>
+{
+}
+
+// At the ConfigureServices section in Startup.cs
+services.AddIdentityMongoDbProvider<ApplicationUser, ApplicationRole, string>(identity =>
+    {
+        identity.Password.RequiredLength = 8;
+        // other options
+    },
+    mongo =>
+    {
+        mongo.ConnectionString = "mongodb://127.0.0.1:27017/identity";
+        // other options
+    });
+```
+**Note:** Option to set type of the primary key **not available** in **.Net Core 2.x nuget packages!** 
+
+## Migration from lower versions
+New releases could/will have the breaking changes.
+
+Folder [docs](./docs) contains migration guides. E.g.:
+
 [There](./docs/MigrationGuideToVersion6_7_0AndUpper.md) you can find information how to migrate from 6.0.0-6.3.5 to newest version.<br>
 [There](./docs/MigrationGuideFromVersion3_1_5ToVersion6_7_0AndUpper.md) you can find information how to migrate from 3.1.5 to newest version.
 
-If you has different version of library and want to update it, just create new issue. We will try to help you or will create new instruction.
+If you have different version of the library and want to update it, please create a new issue. We will try to help you or will create new instruction.
+
+## How to Contribute
+Before create any issue/PR please look at the [CONTRIBUTING](./CONTRIBUTING.md)
+
+## Code of conduct
+See [CODE_OF_CONDUCT](./CODE_OF_CONDUCT.md)
 
 ## License
 This project is licensed under the [MIT license](./blob/master/LICENSE.txt)

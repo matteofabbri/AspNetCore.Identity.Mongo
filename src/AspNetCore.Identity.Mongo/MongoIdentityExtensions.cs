@@ -35,10 +35,18 @@ namespace AspNetCore.Identity.Mongo
 
         public static IdentityBuilder AddIdentityMongoDbProvider<TUser, TKey>(this IServiceCollection services,
             Action<MongoIdentityOptions> setupDatabaseAction)
-             where TKey : IEquatable<TKey>
+            where TKey : IEquatable<TKey>
             where TUser : MongoUser<TKey>
         {
             return AddIdentityMongoDbProvider<TUser, MongoRole<TKey>, TKey>(services, setupDatabaseAction);
+        }
+
+        public static IdentityBuilder AddIdentityMongoDbProvider<TUser, TRole>(this IServiceCollection services,
+            Action<IdentityOptions> setupIdentityAction, Action<MongoIdentityOptions> setupDatabaseAction)
+            where TUser : MongoUser
+            where TRole : MongoRole
+        {
+            return AddIdentityMongoDbProvider<TUser, TRole, ObjectId>(services, setupIdentityAction, setupDatabaseAction);
         }
 
         public static IdentityBuilder AddIdentityMongoDbProvider<TUser, TRole, TKey>(this IServiceCollection services,
