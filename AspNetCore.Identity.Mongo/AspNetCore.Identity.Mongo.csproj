@@ -8,7 +8,6 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Mongo based identity framework for Asp.Net Core</Description>
     <Copyright>Matteo Fabbri 2018</Copyright>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/matteofabbri/AspNetCore.Identity.Mongo/master/LICENSE.txt</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</RepositoryUrl>
     <PackageTags>asp core identity mongo framework aspnetcore mongodb dotnetcore netcore</PackageTags>
     <PackageId>AspNetCore.Identity.Mongo</PackageId>
@@ -23,10 +22,15 @@
     <PackageReleaseNotes>Fixed issue with convertering to ObjectId.</PackageReleaseNotes>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+    <None Include="..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
