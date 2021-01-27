@@ -6,33 +6,38 @@
     <ApplicationIcon />
     <StartupObject />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>Mongo based identity framework for Asp.Net Core 2</Description>
+    <Description>Mongo based identity framework for Asp.Net Core</Description>
     <Copyright>Matteo Fabbri 2018</Copyright>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/matteofabbri/AspNetCore.Identity.Mongo/master/LICENSE.txt</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</RepositoryUrl>
-    <PackageTags>asp core identity mongo framework aspnetcore mongodb dotnetcore netcore2 core2 netcore3, core3, netcore</PackageTags>
+    <PackageTags>asp core identity mongo framework aspnetcore mongodb dotnetcore netcore</PackageTags>
     <PackageId>AspNetCore.Identity.Mongo</PackageId>
     <Authors>Matteo Fabbri</Authors>
     <Company />
     <Product>AspNetCore.Identity.Mongo</Product>
-    <Version>6.7.2</Version>
-    <AssemblyVersion>6.7.2.0</AssemblyVersion>
-    <FileVersion>6.7.2.0</FileVersion>
+    <Version>8.0.0</Version>
+    <AssemblyVersion>8.0.0.0</AssemblyVersion>
+    <FileVersion>8.0.0.0</FileVersion>
     <PackageProjectUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</PackageProjectUrl>
     <NeutralLanguage />
-    <PackageReleaseNotes>Fixed many bugs, updated nuget references, introduced automatic migrations to avoid manual operations in future releases.
-
-Thanks to GitHub users: vova3211, artem-kovalev, DNemtsov, haseeb200, mattwelke, malachib, haseeb200,   fadihania, brikibsw,  ILL35T, 7Kronos, for their contributions</PackageReleaseNotes>
+    <PackageReleaseNotes>.Net 5.0 compatible version.</PackageReleaseNotes>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="5.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="5.0.1" />
-    <PackageReference Include="MongoDB.Driver" Version="2.11.5" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="5.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="5.0.2" />
+    <PackageReference Include="MongoDB.Driver" Version="2.11.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
