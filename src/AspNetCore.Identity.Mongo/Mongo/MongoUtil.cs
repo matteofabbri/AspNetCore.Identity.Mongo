@@ -28,6 +28,7 @@ namespace AspNetCore.Identity.Mongo.Mongo
                 var settings = MongoClientSettings.FromUrl(url);
 
                 settings.SslSettings = options.SslSettings;
+                settings.ClusterConfigurator = options.ClusterConfigurator;
 
                 var client = new MongoClient(settings);
                 collection = client.GetDatabase(url.DatabaseName ?? "default")
@@ -38,6 +39,7 @@ namespace AspNetCore.Identity.Mongo.Mongo
                 var settings = new MongoClientSettings();
 
                 settings.SslSettings = options.SslSettings;
+                settings.ClusterConfigurator = options.ClusterConfigurator;
 
                 collection = new MongoClient(settings).GetDatabase("default")
                     .GetCollection<TItem>(collectionName ?? type.Name.ToLowerInvariant());
