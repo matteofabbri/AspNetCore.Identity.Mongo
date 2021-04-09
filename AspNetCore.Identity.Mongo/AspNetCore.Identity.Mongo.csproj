@@ -14,12 +14,12 @@
     <Authors>Matteo Fabbri</Authors>
     <Company />
     <Product>AspNetCore.Identity.Mongo</Product>
-    <Version>6.7.3</Version>
-    <AssemblyVersion>6.7.3.0</AssemblyVersion>
-    <FileVersion>6.7.3.0</FileVersion>
+    <Version>6.8.0</Version>
+    <AssemblyVersion>6.8.0.0</AssemblyVersion>
+    <FileVersion>6.8.0.0</FileVersion>
     <PackageProjectUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</PackageProjectUrl>
     <NeutralLanguage />
-    <PackageReleaseNotes>Fixed issue with convertering to ObjectId.</PackageReleaseNotes>
+    <PackageReleaseNotes>Added ability to set SslSettings and ClusterConfigurator.</PackageReleaseNotes>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
