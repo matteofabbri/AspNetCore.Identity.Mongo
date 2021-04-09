@@ -29,8 +29,6 @@ namespace AspNetCore.Identity.Mongo.Model
             NormalizedUserName = userName.ToUpperInvariant();
         }
 
-        public string AuthenticatorKey { get; set; }
-
         public List<string> Roles { get; set; }
 
         public List<IdentityUserClaim<string>> Claims { get; set; }
