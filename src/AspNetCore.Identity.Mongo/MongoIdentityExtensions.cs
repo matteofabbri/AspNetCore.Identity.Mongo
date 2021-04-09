@@ -87,12 +87,12 @@ namespace AspNetCore.Identity.Mongo
             .AddRoleManager<RoleManager<TRole>>()
             .AddDefaultTokenProviders();
 
-            var migrationCollection = MongoUtil.FromConnectionString<MigrationHistory>(dbOptions.ConnectionString, dbOptions.MigrationCollection);
+            var migrationCollection = MongoUtil.FromConnectionString<MigrationHistory>(dbOptions, dbOptions.MigrationCollection);
 
             Task.WaitAny(Migrator.Apply(migrationCollection));
 
-            var userCollection = MongoUtil.FromConnectionString<TUser>(dbOptions.ConnectionString, dbOptions.UsersCollection);
-            var roleCollection = MongoUtil.FromConnectionString<TRole>(dbOptions.ConnectionString, dbOptions.RolesCollection);
+            var userCollection = MongoUtil.FromConnectionString<TUser>(dbOptions, dbOptions.UsersCollection);
+            var roleCollection = MongoUtil.FromConnectionString<TRole>(dbOptions, dbOptions.RolesCollection);
 
             services.AddSingleton(x => userCollection);
             services.AddSingleton(x => roleCollection);

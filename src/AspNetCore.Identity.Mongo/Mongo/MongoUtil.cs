@@ -15,23 +15,33 @@ namespace AspNetCore.Identity.Mongo.Mongo
         };
 
 
-        public static IMongoCollection<TItem> FromConnectionString<TItem>(string connectionString, string collectionName)
+        public static IMongoCollection<TItem> FromConnectionString<TItem>(MongoIdentityOptions options, string collectionName)
         {
             IMongoCollection<TItem> collection;
-                
+
             var type = typeof(TItem);
 
 
-            if (connectionString != null)
+            if (options.ConnectionString != null)
             {
-                var url = new MongoUrl(connectionString);
-                var client = new MongoClient(connectionString);
+                var url = new MongoUrl(options.ConnectionString);
+                var settings = MongoClientSettings.FromUrl(url);
+
+                settings.SslSettings = options.SslSettings;
+                settings.ClusterConfigurator = options.ClusterConfigurator;
+
+                var client = new MongoClient(settings);
                 collection = client.GetDatabase(url.DatabaseName ?? "default")
                     .GetCollection<TItem>(collectionName ?? type.Name.ToLowerInvariant());
             }
             else
             {
-                collection = new MongoClient().GetDatabase("default")
+                var settings = new MongoClientSettings();
+
+                settings.SslSettings = options.SslSettings;
+                settings.ClusterConfigurator = options.ClusterConfigurator;
+
+                collection = new MongoClient(settings).GetDatabase("default")
                     .GetCollection<TItem>(collectionName ?? type.Name.ToLowerInvariant());
             }
 
