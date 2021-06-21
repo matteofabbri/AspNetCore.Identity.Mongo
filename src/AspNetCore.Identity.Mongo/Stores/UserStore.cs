@@ -190,9 +190,6 @@ namespace AspNetCore.Identity.Mongo.Stores
 
             await _userCollection.InsertOneAsync(user, InsertOneOptions, cancellationToken).ConfigureAwait(false);
 
-            //var u = await _userCollection.FirstOrDefaultAsync(x => x.UserName == user.UserName).ConfigureAwait(true);
-            //if (u != null) return IdentityResult.Failed(new IdentityError { Code = "Username already in use" });
-
             return IdentityResult.Success;
         }
 

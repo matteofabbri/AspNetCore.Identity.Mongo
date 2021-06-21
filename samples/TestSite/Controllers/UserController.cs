@@ -27,11 +27,8 @@ namespace SampleSite.Controllers
             _userUserCollection = userCollection;
         }
 
-        public async Task<ActionResult> Index(string id)
+        public async Task<ActionResult> Index()
         {
-            await _roleManager.CreateAsync(new MongoRole("Admin"));
-            var role = await _roleManager.FindByNameAsync("Admin");
-            await _roleManager.AddClaimAsync(role, new Claim("Permission", "ManageCourses"));
             return View(_userManager.Users);
         }
 
@@ -75,7 +72,6 @@ namespace SampleSite.Controllers
             {
                 Id = user.Id.ToString(),
                 AccessFailedCount = user.AccessFailedCount,
-                AuthenticatorKey = user.AuthenticatorKey,
                 ConcurrencyStamp = user.ConcurrencyStamp,
                 Email = user.Email,
                 EmailConfirmed = user.EmailConfirmed,

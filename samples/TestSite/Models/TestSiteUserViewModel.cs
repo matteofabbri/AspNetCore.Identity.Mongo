@@ -36,7 +36,5 @@ namespace TestSite.Models
         public bool LockoutEnabled { get; set; }
 
         public int AccessFailedCount { get; set; }
-
-        public string AuthenticatorKey { get; set; }
     }
 }

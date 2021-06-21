@@ -71,7 +71,7 @@ namespace AspNetCore.Identity.Mongo
         }
 
         public static IdentityBuilder AddIdentityMongoDbProvider<TUser, TRole, TKey>(this IServiceCollection services,
-            Action<IdentityOptions> setupIdentityAction, Action<MongoIdentityOptions> setupDatabaseAction)
+            Action<IdentityOptions> setupIdentityAction, Action<MongoIdentityOptions> setupDatabaseAction, IdentityErrorDescriber identityErrorDescriber = null)
             where TKey : IEquatable<TKey>
             where TUser : MongoUser<TKey>
             where TRole : MongoRole<TKey>
@@ -104,8 +104,8 @@ namespace AspNetCore.Identity.Mongo
             }
 
             // Identity Services
-            services.AddTransient<IRoleStore<TRole>>(x => new RoleStore<TRole, TKey>(roleCollection));
-            services.AddTransient<IUserStore<TUser>>(x => new UserStore<TUser, TRole, TKey>(userCollection, new RoleStore<TRole, TKey>(roleCollection), x.GetService<ILookupNormalizer>()));
+            services.AddTransient<IRoleStore<TRole>>(x => new RoleStore<TRole, TKey>(roleCollection, identityErrorDescriber));
+            services.AddTransient<IUserStore<TUser>>(x => new UserStore<TUser, TRole, TKey>(userCollection, roleCollection, identityErrorDescriber));
 
             return builder;
         }
