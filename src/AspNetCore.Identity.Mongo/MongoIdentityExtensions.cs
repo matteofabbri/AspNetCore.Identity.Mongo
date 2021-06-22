@@ -79,6 +79,13 @@ namespace AspNetCore.Identity.Mongo
             var dbOptions = new MongoIdentityOptions();
             setupDatabaseAction(dbOptions);
 
+            var migrationCollection = MongoUtil.FromConnectionString<MigrationHistory>(dbOptions.ConnectionString, dbOptions.MigrationCollection);
+            var userCollection = MongoUtil.FromConnectionString<TUser>(dbOptions.ConnectionString, dbOptions.UsersCollection);
+            var roleCollection = MongoUtil.FromConnectionString<TRole>(dbOptions.ConnectionString, dbOptions.RolesCollection);
+
+            // apply migrations before identity services resolved
+            Migrator.Apply<TUser, TRole, TKey>(migrationCollection, userCollection, roleCollection);
+
             var builder = services.AddIdentity<TUser, TRole>(setupIdentityAction ?? (x => { }));
 
             builder.AddRoleStore<RoleStore<TRole, TKey>>()
@@ -86,13 +93,6 @@ namespace AspNetCore.Identity.Mongo
             .AddUserManager<UserManager<TUser>>()
             .AddRoleManager<RoleManager<TRole>>()
             .AddDefaultTokenProviders();
-
-            var migrationCollection = MongoUtil.FromConnectionString<MigrationHistory>(dbOptions.ConnectionString, dbOptions.MigrationCollection);
-
-            Task.WaitAny(Migrator.Apply(migrationCollection));
-
-            var userCollection = MongoUtil.FromConnectionString<TUser>(dbOptions.ConnectionString, dbOptions.UsersCollection);
-            var roleCollection = MongoUtil.FromConnectionString<TRole>(dbOptions.ConnectionString, dbOptions.RolesCollection);
 
             services.AddSingleton(x => userCollection);
             services.AddSingleton(x => roleCollection);

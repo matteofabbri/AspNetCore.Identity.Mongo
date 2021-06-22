@@ -29,6 +29,9 @@ namespace AspNetCore.Identity.Mongo.Model
             NormalizedUserName = userName.ToUpperInvariant();
         }
 
+        [Obsolete("This property moved to Tokens and should not be used anymore! Will be removed in future versions.")]
+        public string AuthenticatorKey { get; set; }
+
         public List<string> Roles { get; set; }
 
         public List<IdentityUserClaim<string>> Claims { get; set; }
