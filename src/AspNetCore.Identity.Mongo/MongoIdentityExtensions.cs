@@ -79,9 +79,9 @@ namespace AspNetCore.Identity.Mongo
             var dbOptions = new MongoIdentityOptions();
             setupDatabaseAction(dbOptions);
 
-            var migrationCollection = MongoUtil.FromConnectionString<MigrationHistory>(dbOptions.ConnectionString, dbOptions.MigrationCollection);
-            var userCollection = MongoUtil.FromConnectionString<TUser>(dbOptions.ConnectionString, dbOptions.UsersCollection);
-            var roleCollection = MongoUtil.FromConnectionString<TRole>(dbOptions.ConnectionString, dbOptions.RolesCollection);
+            var migrationCollection = MongoUtil.FromConnectionString<MigrationHistory>(dbOptions, dbOptions.MigrationCollection);
+            var userCollection = MongoUtil.FromConnectionString<TUser>(dbOptions, dbOptions.UsersCollection);
+            var roleCollection = MongoUtil.FromConnectionString<TRole>(dbOptions, dbOptions.RolesCollection);
 
             // apply migrations before identity services resolved
             Migrator.Apply<TUser, TRole, TKey>(migrationCollection, userCollection, roleCollection);
