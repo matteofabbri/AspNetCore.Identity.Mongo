@@ -11,22 +11,47 @@ namespace AspNetCore.Identity.Mongo.Migrations
     internal static class Migrator
     {
         //Starting from 4 in case we want to implement migrations for previous versions
-        public static int CurrentVersion = 4;
+        public static int CurrentVersion = 5;
 
-        public static async Task Apply(IMongoCollection<MigrationHistory> migrationCollection)
+        public static void Apply<TUser, TRole, TKey>(IMongoCollection<MigrationHistory> migrationCollection, IMongoCollection<TUser> usersCollection, IMongoCollection<TRole> rolesCollection)
+            where TKey : IEquatable<TKey>
+            where TUser : MongoUser<TKey>
+            where TRole : MongoRole<TKey>
         {
-            var history = (await migrationCollection.WhereAsync(x => true)).ToList();
+            var history = migrationCollection.Find(_ => true).ToList();
 
-            if (history.Count == 0)
+            if (history.Count > 0)
             {
-                await migrationCollection.InsertOneAsync(new MigrationHistory
-                {
-                    InstalledOn = DateTime.Now,
-                    DatabaseVersion = CurrentVersion
-                });
+                var lastHistory = history.OrderBy(x => x.DatabaseVersion).Last();
 
-                //We have nothing to migrate yet but now we can introduce the first flag to recognize which version is installed
+                if (lastHistory.DatabaseVersion == CurrentVersion)
+                {
+                    return;
+                }
+
+                // 4 -> 5
+                var users = usersCollection.Find(x => !string.IsNullOrEmpty(x.AuthenticatorKey)).ToList();
+                foreach (var user in users)
+                {
+                    var tokens = user.Tokens;
+                    tokens.Add(new Microsoft.AspNetCore.Identity.IdentityUserToken<string>()
+                    {
+                        UserId = user.Id.ToString(),
+                        Value = user.AuthenticatorKey,
+                        LoginProvider = "[AspNetUserStore]",
+                        Name = "AuthenticatorKey"
+                    });
+                    usersCollection.UpdateOne(x => x.Id.Equals(user.Id),
+                        Builders<TUser>.Update.Set(x => x.Tokens, tokens)
+                        .Set(x => x.AuthenticatorKey, null));
+                }
             }
+
+            migrationCollection.InsertOne(new MigrationHistory
+            {
+                InstalledOn = DateTime.Now,
+                DatabaseVersion = CurrentVersion
+            });
         }
     }
 }
