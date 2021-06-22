@@ -100,7 +100,7 @@ namespace AspNetCore.Identity.Mongo
             // register custom ObjectId TypeConverter
             if (typeof(TKey) == typeof(ObjectId))
             {
-                RegisterTypeConverter<ObjectId, ObjectIdConverter>();
+                TypeConverterResolver.RegisterTypeConverter<ObjectId, ObjectIdConverter>();
             }
 
             // Identity Services
@@ -108,14 +108,6 @@ namespace AspNetCore.Identity.Mongo
             services.AddTransient<IUserStore<TUser>>(x => new UserStore<TUser, TRole, TKey>(userCollection, roleCollection, identityErrorDescriber));
 
             return builder;
-        }
-
-        private static void RegisterTypeConverter<T, TC>() where TC : TypeConverter
-        {
-            Attribute[] attr = new Attribute[1];
-            TypeConverterAttribute vConv = new TypeConverterAttribute(typeof(TC));
-            attr[0] = vConv;
-            TypeDescriptor.AddAttributes(typeof(T), attr);
         }
     }
 }
