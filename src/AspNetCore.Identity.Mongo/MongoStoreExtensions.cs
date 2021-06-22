@@ -15,13 +15,15 @@ namespace AspNetCore.Identity.Mongo
 {
     public static class MongoStoreExtensions
     {
-        public static IdentityBuilder AddMongoDbStores<TUser>(this IdentityBuilder builder, Action<MongoIdentityOptions> setupDatabaseAction)
+        public static IdentityBuilder AddMongoDbStores<TUser>(this IdentityBuilder builder, Action<MongoIdentityOptions> setupDatabaseAction,
+            IdentityErrorDescriber identityErrorDescriber = null)
             where TUser : MongoUser
         {
-            return AddMongoDbStores<TUser, MongoRole, ObjectId>(builder, setupDatabaseAction);
+            return AddMongoDbStores<TUser, MongoRole, ObjectId>(builder, setupDatabaseAction, identityErrorDescriber);
         }
 
-        public static IdentityBuilder AddMongoDbStores<TUser, TRole, TKey>(this IdentityBuilder builder, Action<MongoIdentityOptions> setupDatabaseAction)
+        public static IdentityBuilder AddMongoDbStores<TUser, TRole, TKey>(this IdentityBuilder builder, Action<MongoIdentityOptions> setupDatabaseAction,
+            IdentityErrorDescriber identityErrorDescriber = null)
             where TKey : IEquatable<TKey>
             where TUser : MongoUser<TKey>
             where TRole : MongoRole<TKey>
@@ -30,11 +32,10 @@ namespace AspNetCore.Identity.Mongo
             setupDatabaseAction(dbOptions);
 
             var migrationCollection = MongoUtil.FromConnectionString<MigrationHistory>(dbOptions, dbOptions.MigrationCollection);
-
-            Task.WaitAny(Migrator.Apply(migrationCollection));
-
             var userCollection = MongoUtil.FromConnectionString<TUser>(dbOptions, dbOptions.UsersCollection);
             var roleCollection = MongoUtil.FromConnectionString<TRole>(dbOptions, dbOptions.RolesCollection);
+
+            Migrator.Apply<TUser, TRole, TKey>(migrationCollection, userCollection, roleCollection);
 
             builder.Services.AddSingleton(x => userCollection);
             builder.Services.AddSingleton(x => roleCollection);
@@ -46,8 +47,8 @@ namespace AspNetCore.Identity.Mongo
             }
 
             // Identity Services
-            builder.Services.AddTransient<IRoleStore<TRole>>(x => new RoleStore<TRole, TKey>(roleCollection));
-            builder.Services.AddTransient<IUserStore<TUser>>(x => new UserStore<TUser, TRole, TKey>(userCollection, new RoleStore<TRole, TKey>(roleCollection), x.GetService<ILookupNormalizer>()));
+            builder.Services.AddTransient<IRoleStore<TRole>>(x => new RoleStore<TRole, TKey>(roleCollection, identityErrorDescriber));
+            builder.Services.AddTransient<IUserStore<TUser>>(x => new UserStore<TUser, TRole, TKey>(userCollection, roleCollection, identityErrorDescriber));
 
             return builder;
         }
