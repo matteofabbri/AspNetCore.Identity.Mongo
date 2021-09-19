@@ -1,4 +1,18 @@
-﻿[*.cs]
+﻿[*]
+end_of_line = crlf
+trim_trailing_whitespace = true
+
+# Code files
+[*.{cs,csx,vb,vbx}]
+indent_size = 4
+charset = utf-8-bom
+
+# Xml project files
+[*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
+indent_size = 2
+indent_style = space
+
+[*.cs]
 
 # IDE0058: Expression value is never used
 csharp_style_unused_value_expression_statement_preference = discard_variable:none
