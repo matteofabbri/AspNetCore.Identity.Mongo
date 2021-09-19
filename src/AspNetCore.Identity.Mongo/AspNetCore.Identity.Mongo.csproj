@@ -14,22 +14,19 @@
 		<Authors>Matteo Fabbri</Authors>
 		<Company />
 		<Product>AspNetCore.Identity.Mongo</Product>
-		<Version>8.2.0</Version>
-		<AssemblyVersion>8.2.0.0</AssemblyVersion>
-		<FileVersion>8.2.0.0</FileVersion>
+		<Version>8.3.0</Version>
+		<AssemblyVersion>8.3.0.0</AssemblyVersion>
+		<FileVersion>8.3.0.0</FileVersion>
 		<PackageProjectUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</PackageProjectUrl>
 		<NeutralLanguage />
-		<PackageReleaseNotes>
-			improved performance;
-			added extension that allows register only mongodb stores.
-		</PackageReleaseNotes>
+		<PackageReleaseNotes>fixed vulnerability related to System.Text.Encodings.Web</PackageReleaseNotes>
 		<RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
 		<RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="MongoDB.Driver" Version="2.11.6" />
+		<PackageReference Include="MongoDB.Driver" Version="2.13.1" />
 	</ItemGroup>
 
 	<ItemGroup Condition="$(TargetFramework) != 'netstandard2.1'">

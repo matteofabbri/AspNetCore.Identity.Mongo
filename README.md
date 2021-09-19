@@ -22,11 +22,8 @@ This is a MongoDB provider for the ASP.NET Core Identity framework. It is comple
 
 ## Dot Net Core Versions support
 
-**.Net 5.0** - packages of **8** series
-
-**.Net Core 3.x** - packages of **6** series
-
-**.Net Core 2.x** - packages of **5** series
+Library supports **.Net 5.0**, **.Net Core 3.1**, **.Net Core 2.1**
+simultaneously started from 8.3.0 nuget package.
 
 ## How to use:
 AspNetCore.Identity.Mongo is installed from NuGet:
@@ -103,7 +100,22 @@ services.AddIdentityMongoDbProvider<ApplicationUser, ApplicationRole, string>(id
         // other options
     });
 ```
-**Note:** Option to set type of the primary key **not available** in **.Net Core 2.x nuget packages!** 
+To add the stores only, use:
+```csharp
+using AspNetCore.Identity.Mongo;
+using AspNetCore.Identity.Mongo.Model;
+
+// At the ConfigureServices section in Startup.cs
+services
+    .AddIdentityCore<MongoUser>()
+    .AddRoles<MongoRole>()
+    .AddMongoDbStores<MongoUser, MongoRole, ObjectId>(mongo =>
+    {
+        mongo.ConnectionString = "mongodb://127.0.0.1:27017/identity";
+        // other options
+    })
+    .AddDefaultTokenProviders();
+```
 
 ## Migration from lower versions
 New releases could/will have the breaking changes.
