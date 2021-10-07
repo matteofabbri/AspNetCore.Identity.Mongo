@@ -112,6 +112,9 @@ namespace AspNetCore.Identity.Mongo.Stores
             else
             {
                 token.Value = value;
+
+                var idx = user.Tokens.FindIndex(x => x.LoginProvider == token.LoginProvider && x.Name == token.Name);
+                user.Tokens[idx] = token;
             }
         }
 
