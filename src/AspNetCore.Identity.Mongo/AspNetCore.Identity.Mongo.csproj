@@ -14,19 +14,19 @@
 		<Authors>Matteo Fabbri</Authors>
 		<Company />
 		<Product>AspNetCore.Identity.Mongo</Product>
-		<Version>8.3.0</Version>
-		<AssemblyVersion>8.3.0.0</AssemblyVersion>
-		<FileVersion>8.3.0.0</FileVersion>
+		<Version>8.3.1</Version>
+		<AssemblyVersion>8.3.1.0</AssemblyVersion>
+		<FileVersion>8.3.1.0</FileVersion>
 		<PackageProjectUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</PackageProjectUrl>
 		<NeutralLanguage />
-		<PackageReleaseNotes>fixed vulnerability related to System.Text.Encodings.Web</PackageReleaseNotes>
+		<PackageReleaseNotes>Fixed recovery codes not being removed after use.</PackageReleaseNotes>
 		<RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
 		<RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="MongoDB.Driver" Version="2.13.1" />
+		<PackageReference Include="MongoDB.Driver" Version="2.13.2" />
 	</ItemGroup>
 
 	<ItemGroup Condition="$(TargetFramework) != 'netstandard2.1'">
