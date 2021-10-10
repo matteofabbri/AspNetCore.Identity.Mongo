@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace AspNetCore.Identity.Mongo.Model
 {
@@ -20,7 +21,6 @@ namespace AspNetCore.Identity.Mongo.Model
             Claims = new List<IdentityUserClaim<string>>();
             Logins = new List<IdentityUserLogin<string>>();
             Tokens = new List<IdentityUserToken<string>>();
-            RecoveryCodes = new List<TwoFactorRecoveryCode>();
         }
 
         public MongoUser(string userName) : this()
@@ -29,6 +29,7 @@ namespace AspNetCore.Identity.Mongo.Model
             NormalizedUserName = userName.ToUpperInvariant();
         }
 
+        [BsonIgnore]
         [Obsolete("This property moved to Tokens and should not be used anymore! Will be removed in future versions.")]
         public string AuthenticatorKey { get; set; }
 
@@ -40,6 +41,8 @@ namespace AspNetCore.Identity.Mongo.Model
 
         public List<IdentityUserToken<string>> Tokens { get; set; }
 
+        [BsonIgnore]
+        [Obsolete("This property moved to Tokens and should not be used anymore! Will be removed in future versions.")]
         public List<TwoFactorRecoveryCode> RecoveryCodes { get; set; }
     }
 }
