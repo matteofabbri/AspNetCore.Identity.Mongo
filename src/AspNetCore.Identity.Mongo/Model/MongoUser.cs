@@ -13,6 +13,7 @@ namespace AspNetCore.Identity.Mongo.Model
         public MongoUser(string userName) : base(userName) { }
     }
 
+    [BsonIgnoreExtraElements]
     public class MongoUser<TKey> : IdentityUser<TKey> where TKey : IEquatable<TKey>
     {
         public MongoUser()
