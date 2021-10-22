@@ -15,7 +15,7 @@ namespace AspNetCore.Identity.Mongo.Migrations
 
         public static void Apply<TUser, TRole, TKey>(IMongoCollection<MigrationHistory> migrationCollection, IMongoCollection<TUser> usersCollection, IMongoCollection<TRole> rolesCollection)
             where TKey : IEquatable<TKey>
-            where TUser : MongoUser<TKey>
+            where TUser : MigrationMongoUser<TKey>
             where TRole : MongoRole<TKey>
         {
             var history = migrationCollection.Find(_ => true).ToList();
