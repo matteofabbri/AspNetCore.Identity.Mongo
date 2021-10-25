@@ -1,15 +1,15 @@
-﻿using AspNetCore.Identity.Mongo.Migrations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Text;
+using System.Threading.Tasks;
+using AspNetCore.Identity.Mongo.Migrations;
 using AspNetCore.Identity.Mongo.Model;
 using AspNetCore.Identity.Mongo.Mongo;
 using AspNetCore.Identity.Mongo.Stores;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AspNetCore.Identity.Mongo
 {
@@ -32,10 +32,11 @@ namespace AspNetCore.Identity.Mongo
             setupDatabaseAction(dbOptions);
 
             var migrationCollection = MongoUtil.FromConnectionString<MigrationHistory>(dbOptions, dbOptions.MigrationCollection);
+            var migrationUserCollection = MongoUtil.FromConnectionString<MigrationMongoUser<TKey>>(dbOptions, dbOptions.UsersCollection);
             var userCollection = MongoUtil.FromConnectionString<TUser>(dbOptions, dbOptions.UsersCollection);
             var roleCollection = MongoUtil.FromConnectionString<TRole>(dbOptions, dbOptions.RolesCollection);
 
-            Migrator.Apply<TUser, TRole, TKey>(migrationCollection, userCollection, roleCollection);
+            Migrator.Apply<MigrationMongoUser<TKey>, TRole, TKey>(migrationCollection, migrationUserCollection, roleCollection);
 
             builder.Services.AddSingleton(x => userCollection);
             builder.Services.AddSingleton(x => roleCollection);

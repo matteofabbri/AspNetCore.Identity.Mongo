@@ -80,11 +80,12 @@ namespace AspNetCore.Identity.Mongo
             setupDatabaseAction(dbOptions);
 
             var migrationCollection = MongoUtil.FromConnectionString<MigrationHistory>(dbOptions, dbOptions.MigrationCollection);
+            var migrationUserCollection = MongoUtil.FromConnectionString<MigrationMongoUser<TKey>>(dbOptions, dbOptions.UsersCollection);
             var userCollection = MongoUtil.FromConnectionString<TUser>(dbOptions, dbOptions.UsersCollection);
             var roleCollection = MongoUtil.FromConnectionString<TRole>(dbOptions, dbOptions.RolesCollection);
 
             // apply migrations before identity services resolved
-            Migrator.Apply<TUser, TRole, TKey>(migrationCollection, userCollection, roleCollection);
+            Migrator.Apply<MigrationMongoUser<TKey>, TRole, TKey>(migrationCollection, migrationUserCollection, roleCollection);
 
             var builder = services.AddIdentity<TUser, TRole>(setupIdentityAction ?? (x => { }));
 
