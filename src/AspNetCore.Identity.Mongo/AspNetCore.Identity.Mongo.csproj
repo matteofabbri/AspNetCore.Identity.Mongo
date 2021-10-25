@@ -14,12 +14,12 @@
 		<Authors>Matteo Fabbri</Authors>
 		<Company />
 		<Product>AspNetCore.Identity.Mongo</Product>
-		<Version>8.3.1</Version>
-		<AssemblyVersion>8.3.1.0</AssemblyVersion>
-		<FileVersion>8.3.1.0</FileVersion>
+		<Version>8.3.2</Version>
+		<AssemblyVersion>8.3.2.0</AssemblyVersion>
+		<FileVersion>8.3.2.0</FileVersion>
 		<PackageProjectUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</PackageProjectUrl>
 		<NeutralLanguage />
-		<PackageReleaseNotes>Fixed recovery codes not being removed after use.</PackageReleaseNotes>
+		<PackageReleaseNotes>Removed obsolete properties.</PackageReleaseNotes>
 		<RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
 		<RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
