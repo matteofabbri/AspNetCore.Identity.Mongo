@@ -22,7 +22,7 @@ This is a MongoDB provider for the ASP.NET Core Identity framework. It is comple
 
 ## Dot Net Core Versions support
 
-Library supports **.Net 5.0**, **.Net Core 3.1**, **.Net Core 2.1**
+Library supports **.Net 6.0**, **.Net 5.0**, **.Net Core 3.1**, **.Net Core 2.1**
 simultaneously started from 8.3.0 nuget package.
 
 ## How to use:
