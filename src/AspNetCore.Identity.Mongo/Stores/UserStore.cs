@@ -210,7 +210,7 @@ namespace AspNetCore.Identity.Mongo.Stores
             if (user == null) throw new ArgumentNullException(nameof(user));
 
             var result = await _userCollection.DeleteOneAsync(x => x.Id.Equals(user.Id) && x.ConcurrencyStamp.Equals(user.ConcurrencyStamp), cancellationToken).ConfigureAwait(false);
-            if (!result.IsAcknowledged && result.DeletedCount == 0)
+            if (!result.IsAcknowledged || result.DeletedCount == 0)
             {
                 return IdentityResult.Failed(ErrorDescriber.ConcurrencyFailure());
             }
@@ -268,7 +268,7 @@ namespace AspNetCore.Identity.Mongo.Stores
 
             var result = await _userCollection.ReplaceOneAsync(x => x.Id.Equals(user.Id) && x.ConcurrencyStamp.Equals(currentConcurrencyStamp), user, ReplaceOptions, cancellationToken).ConfigureAwait(false);
 
-            if (!result.IsAcknowledged && result.ModifiedCount == 0)
+            if (!result.IsAcknowledged || result.ModifiedCount == 0)
             {
                 return IdentityResult.Failed(ErrorDescriber.ConcurrencyFailure());
             }
