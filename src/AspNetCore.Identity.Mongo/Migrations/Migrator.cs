@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using AspNetCore.Identity.Mongo.Model;
 using AspNetCore.Identity.Mongo.Mongo;
 using MongoDB.Driver;
+
+[assembly: InternalsVisibleTo("Tests")]
 
 namespace AspNetCore.Identity.Mongo.Migrations
 {
@@ -13,56 +17,25 @@ namespace AspNetCore.Identity.Mongo.Migrations
         //Starting from 4 in case we want to implement migrations for previous versions
         public static int CurrentVersion = 6;
 
-        public static void Apply<TUser, TRole, TKey>(IMongoCollection<MigrationHistory> migrationCollection, IMongoCollection<TUser> usersCollection, IMongoCollection<TRole> rolesCollection)
+        public static void Apply<TUser, TRole, TKey>(IMongoCollection<MigrationHistory> migrationCollection,
+            IMongoCollection<TUser> usersCollection, IMongoCollection<TRole> rolesCollection)
             where TKey : IEquatable<TKey>
             where TUser : MigrationMongoUser<TKey>
             where TRole : MongoRole<TKey>
         {
-            var history = migrationCollection.Find(_ => true).ToList();
+            var version = migrationCollection
+                .Find(h => true)
+                .SortByDescending(h => h.DatabaseVersion)
+                .Project(h => h.DatabaseVersion)
+                .FirstOrDefault();
 
-            if (history.Count > 0)
-            {
-                var lastHistory = history.OrderBy(x => x.DatabaseVersion).Last();
+            var appliedMigrations = BaseMigration.Migrations
+                .Where(m => m.Version >= version)
+                .Select(migration => migration.Apply<TUser, TRole, TKey>(usersCollection, rolesCollection))
+                .ToList();
 
-                if (lastHistory.DatabaseVersion == CurrentVersion)
-                {
-                    return;
-                }
+            migrationCollection.InsertMany(appliedMigrations);
 
-                // 4 -> 5
-                if (lastHistory.DatabaseVersion == 4)
-                {
-                    var users = usersCollection.Find(x => !string.IsNullOrEmpty(x.AuthenticatorKey)).ToList();
-                    foreach (var user in users)
-                    {
-                        var tokens = user.Tokens;
-                        tokens.Add(new Microsoft.AspNetCore.Identity.IdentityUserToken<string>()
-                        {
-                            UserId = user.Id.ToString(),
-                            Value = user.AuthenticatorKey,
-                            LoginProvider = "[AspNetUserStore]",
-                            Name = "AuthenticatorKey"
-                        });
-                        usersCollection.UpdateOne(x => x.Id.Equals(user.Id),
-                            Builders<TUser>.Update.Set(x => x.Tokens, tokens)
-                            .Set(x => x.AuthenticatorKey, null));
-                    }
-                }
-
-                // 5 -> 6
-                if (lastHistory.DatabaseVersion == 5)
-                {
-                    usersCollection.UpdateMany(x => true,
-                        Builders<TUser>.Update.Unset(x => x.AuthenticatorKey)
-                        .Unset(x => x.RecoveryCodes));
-                }
-            }
-
-            migrationCollection.InsertOne(new MigrationHistory
-            {
-                InstalledOn = DateTime.Now,
-                DatabaseVersion = CurrentVersion
-            });
         }
     }
 }
