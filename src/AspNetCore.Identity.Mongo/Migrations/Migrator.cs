@@ -15,7 +15,7 @@ namespace AspNetCore.Identity.Mongo.Migrations
     internal static class Migrator
     {
         //Starting from 4 in case we want to implement migrations for previous versions
-        public static int CurrentVersion = 6;
+        public static int CurrentVersion = 7;
 
         public static void Apply<TUser, TRole, TKey>(IMongoCollection<MigrationHistory> migrationCollection,
             IMongoCollection<TUser> usersCollection, IMongoCollection<TRole> rolesCollection)
