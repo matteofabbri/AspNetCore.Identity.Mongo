@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
-		<TargetFrameworks>netstandard2.1;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+		<TargetFrameworks>netstandard2.1;netcoreapp3.1;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
 		<ApplicationIcon />
 		<StartupObject />
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -14,9 +14,9 @@
 		<Authors>Matteo Fabbri</Authors>
 		<Company />
 		<Product>AspNetCore.Identity.Mongo</Product>
-		<Version>8.3.2</Version>
-		<AssemblyVersion>8.3.2.0</AssemblyVersion>
-		<FileVersion>8.3.2.0</FileVersion>
+		<Version>8.3.4</Version>
+		<AssemblyVersion>8.3.4.0</AssemblyVersion>
+		<FileVersion>8.3.4.0</FileVersion>
 		<PackageProjectUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</PackageProjectUrl>
 		<NeutralLanguage />
 		<PackageReleaseNotes>Removed obsolete properties.</PackageReleaseNotes>
