@@ -99,7 +99,6 @@ namespace SampleSite.Controllers
             if (user == null) return NotFound();
 
             user.AccessFailedCount = model.AccessFailedCount;
-            user.ConcurrencyStamp = model.ConcurrencyStamp;
             user.Email = model.Email;
             user.EmailConfirmed = model.EmailConfirmed;
             user.LockoutEnabled = model.LockoutEnabled;
