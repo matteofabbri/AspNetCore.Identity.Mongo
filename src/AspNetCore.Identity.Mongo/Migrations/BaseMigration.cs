@@ -11,7 +11,8 @@ namespace AspNetCore.Identity.Mongo.Migrations
     internal abstract class BaseMigration
     {
         private static List<BaseMigration> _migrations;
-        public static List<BaseMigration> Migrations  {
+        public static List<BaseMigration> Migrations
+        {
             get
             {
                 if (_migrations == null)
