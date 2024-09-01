@@ -22,8 +22,8 @@ This is a MongoDB provider for the ASP.NET Core Identity framework. It is comple
 
 ## Dot Net Core Versions support
 
-Starting from v9.0.0 library supports **.Net 6.0** and **.Net 8.0** as they are
-only versions maintainable by Microsoft.
+Starting from v9.0.0 library only supports **.Net 6.0** and **.Net 8.0** as they are
+only versions maintainable by Microsoft. [Supported Dotnet Versions](https://dotnet.microsoft.com/en-us/download/dotnet)
 
 Library supports **.Net 6.0**, **.Net 5.0**, **.Net Core 3.1**, **.Net Core 2.1**
 simultaneously started from 8.3.0 nuget package.
