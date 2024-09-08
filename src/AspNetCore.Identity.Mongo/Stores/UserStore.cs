@@ -77,9 +77,6 @@ namespace AspNetCore.Identity.Mongo.Stores
             _userCollection = userCollection;
             _roleCollection = roleCollection;
             ErrorDescriber = describer ?? new IdentityErrorDescriber();
-
-            EnsureIndex(x => x.NormalizedEmail);
-            EnsureIndex(x => x.NormalizedUserName);
         }
 
         /// <summary>
@@ -1260,12 +1257,6 @@ namespace AspNetCore.Identity.Mongo.Stores
         {
             var dbUser = await ByIdAsync(user.Id, cancellationToken).ConfigureAwait(true);
             return dbUser?.Tokens?.FirstOrDefault(x => x.LoginProvider == loginProvider && x.Name == name);
-        }
-
-        private void EnsureIndex(Expression<Func<TUser, object>> field)
-        {
-            var model = new CreateIndexModel<TUser>(Builders<TUser>.IndexKeys.Ascending(field));
-            _userCollection.Indexes.CreateOne(model);
         }
 
         private async Task UpdateAsync<TFieldValue>(TUser user, Expression<Func<TUser, TFieldValue>> expression, TFieldValue value, CancellationToken cancellationToken = default)

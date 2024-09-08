@@ -20,13 +20,29 @@ This is a MongoDB provider for the ASP.NET Core Identity framework. It is comple
 * IRoleClaimStore
 * IQueryableRoleStore
 
-## Dot Net Core Versions support
+## Dotnet Versions support
 
-Starting from v9.0.0 library only supports **.Net 6.0** and **.Net 8.0** as they are
-only versions maintainable by Microsoft. [Supported Dotnet Versions](https://dotnet.microsoft.com/en-us/download/dotnet)
+Starting from `v9.0.0` library only supports **.Net 6.0** and **.Net 8.0** as they are
+only versions maintainable by Microsoft at the moment. [Supported Dotnet Versions](https://dotnet.microsoft.com/en-us/download/dotnet)
 
 Library supports **.Net 6.0**, **.Net 5.0**, **.Net Core 3.1**, **.Net Core 2.1**
 simultaneously started from 8.3.0 nuget package.
+
+## MongoDB Indexes
+
+**Important note!**
+
+Starting from `v9.0.0` we no longer apply indexes on `"Users"` collection. Main reason for this change that
+you are unable to change default indexes. If you delete index, it will appear again;
+if you delete index and re-create it with different options, application won't start due to error.
+You most likely have other indexes of your own, and now you have 2 places where they managed.
+So it's up to user to decide which indexes should be used (if any), how and where manage them.
+
+Here the old indexes in case someone needs them (collection name could be different):
+```
+db.Users.createIndex({ "NormalizedEmail" : 1 })
+db.Users.createIndex({ "NormalizedUserName" : 1 })
+```
 
 ## How to use:
 AspNetCore.Identity.Mongo is installed from NuGet:
