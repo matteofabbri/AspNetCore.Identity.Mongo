@@ -1,15 +1,15 @@
 ﻿using MongoDB.Driver;
 
-namespace AspNetCore.Identity.Mongo.Migrations
-{
-    internal class Schema4Migration: BaseMigration
-    {
-        public override int Version { get; } = 4;
+namespace AspNetCore.Identity.Mongo.Migrations;
 
-        protected override void DoApply<TUser, TRole, TKey>(
-            IMongoCollection<TUser> usersCollection,
-            IMongoCollection<TRole> rolesCollection)
-        {
+internal class Schema4Migration: BaseMigration
+{
+    public override int Version { get; } = 4;
+
+    protected override void DoApply<TUser, TRole, TKey>(
+        IMongoCollection<TUser> usersCollection,
+        IMongoCollection<TRole> rolesCollection)
+    {
             var users = usersCollection.Find(x => !string.IsNullOrEmpty(x.AuthenticatorKey)).ToList();
             foreach (var user in users)
             {
@@ -27,5 +27,4 @@ namespace AspNetCore.Identity.Mongo.Migrations
 
             }
         }
-    }
 }

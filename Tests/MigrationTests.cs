@@ -8,33 +8,33 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using NUnit.Framework;
 
-namespace Tests
-{
-    [TestFixture]
-    public class MigrationTests
-    {
-        private IDisposable _runner;
-        private IMongoClient _client;
-        private IMongoDatabase _db;
+namespace Tests;
 
-        [OneTimeSetUp]
-        public void OneTimeSetup()
-        {
+[TestFixture]
+public class MigrationTests
+{
+    private IDisposable _runner;
+    private IMongoClient _client;
+    private IMongoDatabase _db;
+
+    [OneTimeSetUp]
+    public void OneTimeSetup()
+    {
             var runner = Mongo2Go.MongoDbRunner.Start();
             _client = new MongoClient(runner.ConnectionString);
             _db = _client.GetDatabase("migration-tests");
             _runner = runner;
         }
 
-        [OneTimeTearDown]
-        public void OneTimeTearDown()
-        {
+    [OneTimeTearDown]
+    public void OneTimeTearDown()
+    {
             _runner.Dispose();
         }
 
-        [Test, Category("unit")]
-        public void Apply_Schema4_AllMigrationsApplied()
-        {
+    [Test, Category("unit")]
+    public void Apply_Schema4_AllMigrationsApplied()
+    {
             // ARRANGE
             var history = _db.GetCollection<MigrationHistory>("migrations");
             var users = _db.GetCollection<MigrationMongoUser>("users");
@@ -72,5 +72,4 @@ namespace Tests
                 () => "Expected all migrations to run");
             Assert.That(historyAfter.Last().DatabaseVersion, Is.EqualTo(Migrator.CurrentVersion));
         }
-    }
 }

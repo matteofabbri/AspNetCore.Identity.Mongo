@@ -4,48 +4,47 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Text;
 
-namespace AspNetCore.Identity.Mongo.Mongo
+namespace AspNetCore.Identity.Mongo.Mongo;
+
+class ObjectIdConverter : TypeConverter
 {
-    class ObjectIdConverter : TypeConverter
+    public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
     {
-        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        if (sourceType == typeof(string))
         {
-            if (sourceType == typeof(string))
-            {
-                return true;
-            }
-
-            return base.CanConvertFrom(context, sourceType);
+            return true;
         }
 
-        public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
-        {
-            if (value is string)
-            {
-                return MongoDB.Bson.ObjectId.Parse((string)value);
-            }
+        return base.CanConvertFrom(context, sourceType);
+    }
 
-            return base.ConvertFrom(context, culture, value);
+    public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
+    {
+        if (value is string)
+        {
+            return MongoDB.Bson.ObjectId.Parse((string)value);
         }
 
-        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
-        {
-            if (destinationType == typeof(string))
-            {
-                return true;
-            }
+        return base.ConvertFrom(context, culture, value);
+    }
 
-            return base.CanConvertTo(context, destinationType);
+    public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+    {
+        if (destinationType == typeof(string))
+        {
+            return true;
         }
 
-        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
-        {
-            if (destinationType == typeof(string))
-            {
-                return ((MongoDB.Bson.ObjectId)value).ToString();
-            }
+        return base.CanConvertTo(context, destinationType);
+    }
 
-            return base.ConvertTo(context, culture, value, destinationType);
+    public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+    {
+        if (destinationType == typeof(string))
+        {
+            return ((MongoDB.Bson.ObjectId)value).ToString();
         }
+
+        return base.ConvertTo(context, culture, value, destinationType);
     }
 }

@@ -1,7 +1,6 @@
-﻿namespace SampleSite.Identity.ManageViewModels
+﻿namespace SampleSite.Identity.ManageViewModels;
+
+public class ShowRecoveryCodesViewModel
 {
-    public class ShowRecoveryCodesViewModel
-    {
-        public string[] RecoveryCodes { get; set; }
-    }
+    public string[] RecoveryCodes { get; set; }
 }

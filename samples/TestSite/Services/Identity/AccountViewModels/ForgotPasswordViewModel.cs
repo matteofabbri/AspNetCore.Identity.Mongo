@@ -1,11 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SampleSite.Identity.AccountViewModels
+namespace SampleSite.Identity.AccountViewModels;
+
+public class ForgotPasswordViewModel
 {
-    public class ForgotPasswordViewModel
-    {
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-    }
+    [Required]
+    [EmailAddress]
+    public string Email { get; set; }
 }

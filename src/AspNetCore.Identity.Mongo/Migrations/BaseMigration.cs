@@ -6,15 +6,15 @@ using AspNetCore.Identity.Mongo.Model;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace AspNetCore.Identity.Mongo.Migrations
+namespace AspNetCore.Identity.Mongo.Migrations;
+
+internal abstract class BaseMigration
 {
-    internal abstract class BaseMigration
+    private static List<BaseMigration> _migrations;
+    public static List<BaseMigration> Migrations
     {
-        private static List<BaseMigration> _migrations;
-        public static List<BaseMigration> Migrations
+        get
         {
-            get
-            {
                 if (_migrations == null)
                 {
                     _migrations = typeof(BaseMigration)
@@ -34,17 +34,17 @@ namespace AspNetCore.Identity.Mongo.Migrations
 
                 return _migrations;
             }
-        }
+    }
 
 
-        public abstract int Version { get; }
+    public abstract int Version { get; }
 
-        public MigrationHistory Apply<TUser, TRole, TKey>(IMongoCollection<TUser> usersCollection,
-            IMongoCollection<TRole> rolesCollection)
-            where TKey : IEquatable<TKey>
-            where TUser : MigrationMongoUser<TKey>
-            where TRole : MongoRole<TKey>
-        {
+    public MigrationHistory Apply<TUser, TRole, TKey>(IMongoCollection<TUser> usersCollection,
+        IMongoCollection<TRole> rolesCollection)
+        where TKey : IEquatable<TKey>
+        where TUser : MigrationMongoUser<TKey>
+        where TRole : MongoRole<TKey>
+    {
             DoApply<TUser, TRole, TKey>(usersCollection, rolesCollection);
             return new MigrationHistory
             {
@@ -54,10 +54,9 @@ namespace AspNetCore.Identity.Mongo.Migrations
             };
         }
 
-        protected abstract void DoApply<TUser, TRole, TKey>(
-            IMongoCollection<TUser> usersCollection, IMongoCollection<TRole> rolesCollection)
-            where TKey : IEquatable<TKey>
-            where TUser : MigrationMongoUser<TKey>
-            where TRole : MongoRole<TKey>;
-    }
+    protected abstract void DoApply<TUser, TRole, TKey>(
+        IMongoCollection<TUser> usersCollection, IMongoCollection<TRole> rolesCollection)
+        where TKey : IEquatable<TKey>
+        where TUser : MigrationMongoUser<TKey>
+        where TRole : MongoRole<TKey>;
 }

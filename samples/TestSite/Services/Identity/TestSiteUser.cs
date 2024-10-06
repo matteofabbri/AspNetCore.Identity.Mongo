@@ -1,10 +1,9 @@
 ﻿using AspNetCore.Identity.Mongo.Model;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace SampleSite.Identity
+namespace SampleSite.Identity;
+
+[BsonIgnoreExtraElements]
+public class TestSiteUser : MongoUser
 {
-    [BsonIgnoreExtraElements]
-    public class TestSiteUser : MongoUser
-    {
-    }
 }

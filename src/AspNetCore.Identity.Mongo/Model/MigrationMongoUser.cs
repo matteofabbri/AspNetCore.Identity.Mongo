@@ -7,17 +7,17 @@ using Microsoft.AspNetCore.Identity;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace AspNetCore.Identity.Mongo.Model
-{
-    internal class MigrationMongoUser : MigrationMongoUser<ObjectId>
-    {
-        public MigrationMongoUser() : base() { }
-    }
+namespace AspNetCore.Identity.Mongo.Model;
 
-    internal class MigrationMongoUser<TKey> : IdentityUser<TKey> where TKey : IEquatable<TKey>
+internal class MigrationMongoUser : MigrationMongoUser<ObjectId>
 {
-        public MigrationMongoUser()
-        {
+    public MigrationMongoUser() : base() { }
+}
+
+internal class MigrationMongoUser<TKey> : IdentityUser<TKey> where TKey : IEquatable<TKey>
+{
+    public MigrationMongoUser()
+    {
             Roles = new List<string>();
             Claims = new List<IdentityUserClaim<string>>();
             Logins = new List<IdentityUserLogin<string>>();
@@ -25,16 +25,15 @@ namespace AspNetCore.Identity.Mongo.Model
             RecoveryCodes = new List<TwoFactorRecoveryCode>();
         }
 
-        public string AuthenticatorKey { get; set; }
+    public string AuthenticatorKey { get; set; }
 
-        public List<string> Roles { get; set; }
+    public List<string> Roles { get; set; }
 
-        public List<IdentityUserClaim<string>> Claims { get; set; }
+    public List<IdentityUserClaim<string>> Claims { get; set; }
 
-        public List<IdentityUserLogin<string>> Logins { get; set; }
+    public List<IdentityUserLogin<string>> Logins { get; set; }
 
-        public List<IdentityUserToken<string>> Tokens { get; set; }
+    public List<IdentityUserToken<string>> Tokens { get; set; }
 
-        public List<TwoFactorRecoveryCode> RecoveryCodes { get; set; }
-    }
+    public List<TwoFactorRecoveryCode> RecoveryCodes { get; set; }
 }
