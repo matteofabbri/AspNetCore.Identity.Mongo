@@ -16,7 +16,7 @@ class ObjectIdConverter : TypeConverter
         return base.CanConvertFrom(context, sourceType);
     }
 
-    public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
+    public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
     {
         if (value is string)
         {

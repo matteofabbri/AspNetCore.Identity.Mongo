@@ -2,12 +2,10 @@
 using AspNetCore.Identity.Mongo.Mongo;
 using Microsoft.AspNetCore.Identity;
 using MongoDB.Driver;
-using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -430,7 +428,7 @@ public class UserStore<TUser, TRole, TKey> :
         if (user == null) throw new ArgumentNullException(nameof(user));
 
         var dbUser = await ByIdAsync(user.Id, cancellationToken).ConfigureAwait(true);
-        return dbUser?.Claims?.Select(x => new Claim(x.ClaimType, x.ClaimValue))?.ToList() ?? new List<Claim>();
+        return dbUser?.Claims?.Select(x => new Claim(x.ClaimType, x.ClaimValue)).ToList() ?? new List<Claim>();
     }
 
     /// <summary>
@@ -615,7 +613,7 @@ public class UserStore<TUser, TRole, TKey> :
     }
 
     /// <summary>
-    /// Retrieves a flag indicating whether user lockout can enabled for the specified user.
+    /// Retrieves a flag indicating whether user lockout is enabled for the specified user.
     /// </summary>
     /// <param name="user">The user whose ability to be locked out should be returned.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
@@ -633,7 +631,7 @@ public class UserStore<TUser, TRole, TKey> :
     }
 
     /// <summary>
-    /// Records that a failed access has occurred, incrementing the failed access count.
+    /// Records that failed access has occurred, incrementing the failed access count.
     /// </summary>
     /// <param name="user">The user whose cancellation count should be incremented.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
@@ -806,7 +804,7 @@ public class UserStore<TUser, TRole, TKey> :
 
         var dbUser = await ByIdAsync(user.Id, cancellationToken).ConfigureAwait(true);
 
-        return dbUser?.Logins?.Select(x => new UserLoginInfo(x.LoginProvider, x.ProviderKey, x.ProviderDisplayName))?.ToList() ?? new List<UserLoginInfo>();
+        return dbUser?.Logins?.Select(x => new UserLoginInfo(x.LoginProvider, x.ProviderKey, x.ProviderDisplayName)).ToList() ?? new List<UserLoginInfo>();
     }
 
     /// <summary>
@@ -946,7 +944,7 @@ public class UserStore<TUser, TRole, TKey> :
         ThrowIfDisposed();
 
         if (user == null) throw new ArgumentNullException(nameof(user));
-        if (string.IsNullOrWhiteSpace(normalizedRoleName)) throw new ArgumentNullException("Value cannot be null or empty.", nameof(normalizedRoleName));
+        if (string.IsNullOrWhiteSpace(normalizedRoleName)) throw new ArgumentNullException(nameof(normalizedRoleName));
 
         var roleEntity = await FindRoleAsync(normalizedRoleName, cancellationToken);
         if (roleEntity == null)
@@ -970,7 +968,7 @@ public class UserStore<TUser, TRole, TKey> :
         ThrowIfDisposed();
 
         if (user == null) throw new ArgumentNullException(nameof(user));
-        if (string.IsNullOrWhiteSpace(normalizedRoleName)) throw new ArgumentNullException("Value cannot be null or empty.", nameof(normalizedRoleName));
+        if (string.IsNullOrWhiteSpace(normalizedRoleName)) throw new ArgumentNullException(nameof(normalizedRoleName));
 
         var roleEntity = await FindRoleAsync(normalizedRoleName, cancellationToken);
         if (roleEntity != null)
@@ -1119,7 +1117,7 @@ public class UserStore<TUser, TRole, TKey> :
         if (user == null) throw new ArgumentNullException(nameof(user));
         if (code == null) throw new ArgumentNullException(nameof(code));
 
-        var mergedCodes = await GetTokenAsync(user, InternalLoginProvider, RecoveryCodeTokenName, cancellationToken) ?? "";
+        var mergedCodes = await GetTokenAsync(user, InternalLoginProvider, RecoveryCodeTokenName, cancellationToken) ?? string.Empty;
         var splitCodes = mergedCodes.Split(';');
         if (splitCodes.Contains(code))
         {
@@ -1137,7 +1135,7 @@ public class UserStore<TUser, TRole, TKey> :
     /// </summary>
     /// <param name="user">The user who owns the recovery code.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-    /// <returns>The number of valid recovery codes for the user..</returns>
+    /// <returns>The number of valid recovery codes for the user.</returns>
     public async Task<int> CountCodesAsync(TUser user, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -1145,7 +1143,7 @@ public class UserStore<TUser, TRole, TKey> :
 
         if (user == null) throw new ArgumentNullException(nameof(user));
 
-        var mergedCodes = await GetTokenAsync(user, InternalLoginProvider, RecoveryCodeTokenName, cancellationToken) ?? "";
+        var mergedCodes = await GetTokenAsync(user, InternalLoginProvider, RecoveryCodeTokenName, cancellationToken) ?? string.Empty;
         if (mergedCodes.Length > 0)
         {
             return mergedCodes.Split(';').Length;
@@ -1221,8 +1219,9 @@ public class UserStore<TUser, TRole, TKey> :
     {
         if (id == null)
         {
-            return default(TKey);
+            return default;
         }
+
         return (TKey)TypeDescriptor.GetConverter(typeof(TKey)).ConvertFromInvariantString(id);
     }
 
@@ -1233,10 +1232,11 @@ public class UserStore<TUser, TRole, TKey> :
     /// <returns>An <see cref="string"/> representation of the provided <paramref name="id"/>.</returns>
     public virtual string ConvertIdToString(TKey id)
     {
-        if (object.Equals(id, default(TKey)))
+        if (Equals(id, default(TKey)))
         {
             return null;
         }
+
         return id.ToString();
     }
 
@@ -1256,24 +1256,6 @@ public class UserStore<TUser, TRole, TKey> :
     {
         var dbUser = await ByIdAsync(user.Id, cancellationToken).ConfigureAwait(true);
         return dbUser?.Tokens?.FirstOrDefault(x => x.LoginProvider == loginProvider && x.Name == name);
-    }
-
-    private async Task UpdateAsync<TFieldValue>(TUser user, Expression<Func<TUser, TFieldValue>> expression, TFieldValue value, CancellationToken cancellationToken = default)
-    {
-        if (user == null) throw new ArgumentNullException(nameof(user));
-
-        var updateDefinition = Builders<TUser>.Update.Set(expression, value);
-
-        await _userCollection.UpdateOneAsync(x => x.Id.Equals(user.Id), updateDefinition, cancellationToken: cancellationToken).ConfigureAwait(false);
-    }
-
-    private async Task AddAsync<TFieldValue>(TUser user, Expression<Func<TUser, IEnumerable<TFieldValue>>> expression, TFieldValue value, CancellationToken cancellationToken = default)
-    {
-        if (user == null) throw new ArgumentNullException(nameof(user));
-
-        var addDefinition = Builders<TUser>.Update.AddToSet(expression, value);
-
-        await _userCollection.UpdateOneAsync(x => x.Id.Equals(user.Id), addDefinition, cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     private Task<TUser> ByIdAsync(TKey id, CancellationToken cancellationToken = default)

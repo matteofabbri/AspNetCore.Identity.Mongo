@@ -2,7 +2,6 @@
 using AspNetCore.Identity.Mongo.Mongo;
 using Microsoft.AspNetCore.Identity;
 using MongoDB.Driver;
-using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,7 +15,8 @@ namespace AspNetCore.Identity.Mongo.Stores;
 /// <summary>
 /// Creates a new instance of a persistence store for roles.
 /// </summary>
-/// <typeparam name="TRole">The type of the class representing a role</typeparam>
+/// <typeparam name="TRole">The type of the class representing a role.</typeparam>
+/// <typeparam name="TKey">The type of the primary key for a user/role.</typeparam>
 public class RoleStore<TRole, TKey> :
     IRoleClaimStore<TRole>,
     IQueryableRoleStore<TRole>
@@ -183,14 +183,14 @@ public class RoleStore<TRole, TKey> :
     /// <param name="normalizedName">The normalized name to set</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>The <see cref="Task"/> that represents the asynchronous operation.</returns>
-    public Task SetNormalizedRoleNameAsync(TRole role, string normalizedRoleName, CancellationToken cancellationToken = default)
+    public Task SetNormalizedRoleNameAsync(TRole role, string normalizedName, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
 
         if (role == null) throw new ArgumentNullException(nameof(role));
 
-        role.NormalizedName = normalizedRoleName;
+        role.NormalizedName = normalizedName;
 
         return Task.CompletedTask;
     }
@@ -201,12 +201,12 @@ public class RoleStore<TRole, TKey> :
     /// <param name="id">The role ID to look for.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>A <see cref="Task{TResult}"/> that result of the look up.</returns>
-    public Task<TRole> FindByIdAsync(string roleId, CancellationToken cancellationToken = default)
+    public Task<TRole> FindByIdAsync(string id, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
 
-        return _collection.FirstOrDefaultAsync(x => x.Id.Equals(ConvertIdFromString(roleId)), cancellationToken: cancellationToken);
+        return _collection.FirstOrDefaultAsync(x => x.Id.Equals(ConvertIdFromString(id)), cancellationToken: cancellationToken);
     }
 
     /// <summary>
@@ -309,7 +309,7 @@ public class RoleStore<TRole, TKey> :
     {
         if (id == null)
         {
-            return default(TKey);
+            return default;
         }
         return (TKey)TypeDescriptor.GetConverter(typeof(TKey)).ConvertFromInvariantString(id);
     }
@@ -321,7 +321,7 @@ public class RoleStore<TRole, TKey> :
     /// <returns>An <see cref="string"/> representation of the provided <paramref name="id"/>.</returns>
     public virtual string ConvertIdToString(TKey id)
     {
-        if (object.Equals(id, default(TKey)))
+        if (Equals(id, default(TKey)))
         {
             return null;
         }
