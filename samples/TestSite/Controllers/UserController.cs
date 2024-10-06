@@ -1,14 +1,14 @@
-﻿using System.Security.Claims;
-using System.Threading.Tasks;
-using AspNetCore.Identity.Mongo.Model;
-using SampleSite.Identity;
+﻿using AspNetCore.Identity.Mongo.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 using MongoDB.Bson;
+using MongoDB.Driver;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using TestSite.Models;
+using TestSite.Services.Identity;
 
-namespace SampleSite.Controllers;
+namespace TestSite.Controllers;
 
 //[Authorize(Roles = "user")]
 public class UserController : Controller

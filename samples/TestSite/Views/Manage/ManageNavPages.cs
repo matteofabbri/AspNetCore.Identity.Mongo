@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using System;
 
-namespace SampleSite.Views.Manage;
+namespace TestSite.Views.Manage;
 
 public static class ManageNavPages
 {

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 
-namespace SampleSite.Identity.ManageViewModels;
+namespace TestSite.Services.Identity.ManageViewModels;
 
 public class ExternalLoginsViewModel
 {

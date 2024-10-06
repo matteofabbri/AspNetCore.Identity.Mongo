@@ -1,17 +1,17 @@
-﻿using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using SampleSite.Extensions;
-using SampleSite.Identity;
-using SampleSite.Identity.AccountViewModels;
-using SampleSite.Mailing;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using TestSite.Extensions;
+using TestSite.Services.Identity;
+using TestSite.Services.Identity.AccountViewModels;
+using TestSite.Services.Mailing;
 
-namespace SampleSite.Controllers;
+namespace TestSite.Controllers;
 
 [Authorize]
 [Route("[controller]/[action]")]

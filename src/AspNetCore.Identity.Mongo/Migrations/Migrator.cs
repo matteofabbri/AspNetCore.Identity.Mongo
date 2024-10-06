@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using AspNetCore.Identity.Mongo.Model;
-using AspNetCore.Identity.Mongo.Mongo;
+﻿using AspNetCore.Identity.Mongo.Model;
 using MongoDB.Driver;
+using System;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Tests")]
 

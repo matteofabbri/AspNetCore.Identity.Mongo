@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace SampleSite.Mailing;
+namespace TestSite.Services.Mailing;
 
 // This class is used by the application to send email for account confirmation and password reset.
 // For more details see https://go.microsoft.com/fwlink/?LinkID=532713

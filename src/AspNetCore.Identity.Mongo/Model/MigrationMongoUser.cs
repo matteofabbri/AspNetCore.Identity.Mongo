@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using DnsClient;
-using System.Data;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+using System;
+using System.Collections.Generic;
 
 namespace AspNetCore.Identity.Mongo.Model;
 

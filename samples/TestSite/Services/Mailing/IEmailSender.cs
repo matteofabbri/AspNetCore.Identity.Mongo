@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace SampleSite.Mailing;
+namespace TestSite.Services.Mailing;
 
 public interface IEmailSender
 {

@@ -1,7 +1,7 @@
-using SampleSite.Controllers;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using TestSite.Controllers;
 
-namespace SampleSite.Extensions;
+namespace TestSite.Extensions;
 
 public static class UrlHelperExtensions
 {

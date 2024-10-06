@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AspNetCore.Identity.Mongo.Model;
+﻿namespace AspNetCore.Identity.Mongo.Model;
 
 internal class TwoFactorRecoveryCode
 {

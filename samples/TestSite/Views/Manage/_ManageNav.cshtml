@@ -1,6 +1,7 @@
-﻿@using SampleSite.Identity
-@using SampleSite.Views.Manage
-@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using TestSite.Services.Identity
+@using TestSite.Views.Manage
 @inject SignInManager<TestSiteUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();

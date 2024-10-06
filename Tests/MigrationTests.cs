@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AspNetCore.Identity.Mongo.Migrations;
+﻿using AspNetCore.Identity.Mongo.Migrations;
 using AspNetCore.Identity.Mongo.Model;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Tests;
 

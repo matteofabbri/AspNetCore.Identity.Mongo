@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.ComponentModel.DataAnnotations;
 
-namespace SampleSite.Identity.ManageViewModels;
+namespace TestSite.Services.Identity.ManageViewModels;
 
 public class EnableAuthenticatorViewModel
 {

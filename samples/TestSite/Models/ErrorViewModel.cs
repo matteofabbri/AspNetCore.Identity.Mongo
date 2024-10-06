@@ -1,6 +1,4 @@
-using System;
-
-namespace TestSite.Models;
+﻿namespace TestSite.Models;
 
 public class ErrorViewModel
 {

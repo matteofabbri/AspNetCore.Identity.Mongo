@@ -1,8 +1,8 @@
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using SampleSite.Mailing;
+using TestSite.Services.Mailing;
 
-namespace SampleSite.Extensions;
+namespace TestSite.Extensions;
 
 public static class EmailSenderExtensions
 {
