@@ -17,4 +17,6 @@ public class MongoIdentityOptions
     public SslSettings SslSettings { get; set; }
 
     public Action<ClusterBuilder> ClusterConfigurator { get; set; }
+
+    public bool DisableAutoMigrations { get; set; }
 }

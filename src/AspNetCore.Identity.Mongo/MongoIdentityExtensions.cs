@@ -83,7 +83,8 @@ public static class MongoIdentityExtensions
         var roleCollection = MongoUtil.FromConnectionString<TRole>(dbOptions, dbOptions.RolesCollection);
 
         // apply migrations before identity services resolved
-        Migrator.Apply<MigrationMongoUser<TKey>, TRole, TKey>(migrationCollection, migrationUserCollection, roleCollection);
+        if (!dbOptions.DisableAutoMigrations)
+            Migrator.Apply<MigrationMongoUser<TKey>, TRole, TKey>(migrationCollection, migrationUserCollection, roleCollection);
 
         var builder = services.AddIdentity<TUser, TRole>(setupIdentityAction ?? (x => { }));
 
