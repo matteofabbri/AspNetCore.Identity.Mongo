@@ -36,8 +36,11 @@ public static class MongoStoreExtensions
         var userCollection = MongoUtil.FromConnectionString<TUser>(dbOptions, dbOptions.UsersCollection);
         var roleCollection = MongoUtil.FromConnectionString<TRole>(dbOptions, dbOptions.RolesCollection);
 
-        Migrator.Apply<MigrationMongoUser<TKey>, TRole, TKey>(migrationCollection, migrationUserCollection,
-            roleCollection);
+        if (!dbOptions.DisableAutoMigrations)
+        {
+            Migrator.Apply<MigrationMongoUser<TKey>, TRole, TKey>(
+                migrationCollection, migrationUserCollection, roleCollection);
+        }
 
         builder.Services.AddSingleton(x => userCollection);
         builder.Services.AddSingleton(x => roleCollection);
