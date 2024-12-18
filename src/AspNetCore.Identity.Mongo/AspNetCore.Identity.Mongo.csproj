@@ -14,9 +14,9 @@
         <Authors>Matteo Fabbri</Authors>
         <Company />
         <Product>AspNetCore.Identity.Mongo</Product>
-        <Version>9.1.0</Version>
-        <AssemblyVersion>9.1.0.0</AssemblyVersion>
-        <FileVersion>9.1.0.0</FileVersion>
+        <Version>9.1.1</Version>
+        <AssemblyVersion>9.1.1.0</AssemblyVersion>
+        <FileVersion>9.1.1.0</FileVersion>
         <PackageProjectUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</PackageProjectUrl>
         <NeutralLanguage />
         <PackageReleaseNotes>Removed obsolete properties.</PackageReleaseNotes>
