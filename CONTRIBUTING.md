@@ -24,20 +24,21 @@ that is not occurring.
 
 #### **Dotnet version**
 
-* master branch refers only relevant and supported by Microsoft versions of dotnet. (Net 6.0 & Net 8.0 for now)
+* master branch refers only relevant and supported by Microsoft versions of dotnet.
 
 * older versions will be branched out, so if you want to make changes make sure you selected right branch.
 
 * relations table:
 
-| Dotnet Version | Branch                  |
-|----------------|-------------------------|
-| netstandard2.1 | `releases/8.x`          |
-| netcoreapp3.1  | `releases/8.x`          |
-| net5.0         | `releases/8.x`          |
-| net6.0         | `releases/8.x` `master` |
-| net7.0         |                         |
-| net8.0         | `master`                |
+| Dotnet Version | Branch         |
+|----------------|----------------|
+| netstandard2.1 | `releases/8.x` |
+| netcoreapp3.1  | `releases/8.x` |
+| net5.0         | `releases/8.x` |
+| net6.0         | `releases/9.x` |
+| net7.0         |                |
+| net8.0         | `master`       |
+| net9.0         | `master`       |
 
 #### **Issue and Pull request templates**
 
