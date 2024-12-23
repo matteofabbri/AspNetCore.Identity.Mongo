@@ -19,27 +19,27 @@ public class MigrationTests
     [OneTimeSetUp]
     public void OneTimeSetup()
     {
-            var runner = Mongo2Go.MongoDbRunner.Start();
-            _client = new MongoClient(runner.ConnectionString);
-            _db = _client.GetDatabase("migration-tests");
-            _runner = runner;
-        }
+        var runner = Mongo2Go.MongoDbRunner.Start();
+        _client = new MongoClient(runner.ConnectionString);
+        _db = _client.GetDatabase("migration-tests");
+        _runner = runner;
+    }
 
     [OneTimeTearDown]
     public void OneTimeTearDown()
     {
-            _runner.Dispose();
-        }
+        _runner.Dispose();
+    }
 
     [Test, Category("unit")]
     public void Apply_Schema4_AllMigrationsApplied()
     {
-            // ARRANGE
-            var history = _db.GetCollection<MigrationHistory>("migrations");
-            var users = _db.GetCollection<MigrationMongoUser>("users");
-            var roles = _db.GetCollection<MongoRole<ObjectId>>("roles");
-            var initialVersion = 4;
-            var existingHistory = new List<MigrationHistory>
+        // ARRANGE
+        var history = _db.GetCollection<MigrationHistory>("migrations");
+        var users = _db.GetCollection<MigrationMongoUser>("users");
+        var roles = _db.GetCollection<MongoRole<ObjectId>>("roles");
+        var initialVersion = 4;
+        var existingHistory = new List<MigrationHistory>
             {
                 new MigrationHistory
                 {
@@ -54,21 +54,21 @@ public class MigrationTests
                     InstalledOn = DateTime.UtcNow.AddDays(-1)
                 }
             };
-            history.InsertMany(existingHistory);
+        history.InsertMany(existingHistory);
 
 
-            // ACT
-            Migrator.Apply<MigrationMongoUser, MongoRole<ObjectId>, ObjectId>(history, users, roles);
+        // ACT
+        Migrator.Apply<MigrationMongoUser, MongoRole<ObjectId>, ObjectId>(history, users, roles);
 
-            // ASSERT
-            var historyAfter = history
-                .Find("{}")
-                .SortBy(h => h.DatabaseVersion)
-                .ToList();
+        // ASSERT
+        var historyAfter = history
+            .Find("{}")
+            .SortBy(h => h.DatabaseVersion)
+            .ToList();
 
-            var expectedHistoryObjectsAfter = Migrator.CurrentVersion - initialVersion + existingHistory.Count;
-            Assert.That(historyAfter.Count, Is.EqualTo(expectedHistoryObjectsAfter),
-                () => "Expected all migrations to run");
-            Assert.That(historyAfter.Last().DatabaseVersion, Is.EqualTo(Migrator.CurrentVersion));
-        }
+        var expectedHistoryObjectsAfter = Migrator.CurrentVersion - initialVersion + existingHistory.Count;
+        Assert.That(historyAfter.Count, Is.EqualTo(expectedHistoryObjectsAfter),
+            () => "Expected all migrations to run");
+        Assert.That(historyAfter.Last().DatabaseVersion, Is.EqualTo(Migrator.CurrentVersion));
+    }
 }
