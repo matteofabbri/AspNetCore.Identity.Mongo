@@ -14,12 +14,12 @@
         <Authors>Matteo Fabbri</Authors>
         <Company />
         <Product>AspNetCore.Identity.Mongo</Product>
-        <Version>9.1.2</Version>
-        <AssemblyVersion>9.1.2.0</AssemblyVersion>
-        <FileVersion>9.1.2.0</FileVersion>
+        <Version>10.0.0</Version>
+        <AssemblyVersion>10.0.0.0</AssemblyVersion>
+        <FileVersion>10.0.0.0</FileVersion>
         <PackageProjectUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</PackageProjectUrl>
         <NeutralLanguage />
-        <PackageReleaseNotes>Removed obsolete properties.</PackageReleaseNotes>
+        <PackageReleaseNotes>.Net 9 support</PackageReleaseNotes>
         <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
         <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
         <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
