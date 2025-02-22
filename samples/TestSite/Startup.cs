@@ -44,6 +44,8 @@ public class Startup
 
         services.AddSingleton<IEmailSender, EmailSender>();
         services.AddRazorPages();
+
+        services.AddHostedService<BackgroundTestService>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
