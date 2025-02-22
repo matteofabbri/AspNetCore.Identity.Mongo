@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Bson;
 using TestSite.Policy;
 using TestSite.Services.Identity;
 using TestSite.Services.Mailing;
@@ -24,7 +25,7 @@ public class Startup
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddIdentityMongoDbProvider<TestSiteUser>(identity =>
+        services.AddIdentityMongoDbProvider<TestSiteUser, TestSiteRole, ObjectId, string>(identity =>
             {
                 identity.Password.RequireDigit = false;
                 identity.Password.RequireLowercase = false;

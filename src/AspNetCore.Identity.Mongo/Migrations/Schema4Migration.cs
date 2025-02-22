@@ -6,7 +6,7 @@ internal class Schema4Migration : BaseMigration
 {
     public override int Version { get; } = 4;
 
-    protected override void DoApply<TUser, TRole, TKey>(
+    protected override void DoApply<TUser, TRole, TKeyUser, TKeyRole>(
         IMongoCollection<TUser> usersCollection,
         IMongoCollection<TRole> rolesCollection)
     {

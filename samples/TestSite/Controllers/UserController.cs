@@ -1,8 +1,8 @@
-﻿using AspNetCore.Identity.Mongo.Model;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using TestSite.Models;
@@ -14,12 +14,12 @@ namespace TestSite.Controllers;
 public class UserController : Controller
 {
     private readonly UserManager<TestSiteUser> _userManager;
-    private readonly RoleManager<MongoRole> _roleManager;
+    private readonly RoleManager<TestSiteRole> _roleManager;
     readonly IMongoCollection<TestSiteUser> _userUserCollection;
 
     public UserController(
         UserManager<TestSiteUser> userManager,
-        RoleManager<MongoRole> roleManager,
+        RoleManager<TestSiteRole> roleManager,
         IMongoCollection<TestSiteUser> userCollection)
     {
         _roleManager = roleManager;
@@ -38,7 +38,7 @@ public class UserController : Controller
         var u = await _userManager.FindByNameAsync(userName);
 
         if (!await _roleManager.RoleExistsAsync(roleName))
-            await _roleManager.CreateAsync(new MongoRole(roleName));
+            await _roleManager.CreateAsync(new TestSiteRole(roleName) { Id = Guid.NewGuid().ToString() });
 
         if (u == null) return NotFound();
 
@@ -53,7 +53,7 @@ public class UserController : Controller
         var u = await _userManager.FindByNameAsync(userName);
 
         if (!await _roleManager.RoleExistsAsync(roleName))
-            await _roleManager.CreateAsync(new MongoRole(roleName));
+            await _roleManager.CreateAsync(new TestSiteRole(roleName) { Id = Guid.NewGuid().ToString() });
 
         if (u == null) return NotFound();
 

@@ -58,7 +58,7 @@ public class MigrationTests
 
 
         // ACT
-        Migrator.Apply<MigrationMongoUser, MongoRole<ObjectId>, ObjectId>(history, users, roles);
+        Migrator.Apply<MigrationMongoUser, MongoRole<ObjectId>, ObjectId, ObjectId>(history, users, roles);
 
         // ASSERT
         var historyAfter = history

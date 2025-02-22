@@ -13,11 +13,12 @@ internal static class Migrator
     //Starting from 4 in case we want to implement migrations for previous versions
     public static int CurrentVersion = 6;
 
-    public static void Apply<TUser, TRole, TKey>(IMongoCollection<MigrationHistory> migrationCollection,
+    public static void Apply<TUser, TRole, TKeyUser, TKeyRole>(IMongoCollection<MigrationHistory> migrationCollection,
         IMongoCollection<TUser> usersCollection, IMongoCollection<TRole> rolesCollection)
-        where TKey : IEquatable<TKey>
-        where TUser : MigrationMongoUser<TKey>
-        where TRole : MongoRole<TKey>
+        where TKeyUser : IEquatable<TKeyUser>
+        where TKeyRole : IEquatable<TKeyRole>
+        where TUser : MigrationMongoUser<TKeyUser>
+        where TRole : MongoRole<TKeyRole>
     {
         var version = migrationCollection
             .Find(h => true)
@@ -27,7 +28,7 @@ internal static class Migrator
 
         var appliedMigrations = BaseMigration.Migrations
             .Where(m => m.Version >= version)
-            .Select(migration => migration.Apply<TUser, TRole, TKey>(usersCollection, rolesCollection))
+            .Select(migration => migration.Apply<TUser, TRole, TKeyUser, TKeyRole>(usersCollection, rolesCollection))
             .ToList();
 
         if (appliedMigrations.Count > 0)

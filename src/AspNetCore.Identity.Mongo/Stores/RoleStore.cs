@@ -16,7 +16,7 @@ namespace AspNetCore.Identity.Mongo.Stores;
 /// Creates a new instance of a persistence store for roles.
 /// </summary>
 /// <typeparam name="TRole">The type of the class representing a role.</typeparam>
-/// <typeparam name="TKey">The type of the primary key for a user/role.</typeparam>
+/// <typeparam name="TKey">The type of the primary key for a role.</typeparam>
 public class RoleStore<TRole, TKey> :
     IRoleClaimStore<TRole>,
     IQueryableRoleStore<TRole>

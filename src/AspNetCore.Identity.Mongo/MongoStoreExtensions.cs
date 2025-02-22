@@ -16,15 +16,16 @@ public static class MongoStoreExtensions
         IdentityErrorDescriber identityErrorDescriber = null)
         where TUser : MongoUser
     {
-        return AddMongoDbStores<TUser, MongoRole, ObjectId>(builder, setupDatabaseAction, identityErrorDescriber);
+        return AddMongoDbStores<TUser, MongoRole, ObjectId, ObjectId>(builder, setupDatabaseAction, identityErrorDescriber);
     }
 
-    public static IdentityBuilder AddMongoDbStores<TUser, TRole, TKey>(this IdentityBuilder builder,
+    public static IdentityBuilder AddMongoDbStores<TUser, TRole, TKeyUser, TKeyRole>(this IdentityBuilder builder,
         Action<MongoIdentityOptions> setupDatabaseAction,
         IdentityErrorDescriber identityErrorDescriber = null)
-        where TKey : IEquatable<TKey>
-        where TUser : MongoUser<TKey>
-        where TRole : MongoRole<TKey>
+        where TKeyUser : IEquatable<TKeyUser>
+        where TKeyRole : IEquatable<TKeyRole>
+        where TUser : MongoUser<TKeyUser>
+        where TRole : MongoRole<TKeyRole>
     {
         var dbOptions = new MongoIdentityOptions();
         setupDatabaseAction(dbOptions);
@@ -32,13 +33,13 @@ public static class MongoStoreExtensions
         var migrationCollection =
             MongoUtil.FromConnectionString<MigrationHistory>(dbOptions, dbOptions.MigrationCollection);
         var migrationUserCollection =
-            MongoUtil.FromConnectionString<MigrationMongoUser<TKey>>(dbOptions, dbOptions.UsersCollection);
+            MongoUtil.FromConnectionString<MigrationMongoUser<TKeyUser>>(dbOptions, dbOptions.UsersCollection);
         var userCollection = MongoUtil.FromConnectionString<TUser>(dbOptions, dbOptions.UsersCollection);
         var roleCollection = MongoUtil.FromConnectionString<TRole>(dbOptions, dbOptions.RolesCollection);
 
         if (!dbOptions.DisableAutoMigrations)
         {
-            Migrator.Apply<MigrationMongoUser<TKey>, TRole, TKey>(
+            Migrator.Apply<MigrationMongoUser<TKeyUser>, TRole, TKeyUser, TKeyRole>(
                 migrationCollection, migrationUserCollection, roleCollection);
         }
 
@@ -46,16 +47,16 @@ public static class MongoStoreExtensions
         builder.Services.AddSingleton(x => roleCollection);
 
         // register custom ObjectId TypeConverter
-        if (typeof(TKey) == typeof(ObjectId))
+        if (typeof(TKeyUser) == typeof(ObjectId))
         {
             TypeConverterResolver.RegisterTypeConverter<ObjectId, ObjectIdConverter>();
         }
 
         // Identity Services
         builder.Services.AddTransient<IRoleStore<TRole>>(x =>
-            new RoleStore<TRole, TKey>(roleCollection, identityErrorDescriber));
+            new RoleStore<TRole, TKeyRole>(roleCollection, identityErrorDescriber));
         builder.Services.AddTransient<IUserStore<TUser>>(x =>
-            new UserStore<TUser, TRole, TKey>(userCollection, roleCollection, identityErrorDescriber));
+            new UserStore<TUser, TRole, TKeyUser, TKeyRole>(userCollection, roleCollection, identityErrorDescriber));
 
         return builder;
     }

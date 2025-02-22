@@ -17,8 +17,9 @@ namespace AspNetCore.Identity.Mongo.Stores;
 /// </summary>
 /// <typeparam name="TUser">The type representing a user.</typeparam>
 /// <typeparam name="TRole">The type representing a role.</typeparam>
-/// <typeparam name="TKey">The type of the primary key for a user/role.</typeparam>
-public class UserStore<TUser, TRole, TKey> :
+/// <typeparam name="TKeyUser">The type of the primary key for a user.</typeparam>
+/// <typeparam name="TKeyRole">The type of the primary key for a role.</typeparam>
+public class UserStore<TUser, TRole, TKeyUser, TKeyRole> :
     IUserClaimStore<TUser>,
     IUserLoginStore<TUser>,
     IUserRoleStore<TUser>,
@@ -33,9 +34,10 @@ public class UserStore<TUser, TRole, TKey> :
     IUserAuthenticationTokenStore<TUser>,
     IUserTwoFactorRecoveryCodeStore<TUser>,
     IProtectedUserStore<TUser>
-    where TKey : IEquatable<TKey>
-    where TUser : MongoUser<TKey>
-    where TRole : MongoRole<TKey>
+    where TKeyUser : IEquatable<TKeyUser>
+    where TKeyRole : IEquatable<TKeyRole>
+    where TUser : MongoUser<TKeyUser>
+    where TRole : MongoRole<TKeyRole>
 {
     /// <summary>
     /// Gets or sets the <see cref="IdentityErrorDescriber"/> for any error that occurred with the current operation.
@@ -225,7 +227,7 @@ public class UserStore<TUser, TRole, TKey> :
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
 
-        return ByIdAsync(ConvertIdFromString(userId), cancellationToken);
+        return ByIdAsync(ConvertUserIdFromString(userId), cancellationToken);
     }
 
     /// <summary>
@@ -1018,7 +1020,7 @@ public class UserStore<TUser, TRole, TKey> :
         var roles = new List<string>();
         foreach (var item in userDb.Roles)
         {
-            var dbRole = await _roleCollection.FirstOrDefaultAsync(r => r.Id.Equals(ConvertIdFromString(item)), cancellationToken).ConfigureAwait(true);
+            var dbRole = await _roleCollection.FirstOrDefaultAsync(r => r.Id.Equals(ConvertRoleIdFromString(item)), cancellationToken).ConfigureAwait(true);
 
             if (dbRole != null)
             {
@@ -1214,15 +1216,30 @@ public class UserStore<TUser, TRole, TKey> :
     /// Converts the provided <paramref name="id"/> to a strongly typed key object.
     /// </summary>
     /// <param name="id">The id to convert.</param>
-    /// <returns>An instance of <typeparamref name="TKey"/> representing the provided <paramref name="id"/>.</returns>
-    public virtual TKey ConvertIdFromString(string id)
+    /// <returns>An instance of <typeparamref name="TKeyUser"/> representing the provided <paramref name="id"/>.</returns>
+    public virtual TKeyUser ConvertUserIdFromString(string id)
     {
         if (id == null)
         {
             return default;
         }
 
-        return (TKey)TypeDescriptor.GetConverter(typeof(TKey)).ConvertFromInvariantString(id);
+        return (TKeyUser)TypeDescriptor.GetConverter(typeof(TKeyUser)).ConvertFromInvariantString(id);
+    }
+
+    /// <summary>
+    /// Converts the provided <paramref name="id"/> to a strongly typed key object.
+    /// </summary>
+    /// <param name="id">The id to convert.</param>
+    /// <returns>An instance of <typeparamref name="TKeyRole"/> representing the provided <paramref name="id"/>.</returns>
+    public virtual TKeyRole ConvertRoleIdFromString(string id)
+    {
+        if (id == null)
+        {
+            return default;
+        }
+
+        return (TKeyRole)TypeDescriptor.GetConverter(typeof(TKeyRole)).ConvertFromInvariantString(id);
     }
 
     /// <summary>
@@ -1230,9 +1247,24 @@ public class UserStore<TUser, TRole, TKey> :
     /// </summary>
     /// <param name="id">The id to convert.</param>
     /// <returns>An <see cref="string"/> representation of the provided <paramref name="id"/>.</returns>
-    public virtual string ConvertIdToString(TKey id)
+    public virtual string ConvertIdToString(TKeyUser id)
     {
-        if (Equals(id, default(TKey)))
+        if (Equals(id, default(TKeyUser)))
+        {
+            return null;
+        }
+
+        return id.ToString();
+    }
+
+    /// <summary>
+    /// Converts the provided <paramref name="id"/> to its string representation.
+    /// </summary>
+    /// <param name="id">The id to convert.</param>
+    /// <returns>An <see cref="string"/> representation of the provided <paramref name="id"/>.</returns>
+    public virtual string ConvertIdToString(TKeyRole id)
+    {
+        if (Equals(id, default(TKeyRole)))
         {
             return null;
         }
@@ -1258,7 +1290,7 @@ public class UserStore<TUser, TRole, TKey> :
         return dbUser?.Tokens?.FirstOrDefault(x => x.LoginProvider == loginProvider && x.Name == name);
     }
 
-    private Task<TUser> ByIdAsync(TKey id, CancellationToken cancellationToken = default)
+    private Task<TUser> ByIdAsync(TKeyUser id, CancellationToken cancellationToken = default)
     {
         return _userCollection.FirstOrDefaultAsync(x => x.Id.Equals(id), cancellationToken);
     }
