@@ -14,19 +14,19 @@
         <Authors>Matteo Fabbri</Authors>
         <Company />
         <Product>AspNetCore.Identity.Mongo</Product>
-        <Version>9.1.2</Version>
-        <AssemblyVersion>9.1.2.0</AssemblyVersion>
-        <FileVersion>9.1.2.0</FileVersion>
+        <Version>9.2.0</Version>
+        <AssemblyVersion>9.2.0.0</AssemblyVersion>
+        <FileVersion>9.2.0.0</FileVersion>
         <PackageProjectUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</PackageProjectUrl>
         <NeutralLanguage />
-        <PackageReleaseNotes>Removed obsolete properties.</PackageReleaseNotes>
+        <PackageReleaseNotes>update MongoDB.Driver to 3.2.1</PackageReleaseNotes>
         <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
         <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
         <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="MongoDB.Driver" Version="3.0.0" />
+        <PackageReference Include="MongoDB.Driver" Version="3.2.1" />
     </ItemGroup>
 
     <ItemGroup>
@@ -39,8 +39,8 @@
     </ItemGroup>
 
     <ItemGroup Condition="$(TargetFramework) == 'net8.0'">
-        <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="8.0.11" />
-        <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="8.0.11" />
+        <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="8.0.13" />
+        <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="8.0.13" />
     </ItemGroup>
 
     <ItemGroup>
