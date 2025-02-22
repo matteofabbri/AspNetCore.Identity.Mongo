@@ -14,19 +14,19 @@
         <Authors>Matteo Fabbri</Authors>
         <Company />
         <Product>AspNetCore.Identity.Mongo</Product>
-        <Version>10.0.0</Version>
-        <AssemblyVersion>10.0.0.0</AssemblyVersion>
-        <FileVersion>10.0.0.0</FileVersion>
+        <Version>10.1.0</Version>
+        <AssemblyVersion>10.1.0.0</AssemblyVersion>
+        <FileVersion>10.1.0.0</FileVersion>
         <PackageProjectUrl>https://github.com/matteofabbri/AspNetCore.Identity.Mongo</PackageProjectUrl>
         <NeutralLanguage />
-        <PackageReleaseNotes>.Net 9 support</PackageReleaseNotes>
+        <PackageReleaseNotes>update MongoDB.Driver to 3.2.1</PackageReleaseNotes>
         <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
         <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
         <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="MongoDB.Driver" Version="3.0.0" />
+        <PackageReference Include="MongoDB.Driver" Version="3.2.1" />
     </ItemGroup>
 
     <ItemGroup>
